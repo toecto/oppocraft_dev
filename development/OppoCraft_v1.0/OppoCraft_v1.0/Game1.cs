@@ -32,11 +32,11 @@ namespace OppoCraft
         int scrollValue = 0;
 
         //Path finding test
-        GridCoords origCoord = new GridCoords(1, 1);
-        GridCoords destCoord = new GridCoords(1, 11);
+        WorldCoords origCoord = new WorldCoords(40, 40);
+        WorldCoords destCoord = new WorldCoords(40, 440);
 
 
-        public Path aPath;
+        public WorldPath aPath;
 
         public Game1()
         {            
@@ -57,9 +57,9 @@ namespace OppoCraft
             this.debugger = new Debugger(this);
 
             //Testing setting up obstacles
-            this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
             //Testing the Path Finder Algorithm
             this.aPath = this.theGrid.thePathFinder.GetPath(origCoord, destCoord);
 
