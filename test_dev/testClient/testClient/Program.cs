@@ -10,7 +10,6 @@ namespace testClient
             string server = Console.ReadLine();
             if (server == "") server = "127.0.0.1";
             TcpMessageClient client = new TcpMessageClient(server,8888);
-            client.Connect();
             client.onMessage += readMessages;
             while (true)
             {

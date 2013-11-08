@@ -108,9 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates.cs" />
-    <Compile Include="OppoMessage.cs" />
-    <Compile Include="OppoMessageType.cs" />
-    <Compile Include="TcpMessageClient.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="WorldPath.cs" />
     <Compile Include="Debugger.cs" />
@@ -129,6 +126,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\test_dev\testClient\testClient\testClient.csproj">
+      <Project>{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}</Project>
+      <Name>testClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OppoCraft_v1.0Content\OppoCraft_v1.0Content.contentproj">
       <Name>OppoCraft_v1.0Content %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>

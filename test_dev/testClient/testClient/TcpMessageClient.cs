@@ -9,10 +9,8 @@ namespace testClient
     
     public class TcpMessageClient
     {
-        private TcpClient ClientSocket;
+        private TcpClient ClientSocket=new TcpClient();
         private NetworkStream ServerStream;
-        private IPAddress IP;
-        private int Port;
 
         private LinkedList<byte[]> MessageList = new LinkedList<byte[]>();
         public delegate void onMessageHandler(TcpMessageClient x);
@@ -29,25 +27,11 @@ namespace testClient
 
         public TcpMessageClient(string IP, int Port)
         {
-            this.IP = IPAddress.Parse(IP);
-            this.Port = Port;
+            this.ClientSocket.Connect(IP, Port);
+            this.Start();
         }
         public TcpMessageClient(TcpClient ClientSocket)
         {
-            this.Connect(ClientSocket);
-        }
-
-
-        public void Connect()
-        {
-            this.Stop();
-            this.ClientSocket.Connect(this.IP, this.Port);
-            this.Start();
-        }
-
-        public void Connect(TcpClient ClientSocket)
-        {
-            this.Stop();
             this.ClientSocket = ClientSocket;
             this.Start();
         }
@@ -66,7 +50,7 @@ namespace testClient
 
             if (this.ClientSocket != null)
                 this.ClientSocket.Close();
-            ClientSocket = new TcpClient();
+            this.ClientSocket = null;
         }
 
         private void receiveMessageLoop()

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using testClient;
 
 namespace OppoCraft
 {
@@ -43,7 +44,6 @@ namespace OppoCraft
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.client = new TcpMessageClient("127.0.0.1", 8888);
-            this.client.Connect();
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
