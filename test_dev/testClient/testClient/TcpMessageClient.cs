@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
-using System.IO;
 
 namespace testClient
 {
     
-    class TcpMessageClient
+    public class TcpMessageClient
     {
-        private TcpClient ClientSocket = new TcpClient();
+        private TcpClient ClientSocket;
         private NetworkStream ServerStream;
         private IPAddress IP;
         private int Port;
@@ -20,6 +17,7 @@ namespace testClient
         private LinkedList<byte[]> MessageList = new LinkedList<byte[]>();
         public delegate void onMessageHandler(TcpMessageClient x);
         public event onMessageHandler onMessage;
+        private Thread ctThread=null;
 
         public int Available
         {
@@ -34,13 +32,41 @@ namespace testClient
             this.IP = IPAddress.Parse(IP);
             this.Port = Port;
         }
+        public TcpMessageClient(TcpClient ClientSocket)
+        {
+            this.Connect(ClientSocket);
+        }
+
 
         public void Connect()
         {
+            this.Stop();
             this.ClientSocket.Connect(this.IP, this.Port);
+            this.Start();
+        }
+
+        public void Connect(TcpClient ClientSocket)
+        {
+            this.Stop();
+            this.ClientSocket = ClientSocket;
+            this.Start();
+        }
+
+        private void Start()
+        {
             this.ServerStream = this.ClientSocket.GetStream();
-            Thread ctThread = new Thread(this.receiveMessageLoop);
+            this.ctThread = new Thread(this.receiveMessageLoop);
             ctThread.Start();
+        }
+
+        public void Stop()
+        {
+            if (this.ctThread!=null)
+                this.ctThread.Join();
+
+            if (this.ClientSocket != null)
+                this.ClientSocket.Close();
+            ClientSocket = new TcpClient();
         }
 
         private void receiveMessageLoop()
@@ -50,28 +76,33 @@ namespace testClient
             byte[] buffer;
             while (true)
             {
-                buffer = new Byte[sizeof(Int32)];
-                ServerStream.Read(buffer, 0, sizeof(Int32));
-                buffSize = BitConverter.ToInt32(buffer,0);
-                buffer = new Byte[buffSize];
-                LeftToRead = buffSize;
-
-                while (LeftToRead > 0)
+                try
                 {
-                    AvailableToRead = ClientSocket.Available;
-                    if (AvailableToRead > LeftToRead) AvailableToRead = LeftToRead;
+                    buffer = new Byte[sizeof(Int32)];
+                    ServerStream.Read(buffer, 0, sizeof(Int32));
+                    buffSize = BitConverter.ToInt32(buffer, 0);
+                    buffer = new Byte[buffSize];
+                    LeftToRead = buffSize;
 
-                    ServerStream.Read(buffer, buffSize - LeftToRead, AvailableToRead);
-                    LeftToRead -= AvailableToRead;
-                }
-                /**/
-                lock (this.MessageList)
-                {
-                    this.MessageList.AddLast(buffer);
-                }
+                    while (LeftToRead > 0)
+                    {
+                        AvailableToRead = ClientSocket.Available;
+                        if (AvailableToRead > LeftToRead) AvailableToRead = LeftToRead;
 
-                if (this.onMessage != null)
-                    this.onMessage(this);
+                        ServerStream.Read(buffer, buffSize - LeftToRead, AvailableToRead);
+                        LeftToRead -= AvailableToRead;
+                    }
+                    /**/
+                    lock (this.MessageList)
+                    {
+                        this.MessageList.AddLast(buffer);
+                    }
+
+                    if (this.onMessage != null)
+                        this.onMessage(this);
+                }
+                catch (Exception ex)
+                { return; }
                 
             }
         }

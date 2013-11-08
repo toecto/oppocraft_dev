@@ -11,8 +11,17 @@ using System.Collections;
 
 namespace testClient
 {
-    class OppoMessage : Dictionary<String, Int32>
+
+    public enum OppoMessageType
     {
+        CreateUnit,
+        RemoveUnit,
+        CommmandUnit
+    };
+
+    public class OppoMessage : Dictionary<String, Int32>
+    {
+
         OppoMessageType Type;
 
         public Dictionary<String, String> Text = new Dictionary<String, String>();
@@ -68,8 +77,6 @@ namespace testClient
             iValue = BitConverter.ToInt16(arrBytes, 0);
             rez.Type = (OppoMessageType)iValue;
             
-            Console.WriteLine(rez.Type);
-
             current = 2;
             while ((length = BitConverter.ToInt16(arrBytes, current)) != 0)
             {
@@ -99,7 +106,7 @@ namespace testClient
             return rez;
         }
 
-        public string toString()
+        public string ToString()
         {
             string rez = "";
             rez += "Message "+this.Type.ToString()+"\n";

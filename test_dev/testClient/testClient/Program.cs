@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
-using System.Threading;
 
 namespace testClient
 {
@@ -43,7 +38,7 @@ namespace testClient
                 while ((RawMessage = client.getMessage()) != null)
                 {
                     OppoMessage message = OppoMessage.fromBin(RawMessage);
-                    Console.WriteLine(message.toString());
+                    Console.WriteLine(message.ToString());
                 }
             }
 
