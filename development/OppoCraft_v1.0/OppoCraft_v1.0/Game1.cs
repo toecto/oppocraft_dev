@@ -35,14 +35,15 @@ namespace OppoCraft
         GridCoords origCoord = new GridCoords(1, 1);
         GridCoords destCoord = new GridCoords(1, 11);
 
-
+        TcpMessageClient client;
         public Path aPath;
 
         public Game1()
         {            
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-
+            this.client = new TcpMessageClient("127.0.0.1", 8888);
+            this.client.Connect();
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
