@@ -21,8 +21,10 @@ namespace testClient
             {
                 Console.Write("#");
                 string msg = Console.ReadLine();
-                client.sendMessage(Encoding.ASCII.GetBytes(msg));
-                
+                //client.sendMessage(Encoding.ASCII.GetBytes(msg));
+                OppoMessage message = new OppoMessage(OppoMessageType.CreateUnit);
+                message.Text["msg"] = msg;
+                client.sendMessage(message.toBin());
                 if (msg == "exit")
                 {
                     break;
@@ -37,10 +39,11 @@ namespace testClient
         {
             if (client.Available > 0)
             { 
-                Byte[] message;
-                while( (message=client.getMessage()) != null)
+                Byte[] RawMessage;
+                while ((RawMessage = client.getMessage()) != null)
                 {
-                    Console.WriteLine(System.Text.Encoding.Default.GetString(message));
+                    OppoMessage message = OppoMessage.fromBin(RawMessage);
+                    Console.WriteLine(message.toString());
                 }
             }
 

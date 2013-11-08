@@ -5,11 +5,10 @@ using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
-using System.IO;
 
-namespace testClient
+namespace OppoCraft
 {
-    
+
     class TcpMessageClient
     {
         private TcpClient ClientSocket = new TcpClient();
@@ -46,13 +45,13 @@ namespace testClient
         private void receiveMessageLoop()
         {
             int buffSize = 0;
-            int LeftToRead=0, AvailableToRead;
+            int LeftToRead = 0, AvailableToRead;
             byte[] buffer;
             while (true)
             {
                 buffer = new Byte[sizeof(Int32)];
                 ServerStream.Read(buffer, 0, sizeof(Int32));
-                buffSize = BitConverter.ToInt32(buffer,0);
+                buffSize = BitConverter.ToInt32(buffer, 0);
                 buffer = new Byte[buffSize];
                 LeftToRead = buffSize;
 
@@ -72,7 +71,7 @@ namespace testClient
 
                 if (this.onMessage != null)
                     this.onMessage(this);
-                
+
             }
         }
 
@@ -91,7 +90,7 @@ namespace testClient
         public void sendMessage(byte[] msg)
         {
             byte[] rez = new byte[msg.Length + sizeof(Int32)];
-            BitConverter.GetBytes((Int32)msg.Length).CopyTo(rez,0);
+            BitConverter.GetBytes((Int32)msg.Length).CopyTo(rez, 0);
             msg.CopyTo(rez, sizeof(Int32));
             ServerStream.Write(rez, 0, rez.Length);
             ServerStream.Flush();
