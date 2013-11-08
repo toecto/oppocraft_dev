@@ -1,38 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using testClient;
 
-namespace OppoCraft
-{
+namespace OppoCraft{
     class NetworkModule
     {
-        Game1 theGame;
+
         TcpMessageClient net;
-        OppoMessageBuffer buffer;
-        public NetworkModule(Game1 game)
+        OppoMessageBuffer buffer= new OppoMessageBuffer();
+
+        public NetworkModule(string IP, int port = 8888)
         {
-            this.buffer = new OppoMessageBuffer();
-            this.theGame = game;
-            this.net=new TcpMessageClient("127.0.0.1",8888);
-            this.net.onMessage += this.gotMessage;
-            this.net.Connect();
+            this.net = new TcpMessageClient(IP, 8888);
         }
 
-        private void gotMessage(TcpMessageClient client)
+        void gotMessage(TcpMessageClient client)
         {
             if (client.Available > 0)
             {
-                Byte[] RawMessage;
-                while ((RawMessage = client.getMessage()) != null)
+                lock (this.buffer)
                 {
-                    OppoMessage message = OppoMessage.fromBin(RawMessage);
-
+                    OppoMessage msg=null;
+                    try{
+                        msg=OppoMessage.fromBin(client.getMessage());
+                    }
+                    catch(Exception ex)
+                    {}
+                    if (msg!=null)
+                        this.buffer.AddLast(msg);
                 }
+                
             }
         }
 
-
-
+        public void Stop()
+        {
+            this.net.Stop();
+        }
     }
 }

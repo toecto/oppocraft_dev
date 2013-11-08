@@ -4,6 +4,8 @@ namespace testClient
 {
     class Program
     {
+        static bool EnableEcho = true;
+
         static void Main(string[] args)
         {
             Console.Write("Input server (Empty for localhost): ");
@@ -11,21 +13,40 @@ namespace testClient
             if (server == "") server = "127.0.0.1";
             TcpMessageClient client = new TcpMessageClient(server,8888);
             client.onMessage += readMessages;
+
             while (true)
             {
-                Console.Write("#");
-                string msg = Console.ReadLine();
-                //client.sendMessage(Encoding.ASCII.GetBytes(msg));
-                OppoMessage message = new OppoMessage(OppoMessageType.CreateUnit);
-                message.Text["msg"] = msg;
-                client.sendMessage(message.toBin());
-                if (msg == "exit")
+                
+                foreach(int val in Enum.GetValues(typeof(OppoMessageType)))
                 {
-                    break;
+                    Console.WriteLine(val + ") " + ((OppoMessageType)val)+".");
+                }
+                Console.Write("#");
+                string userInput = Console.ReadLine();
+                if(userInput =="")continue;
+                if (userInput == "exit") break;
+                if (userInput == "echo") EnableEcho = !EnableEcho;
+                else
+                {
+                    OppoMessage msg = makeMessage(userInput);
+                    client.sendMessage(msg.toBin());
                 }
             }
             Console.Write("Done");
             Console.ReadLine();
+        }
+
+        public static OppoMessage makeMessage(string type)
+        {
+            OppoMessage msg = new OppoMessage((OppoMessageType)(int.Parse(type)));
+            string key;
+            int ival;
+            while((key=readStr("Key"))!="")
+            {
+                ival = readInt("Int Value");
+                msg[key] = ival;
+            }
+            return msg;
         }
 
 
@@ -37,10 +58,33 @@ namespace testClient
                 while ((RawMessage = client.getMessage()) != null)
                 {
                     OppoMessage message = OppoMessage.fromBin(RawMessage);
+                    if (EnableEcho) 
                     Console.WriteLine(message.ToString());
                 }
             }
 
+        }
+
+        public static int readInt(string msg = "")
+        {
+            int rez = 0;
+            if (msg != "")
+                Console.Write(msg + ": ");
+
+            string buffer = Console.ReadLine();
+            
+            if (buffer != "")
+                rez = int.Parse(buffer);
+            
+            return rez;
+        }
+
+        public static string readStr(string msg = "")
+        {
+            if (msg != "")
+                Console.Write(msg + ": ");
+        
+            return Console.ReadLine();
         }
 
     }

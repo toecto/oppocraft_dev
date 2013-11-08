@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OppoCraft_v1._0</RootNamespace>
+    <RootNamespace>OppoCraft</RootNamespace>
     <AssemblyName>OppoCraft_v1.0</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates.cs" />
+    <Compile Include="NetworkModule.cs" />
+    <Compile Include="OppoMessageBuffer.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="WorldPath.cs" />
     <Compile Include="Debugger.cs" />

@@ -36,14 +36,15 @@ namespace OppoCraft
         WorldCoords origCoord = new WorldCoords(40, 40);
         WorldCoords destCoord = new WorldCoords(40, 440);
 
-        TcpMessageClient client;
+        NetworkModule network;
         public WorldPath aPath;
-
+        
         public Game1()
         {            
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            this.client = new TcpMessageClient("127.0.0.1", 8888);
+            this.network = new NetworkModule("127.0.0.1", 8888);
+            //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
@@ -103,7 +104,7 @@ namespace OppoCraft
         /// </summary>
         protected override void UnloadContent()
         {
-            
+            this.network.Stop();
         }
 
         /// <summary>
