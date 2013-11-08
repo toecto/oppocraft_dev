@@ -32,11 +32,45 @@ namespace OppoCraft
         int scrollValue = 0;
 
         //Path finding test
-        GridCoords origCoord = new GridCoords(1, 1);
-        GridCoords destCoord = new GridCoords(1, 11);
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+namespace OppoCraft
+{
+    /// <summary>
+    /// This is the main type for your game
+    /// </summary>
+    public class Game1 : Microsoft.Xna.Framework.Game
+    {        
+        public RenderSystem renderSystem;
+
+        //Cells, Map, and Coordinate Properties
+        public Coordinates cellSize;
+        public Coordinates worldMapSize;
+        public Grid theGrid;
+
+        //debug test
+        public Debugger debugger;
+
+        //Mouse Movement testing
+        public MouseState mouseState;
+        public MouseState prevMouseState;
+        int scrollValue = 0;
+
+        //Path finding test
+        WorldCoords origCoord = new WorldCoords(40, 40);
+        WorldCoords destCoord = new WorldCoords(40, 440);
 
         TcpMessageClient client;
-        public Path aPath;
+        public WorldPath aPath;
 
         public Game1()
         {            
@@ -58,9 +92,9 @@ namespace OppoCraft
             this.debugger = new Debugger(this);
 
             //Testing setting up obstacles
-            this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
             //Testing the Path Finder Algorithm
             this.aPath = this.theGrid.thePathFinder.GetPath(origCoord, destCoord);
 
