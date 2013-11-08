@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OppoMessageType.cs" />
     <Compile Include="Coordinates.cs" />
     <Compile Include="Debugger.cs" />
     <Compile Include="Grid.cs" />
