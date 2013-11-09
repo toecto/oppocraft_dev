@@ -32,7 +32,7 @@ namespace OppoCraft
             South_West
         }
 
-        protected Game1 theGame;
+        public Game1 theGame;
         public TaskCollection task=new TaskCollection();
 
 

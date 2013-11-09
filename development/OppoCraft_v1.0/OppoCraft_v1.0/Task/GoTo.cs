@@ -8,13 +8,11 @@ namespace OppoCraft
 {
     public class GoTo : Task
     {
-        Game1 theGame;
         Unit unit;
 
-        public GoTo(Game1 g, Unit u, WorldCoords dest)
+        public GoTo(WorldCoords dest)
         {
-            this.theGame = g;
-            this.unit = u;             
+            
         }
 
         
