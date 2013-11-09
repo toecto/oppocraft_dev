@@ -7,6 +7,18 @@ namespace OppoCraft
 {
     public class TaskCollection: LinkedList<Task>
     {
+        Unit unit;
+
+        public TaskCollection(Unit u)
+        {
+            this.unit = u;
+        }
+
+        public TaskCollection()
+        {
+        }
+
+
         public void Tick()
         {
             TaskCollection toRemove = new TaskCollection();

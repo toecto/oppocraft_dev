@@ -11,5 +11,13 @@ namespace OppoCraft
         {
             return false;
         }
+
+        public virtual void onStart()
+        {
+        }
+
+        public virtual void onFinish()
+        {
+        }
     }
 }

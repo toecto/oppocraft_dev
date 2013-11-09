@@ -6,18 +6,15 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    public class _FindAPath : Task
+    public class GoTo : Task
     {
         Game1 theGame;
         Unit unit;
 
-        
-        public _FindAPath(Game1 g, Unit u, WorldCoords dest)
+        public GoTo(Game1 g, Unit u, WorldCoords dest)
         {
             this.theGame = g;
-            this.unit = u;
-
-             
+            this.unit = u;             
         }
 
         
