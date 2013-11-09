@@ -37,7 +37,8 @@ namespace OppoCraft
         public void Add(Task t)
         {
             t.unit = this.unit;
-            this.AddLast(t); 
+            this.AddLast(t);
+            t.onStart();
         }
 
         public void AddUnique(Task task)
@@ -61,5 +62,10 @@ namespace OppoCraft
             toRemove.Clear();
         }
 
+        public void Remove(Task t)
+        {
+            t.onFinish();
+            base.Remove(t);
+        }
     }
 }
