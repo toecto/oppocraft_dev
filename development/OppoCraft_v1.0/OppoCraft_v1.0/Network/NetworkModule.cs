@@ -2,18 +2,19 @@
 using testClient;
 
 namespace OppoCraft{
-    class NetworkModule
+    public class NetworkModule
     {
 
         TcpMessageClient net;
-        OppoMessageCollection buffer= new OppoMessageCollection();
+        public OppoMessageCollection buffer= new OppoMessageCollection();
 
         public NetworkModule(string IP, int port = 8888)
         {
             this.net = new TcpMessageClient(IP, 8888);
+            this.net.onMessage+=readMessage;
         }
 
-        void gotMessage(TcpMessageClient client)
+        void readMessage(TcpMessageClient client)
         {
             if (client.Available > 0)
             {
@@ -40,6 +41,21 @@ namespace OppoCraft{
         public void Send(OppoMessage msg)
         {
             this.net.sendMessage(msg.toBin());
+        }
+
+        public OppoMessage getMessage()
+        {
+            OppoMessage msg = null;
+            lock (this.buffer)
+            {
+                if (this.buffer.First != null)
+                {
+                    msg = this.buffer.First.Value;
+                    buffer.RemoveFirst();
+                }
+            }
+            return msg;
+
         }
 
 

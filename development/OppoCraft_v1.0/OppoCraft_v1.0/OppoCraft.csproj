@@ -110,8 +110,9 @@
     <Compile Include="Coordinates\Coordinates.cs" />
     <Compile Include="Movement.cs" />
     <Compile Include="Network\NetworkModule.cs" />
-    <Compile Include="Network\OppoMessageBuffer.cs" />
+    <Compile Include="Network\OppoMessageCollection.cs" />
     <Compile Include="PathFindingTest.cs" />
+    <Compile Include="Task\MessageHandler.cs" />
     <Compile Include="Task\Task.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UnitCollection.cs" />

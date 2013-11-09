@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using testClient;
 
-namespace OppoCraft.Task
+namespace OppoCraft
 {
-    class OppoCommandCollection: LinkedList<OppoCommand>
+    public class OppoMessageCollection:LinkedList<OppoMessage>
     {
-
-
-
     }
 }

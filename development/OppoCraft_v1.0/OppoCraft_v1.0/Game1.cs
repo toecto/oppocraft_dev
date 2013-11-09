@@ -35,7 +35,7 @@ namespace OppoCraft
 
    
 
-        NetworkModule network;
+        public NetworkModule network;
         public UnitCollection units=new UnitCollection();
         
         public Game1()
