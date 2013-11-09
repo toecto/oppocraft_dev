@@ -56,7 +56,10 @@ namespace OppoCraft
             this.debugger = new Debugger(this);
 
             this.units.AddLast(new PathFinderTest(this, 1));
-
+            Unit unit = new Unit(this, 2);
+            unit.location = new WorldCoords(100,100);
+            this.units.AddLast(unit);
+            unit.movement = new Movement(unit, new WorldCoords(500, 500));
 
             //Testing setting up obstacles
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);

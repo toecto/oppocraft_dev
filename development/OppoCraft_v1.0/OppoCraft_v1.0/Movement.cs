@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -14,7 +15,6 @@ namespace OppoCraft
         double tempY;
         WorldCoords destination;
 
-
         public Movement(Unit u, WorldCoords dest)
         {
             this.unit = u;
@@ -24,19 +24,24 @@ namespace OppoCraft
 
         public void Init()
         {
+            this.tempX = this.unit.location.X;
+            this.tempY = this.unit.location.Y;
             double distance = this.unit.location.Distance(this.destination);
             this.dX = (this.destination.X - this.unit.location.X) / distance;
-            this.dY = (this.unit.location.Y - this.destination.Y) / distance;
+            this.dY = (this.destination.Y - this.unit.location.Y) / distance;
         }
 
         public bool Tick()
         {
-            if (this.unit.location == this.destination)
-            { return true; }
+            if (this.unit.location.Distance(this.destination) <= this.unit.speed)
+            {
+                this.unit.location = this.destination;
+                return false; 
+            }
             else
             {
                 this.MoveHandler();
-                return false;
+                return true;
             }            
         }
 

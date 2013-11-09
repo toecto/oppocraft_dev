@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using testClient;
+using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
@@ -41,12 +42,12 @@ namespace OppoCraft
         public State state;
         public Direction direction;
         public WorldPath worldPath;        
-        Movement movement;
+        public Movement movement;
         
 
         int currHP;
         int maxHP;
-        public double speed;
+        public double speed=1;
         int damage;
         int armour;
         int attackSpeed;
@@ -80,7 +81,7 @@ namespace OppoCraft
         {
             if (this.movement != null)
             {                
-                if (this.movement.Tick())
+                if (!this.movement.Tick())
                 {
                     this.movement = null;
                 }                
@@ -88,9 +89,13 @@ namespace OppoCraft
 
         }
 
-        public virtual void Render(RenderSystem spriteBatch)
+        public virtual void Render(RenderSystem render)
         {
-            Debug.WriteLine("Unit Render");
+            Vector2 position = this.theGame.render.getScreenCoords(this.location);
+            position.X -= this.theGame.render.primRect.Width / 2;
+            position.Y -= this.theGame.render.primRect.Height / 2;
+                
+            render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
 
         }
 
