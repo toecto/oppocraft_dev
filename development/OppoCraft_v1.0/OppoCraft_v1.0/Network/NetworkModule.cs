@@ -36,5 +36,12 @@ namespace OppoCraft{
         {
             this.net.Stop();
         }
+
+        public void Send(OppoMessage msg)
+        {
+            this.net.sendMessage(msg.toBin());
+        }
+
+
     }
 }

@@ -141,7 +141,14 @@ namespace OppoCraft
             this.render.Render(gameTime);
 
             base.Draw(gameTime);
-        }       
+        }
+
+
+        public virtual void AddCommand(OppoMessage msg)
+        {
+            this.network.Send(msg);
+        }
+
 
     }
 }

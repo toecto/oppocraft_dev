@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using testClient;
 
 namespace OppoCraft
 {
@@ -107,6 +108,12 @@ namespace OppoCraft
         {
             Debug.WriteLine("Unit Render");
 
+        }
+
+        public virtual void AddCommand(OppoMessage msg)
+        {
+            msg["UnitID"] = this.id;
+            this.theGame.AddCommand(msg);
         }
 
     }
