@@ -27,6 +27,7 @@ namespace OppoCraft
         // orig == Origin coordiantes, dest == Destination coordinates
         public WorldPath GetPath(WorldCoords orig, WorldCoords dest)
         {
+            this.theGrid.resetGridValues();
             GridCoords origGrid = this.theGrid.getGridCoords(orig);
             GridCoords destGrid = this.theGrid.getGridCoords(dest);
 
