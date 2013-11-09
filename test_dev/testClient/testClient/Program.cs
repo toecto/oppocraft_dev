@@ -16,20 +16,27 @@ namespace testClient
 
             while (true)
             {
-                /*
+                
                 foreach(int val in Enum.GetValues(typeof(OppoMessageType)))
                 {
                     Console.WriteLine(val + ") " + ((OppoMessageType)val)+".");
                 }
-                /**/
+                
                 Console.Write("#");
                 string userInput = Console.ReadLine();
+                if (userInput == "") continue;
+                if (userInput == "exit") break;
+                if (userInput == "echo") EnableEcho = !EnableEcho;
+                else
+                {
+                    OppoMessage msg = makeMessage(userInput);
+                    client.sendMessage(msg.toBin());
+                }
 
-
-                //OppoMessage msg = makeMessage(userInput);
-                OppoMessage msg = new OppoMessage(OppoMessageType.CommmandUnit);
-                msg.Text["msg"] = userInput;
-                client.sendMessage(msg.toBin());
+               
+                //OppoMessage msg = new OppoMessage(OppoMessageType.CommmandUnit);
+                //msg.Text["msg"] = userInput;
+                //client.sendMessage(msg.toBin());
                 
             }
             Console.Write("Done");

@@ -36,7 +36,7 @@ namespace OppoCraft
         Coordinates size;
         public WorldCoords location;
         public WorldCoords destination;
-        int id;
+        public int id;
         int type;
         
         public State state;

@@ -37,12 +37,14 @@ namespace OppoCraft
 
         public NetworkModule network;
         public UnitCollection units=new UnitCollection();
-        
+        public MessageHandler messageHandler;
+
         public Game1()
         {            
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            this.network = new NetworkModule("127.0.0.1", 8888);
+            this.network = new NetworkModule("127.0.0.1", 8898);
+            this.messageHandler = new MessageHandler(this);
             //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
@@ -129,7 +131,7 @@ namespace OppoCraft
             this.debugger.scrollRow = scrollValue;
 
 
-            
+            messageHandler.Tick();
             this.units.Tick();
 
             base.Update(gameTime);

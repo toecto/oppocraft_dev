@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace OppoCraft
 {
-    class MessageHandler
+    public class MessageHandler
     {
         Game1 theGame;
 
@@ -27,7 +27,13 @@ namespace OppoCraft
 
         void handle(OppoMessage msg)
         {
-            Debug.WriteLine("handle "+msg.ToString());
+            Debug.WriteLine(msg.ToString());
+            if (msg.Type == OppoMessageType.MoveUnit)
+            { 
+                Unit u=this.theGame.units.getByID(msg["unitid"]);
+                u.movement=new Movement(u, new WorldCoords(msg["x"],msg["y"]));
+            
+            }
         }
 
     }

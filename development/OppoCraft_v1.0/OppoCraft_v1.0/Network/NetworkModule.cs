@@ -8,9 +8,9 @@ namespace OppoCraft{
         TcpMessageClient net;
         public OppoMessageCollection buffer= new OppoMessageCollection();
 
-        public NetworkModule(string IP, int port = 8888)
+        public NetworkModule(string IP, int port = 8898)
         {
-            this.net = new TcpMessageClient(IP, 8888);
+            this.net = new TcpMessageClient(IP, port);
             this.net.onMessage+=readMessage;
         }
 

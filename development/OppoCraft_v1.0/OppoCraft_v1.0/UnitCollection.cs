@@ -24,5 +24,16 @@ namespace OppoCraft
             }
         }
 
+        public Unit getByID(int id)
+        {
+            foreach(Unit u in this)
+            {
+                if (u.id == id)
+                    return u;
+            }
+            return null;
+        }
+
+
     }
 }

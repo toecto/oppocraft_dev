@@ -10,13 +10,13 @@ namespace testClient
     {
         CreateUnit,
         RemoveUnit,
-        CommmandUnit
+        MoveUnit
     };
 
     public class OppoMessage : Dictionary<String, Int32>
     {
 
-        OppoMessageType Type;
+        public OppoMessageType Type;
 
         public Dictionary<String, String> Text = new Dictionary<String, String>();
 
