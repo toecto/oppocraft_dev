@@ -37,7 +37,6 @@ namespace OppoCraft
 
         NetworkModule network;
         public UnitCollection units=new UnitCollection();
-        public WorldPath aPath;
         
         public Game1()
         {            

@@ -18,7 +18,7 @@ namespace OppoCraft
        public SpriteBatch spriteBatch;
        public SpriteFont font;
        public Texture2D primRect;
-
+       Coordinates scroll = new Coordinates(0, 0);
        public RenderSystem(Game1 g)
        {
            this.theGame = g;
@@ -64,13 +64,13 @@ namespace OppoCraft
        }
 
         //paramater is for screen coordinates, used to shift the coordinates
-        public Vector2 getScreenCoords(WorldCoords worldCoords, Coordinates scroll)
+        public Vector2 getScreenCoords(WorldCoords worldCoords)
         {
             return new Vector2((int)(worldCoords.X * renderCoEff[0] - scroll.X), (int)(worldCoords.Y * renderCoEff[1] - scroll.Y));
         }
 
         //paramaters are for the screen, and scroll coords, to convert from screen to World
-        public WorldCoords getWorldCoords(Vector2 screen, Coordinates scroll)
+        public WorldCoords getWorldCoords(Vector2 screen)
         {
             return new WorldCoords((int)((screen.X + scroll.X) / renderCoEff[0]), (int)((screen.Y + scroll.Y) / renderCoEff[1]));
         }             

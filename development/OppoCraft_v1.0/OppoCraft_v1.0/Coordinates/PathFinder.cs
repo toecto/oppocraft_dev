@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -30,7 +31,7 @@ namespace OppoCraft
             this.theGrid.resetGridValues();
             GridCoords origGrid = this.theGrid.getGridCoords(orig);
             GridCoords destGrid = this.theGrid.getGridCoords(dest);
-
+            Debug.WriteLine(origGrid.X + ", " + origGrid.Y + " ---- " + destGrid.X + ", " + destGrid.Y);
             this.theGrid.fillRectValues(origGrid, new Coordinates(1, 1), 1); //set orginal grid cell value to 1
 
             if (this.SetValues(origGrid, destGrid))
