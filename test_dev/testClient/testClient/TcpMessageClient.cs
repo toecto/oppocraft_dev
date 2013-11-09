@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using System.Diagnostics;
 
 namespace testClient
 {
@@ -41,7 +42,7 @@ namespace testClient
         {
             this.ServerStream = this.ClientSocket.GetStream();
             this.ctThread = new Thread(this.receiveMessageLoop);
-           //ctThread.Start();
+            ctThread.Start();
         }
 
         public void Stop()
@@ -66,6 +67,7 @@ namespace testClient
             {
                 try
                 {
+                    Debug.WriteLine("receiveMessageLoop");
                     buffer = new Byte[sizeof(Int32)];
                     ServerStream.Read(buffer, 0, sizeof(Int32));
                     buffSize = BitConverter.ToInt32(buffer, 0);
@@ -90,7 +92,9 @@ namespace testClient
                         this.onMessage(this);
                 }
                 catch (Exception ex)
-                { return; }
+                {
+                    Debug.WriteLine(ex.Message);
+                    return; }
                 
             }
         }
