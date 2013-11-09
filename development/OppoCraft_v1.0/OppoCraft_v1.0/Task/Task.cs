@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using testClient;
 
 namespace OppoCraft
 {
-    class OppoMessageBuffer:LinkedList<OppoMessage>
+    class Task
     {
+        public virtual bool Tick()
+        {
+            return false;
+        }
     }
 }

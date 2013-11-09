@@ -16,6 +16,7 @@ namespace testClient
         public delegate void onMessageHandler(TcpMessageClient x);
         public event onMessageHandler onMessage;
         private Thread ctThread=null;
+        private bool Active=true;
 
         public int Available
         {
@@ -40,17 +41,20 @@ namespace testClient
         {
             this.ServerStream = this.ClientSocket.GetStream();
             this.ctThread = new Thread(this.receiveMessageLoop);
-            ctThread.Start();
+           //ctThread.Start();
         }
 
         public void Stop()
         {
-            if (this.ctThread!=null)
-                this.ctThread.Join();
-
+            this.Active = false;
+            if (this.ctThread != null)
+            {
+                this.ctThread.Abort();
+            }
             if (this.ClientSocket != null)
                 this.ClientSocket.Close();
             this.ClientSocket = null;
+            
         }
 
         private void receiveMessageLoop()
@@ -58,7 +62,7 @@ namespace testClient
             int buffSize = 0;
             int LeftToRead=0, AvailableToRead;
             byte[] buffer;
-            while (true)
+            while (this.Active)
             {
                 try
                 {

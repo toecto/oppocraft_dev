@@ -6,7 +6,7 @@ namespace OppoCraft{
     {
 
         TcpMessageClient net;
-        OppoMessageBuffer buffer= new OppoMessageBuffer();
+        OppoMessageCollection buffer= new OppoMessageCollection();
 
         public NetworkModule(string IP, int port = 8888)
         {

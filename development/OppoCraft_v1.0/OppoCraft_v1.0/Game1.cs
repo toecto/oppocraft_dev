@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using testClient;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -17,7 +18,7 @@ namespace OppoCraft
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {        
-        public RenderSystem renderSystem;
+        public RenderSystem render;
 
         //Cells, Map, and Coordinate Properties
         public Coordinates cellSize;
@@ -32,11 +33,10 @@ namespace OppoCraft
         public MouseState prevMouseState;
         int scrollValue = 0;
 
-        //Path finding test
-        WorldCoords origCoord = new WorldCoords(40, 40);
-        WorldCoords destCoord = new WorldCoords(40, 440);
+   
 
         NetworkModule network;
+        public UnitCollection units=new UnitCollection();
         public WorldPath aPath;
         
         public Game1()
@@ -52,18 +52,20 @@ namespace OppoCraft
             this.cellSize = new Coordinates(40, 40);
             this.worldMapSize = new Coordinates(800, 800); // set back to 10240/10240
 
-            this.renderSystem = new RenderSystem(this);
-
+            this.render = new RenderSystem(this);
             this.theGrid = new Grid(this);
-
             this.debugger = new Debugger(this);
+
+            this.units.AddLast(new PathFinderTest(this, 1));
+
 
             //Testing setting up obstacles
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
-            //Testing the Path Finder Algorithm
-            this.aPath = this.theGrid.thePathFinder.GetPath(origCoord, destCoord);
+            //Testing the Path Finder Algorithm     
+            //Path finding test
+ 
 
             for (int x = 0; x < this.theGrid.gridValues.GetLength(0); x++)
             {
@@ -93,7 +95,7 @@ namespace OppoCraft
         /// </summary>
         protected override void LoadContent()
         {                       
-            this.renderSystem.LoadContent();
+            this.render.LoadContent();
             
         }
 
@@ -122,8 +124,11 @@ namespace OppoCraft
             this.mouseState = Mouse.GetState();
             this.scrollValue += (this.prevMouseState.ScrollWheelValue - this.mouseState.ScrollWheelValue) / 12;
             this.prevMouseState = this.mouseState;
-
             this.debugger.scrollRow = scrollValue;
+
+
+            
+            this.units.Tick();
 
             base.Update(gameTime);
         }
@@ -134,7 +139,7 @@ namespace OppoCraft
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {         
-            this.renderSystem.Render(gameTime);
+            this.render.Render(gameTime);
 
             base.Draw(gameTime);
         }       

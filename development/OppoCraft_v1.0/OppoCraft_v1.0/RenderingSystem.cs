@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -14,9 +15,9 @@ namespace OppoCraft
 
        public Game1 theGame;
        GraphicsDeviceManager graphics;
-       SpriteBatch spriteBatch;
-       SpriteFont font;
-       Texture2D primRect;
+       public SpriteBatch spriteBatch;
+       public SpriteFont font;
+       public Texture2D primRect;
 
        public RenderSystem(Game1 g)
        {
@@ -25,7 +26,6 @@ namespace OppoCraft
            this.graphics = new GraphicsDeviceManager(this.theGame);
            this.graphics.PreferredBackBufferWidth = 1000;
            this.graphics.PreferredBackBufferHeight = 600;
-
        }
 
        public void LoadContent()
@@ -46,39 +46,8 @@ namespace OppoCraft
 
            // TODO: Add your drawing code here
            this.spriteBatch.Begin();
-           
-           int maxValue = 0;
-           for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
-           {
-               for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
-               {
-                   if(maxValue < this.theGame.theGrid.getGridValue(new GridCoords(x,y)))
-                   {
-                       maxValue = this.theGame.theGrid.getGridValue(new GridCoords(x, y));
-                   }
-               }
-           }
 
-           int color;
-
-           for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
-           {
-               for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
-               {
-                   Vector2 position = this.getScreenCoords(this.theGame.theGrid.getWorldCoords(new GridCoords(x, y)), new Coordinates(0, 0));
-                   color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
-                   if(color<0)
-                       this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
-                   else
-                   this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24),new Color(0, 0, color));
-               }
-           }
-
-           foreach(WorldCoords coords in this.theGame.aPath)
-           {
-                Vector2 position = this.getScreenCoords(coords, new Coordinates(0, 0));
-                this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24),new Color(0, 255, 0));
-           }
+           this.theGame.units.Render(this);
 
            //this.theGame.debugger.RenderMessages();
            this.spriteBatch.End();

@@ -107,17 +107,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Coordinates.cs" />
-    <Compile Include="NetworkModule.cs" />
-    <Compile Include="OppoMessageBuffer.cs" />
+    <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Network\NetworkModule.cs" />
+    <Compile Include="Network\OppoMessageBuffer.cs" />
+    <Compile Include="PathFindingTest.cs" />
+    <Compile Include="Task\Task.cs" />
     <Compile Include="Unit.cs" />
-    <Compile Include="WorldPath.cs" />
+    <Compile Include="UnitCollection.cs" />
+    <Compile Include="Coordinates\WorldPath.cs" />
     <Compile Include="Debugger.cs" />
-    <Compile Include="Grid.cs" />
-    <Compile Include="GridPath.cs" />
-    <Compile Include="PathFinder.cs" />
-    <Compile Include="WorldCoords.cs" />
-    <Compile Include="GridCoords.cs" />
+    <Compile Include="Coordinates\Grid.cs" />
+    <Compile Include="Coordinates\GridPath.cs" />
+    <Compile Include="Coordinates\PathFinder.cs" />
+    <Compile Include="Coordinates\WorldCoords.cs" />
+    <Compile Include="Coordinates\GridCoords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

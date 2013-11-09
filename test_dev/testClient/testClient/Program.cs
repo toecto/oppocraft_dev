@@ -33,7 +33,7 @@ namespace testClient
                 }
             }
             Console.Write("Done");
-            Console.ReadLine();
+            client.Stop();
         }
 
         public static OppoMessage makeMessage(string type)

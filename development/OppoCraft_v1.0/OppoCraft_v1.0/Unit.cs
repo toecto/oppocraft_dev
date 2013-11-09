@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -28,7 +30,7 @@ namespace OppoCraft
             South_West
         }
 
-        Game1 theGame;
+        protected Game1 theGame;
         Coordinates size;
         WorldCoords location;
         WorldCoords destination;
@@ -90,10 +92,21 @@ namespace OppoCraft
             this.location.Y = (int)this.tempY;
         }
 
-        public void SetGridValue()
+        public virtual void SetGridValue()
         {
             GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
             this.theGame.theGrid.fillRectValues(gridlocation, size, -1);
+        }
+
+        public virtual void Tick()
+        {
+
+        }
+
+        public virtual void Render(RenderSystem spriteBatch)
+        {
+            Debug.WriteLine("Unit Render");
+
         }
 
     }

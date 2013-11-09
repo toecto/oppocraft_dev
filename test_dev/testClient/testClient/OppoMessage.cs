@@ -60,8 +60,6 @@ namespace testClient
             return rez.ToArray();
         }
 
-
-
         public static OppoMessage fromBin(byte[] arrBytes)
         {
             int length, iValue,current;
