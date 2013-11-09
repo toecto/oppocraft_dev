@@ -8,6 +8,9 @@ namespace OppoCraft{
         TcpMessageClient net;
         public OppoMessageCollection buffer= new OppoMessageCollection();
 
+        public delegate void onMessageHandler(NetworkModule x);
+        public event onMessageHandler onMessage=null;
+
         public NetworkModule(string IP, int port = 8898)
         {
             this.net = new TcpMessageClient(IP, port);
@@ -26,8 +29,13 @@ namespace OppoCraft{
                     }
                     catch(Exception ex)
                     {}
-                    if (msg!=null)
+                    if (msg != null)
+                    {
                         this.buffer.AddLast(msg);
+
+                        if (this.onMessage != null)
+                            this.onMessage(this);
+                    }
                 }
                 
             }

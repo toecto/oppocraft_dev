@@ -11,7 +11,7 @@ namespace OppoCraft
    public class RenderSystem
     {
         // Render squeezing Coeffecient: equal width, 60% height
-       public float[] renderCoEff = new float[] { 1.0f, 0.6f };
+       public float kY=0.6f; //kX=1 always
 
        public Game1 theGame;
        GraphicsDeviceManager graphics;
@@ -22,7 +22,6 @@ namespace OppoCraft
        public RenderSystem(Game1 g)
        {
            this.theGame = g;
-
            this.graphics = new GraphicsDeviceManager(this.theGame);
            this.graphics.PreferredBackBufferWidth = 1000;
            this.graphics.PreferredBackBufferHeight = 600;
@@ -66,13 +65,13 @@ namespace OppoCraft
         //paramater is for screen coordinates, used to shift the coordinates
         public Vector2 getScreenCoords(WorldCoords worldCoords)
         {
-            return new Vector2((int)(worldCoords.X * renderCoEff[0] - scroll.X), (int)(worldCoords.Y * renderCoEff[1] - scroll.Y));
+            return new Vector2(worldCoords.X - scroll.X, (int)(worldCoords.Y * this.kY - scroll.Y));
         }
 
         //paramaters are for the screen, and scroll coords, to convert from screen to World
         public WorldCoords getWorldCoords(Vector2 screen)
         {
-            return new WorldCoords((int)((screen.X + scroll.X) / renderCoEff[0]), (int)((screen.Y + scroll.Y) / renderCoEff[1]));
+            return new WorldCoords((int)screen.X + scroll.X, (int)((screen.Y + scroll.Y) / this.kY));
         }             
 
        

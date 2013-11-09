@@ -39,17 +39,23 @@ namespace OppoCraft
         public UnitCollection units=new UnitCollection();
         public MessageHandler messageHandler;
 
-        public Game1()
-        {            
+        int ID;
+        int UIDcnt = 0;
+
+        public Game1(int gameID, NetworkModule net)
+        {
+            this.ID = gameID;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            this.network = new NetworkModule("127.0.0.1", 8898);
+            this.network = net;
             this.messageHandler = new MessageHandler(this);
             //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
 
+
+            
             this.cellSize = new Coordinates(40, 40);
             this.worldMapSize = new Coordinates(800, 800); // set back to 10240/10240
 
@@ -60,8 +66,8 @@ namespace OppoCraft
             this.units.AddLast(new PathFinderTest(this, 1));
             Unit unit = new Unit(this, 2);
             unit.location = new WorldCoords(100,100);
-            this.units.AddLast(unit);
-            unit.movement = new Movement(unit, new WorldCoords(500, 500));
+            this.units.Add(unit);
+            unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
             //Testing setting up obstacles
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
@@ -78,6 +84,12 @@ namespace OppoCraft
                     this.debugger.AddMessage("(" + x + ", " + y + "): " + this.theGrid.gridValues[x, y].ToString());
                 }
             }
+        }
+
+        public int getUID()
+        {
+            this.UIDcnt++;
+            return int.Parse(this.ID + "" + this.UIDcnt);
         }
 
         /// <summary>
@@ -129,7 +141,7 @@ namespace OppoCraft
             this.scrollValue += (this.prevMouseState.ScrollWheelValue - this.mouseState.ScrollWheelValue) / 12;
             this.prevMouseState = this.mouseState;
             this.debugger.scrollRow = scrollValue;
-
+            
 
             messageHandler.Tick();
             this.units.Tick();

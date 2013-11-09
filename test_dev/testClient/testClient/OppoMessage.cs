@@ -10,7 +10,8 @@ namespace testClient
     {
         CreateUnit,
         RemoveUnit,
-        MoveUnit
+        MoveUnit,
+        GetClientID
     };
 
     public class OppoMessage : Dictionary<String, Int32>

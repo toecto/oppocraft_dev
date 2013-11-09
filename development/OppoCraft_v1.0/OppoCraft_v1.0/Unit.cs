@@ -33,30 +33,30 @@ namespace OppoCraft
         }
 
         protected Game1 theGame;
-        Coordinates size;
+        public TaskCollection task=new TaskCollection();
+
+
+        public Coordinates size = new Coordinates(1, 1);
         public WorldCoords location;
         public WorldCoords destination;
         public int id;
-        int type;
+        public int type;
         
         public State state;
         public Direction direction;
         public WorldPath worldPath;        
-        public Movement movement;
-        
 
-        int currHP;
-        int maxHP;
-        public double speed=1;
-        int damage;
-        int armour;
-        int attackSpeed;
+        public int currHP;
+        public int maxHP;
+        public float speed=2;
+        public int damage;
+        public int armour;
+        public int attackSpeed;
 
         public Unit(Game1 g, int id)
         {
             this.theGame = g;
             this.id = id;
-            this.size = new Coordinates(1, 1);
         }
 
         public void SetPath(WorldCoords orig, WorldCoords dest)
@@ -79,14 +79,7 @@ namespace OppoCraft
 
         public virtual void Tick()
         {
-            if (this.movement != null)
-            {                
-                if (!this.movement.Tick())
-                {
-                    this.movement = null;
-                }                
-            }
-
+            this.task.Tick();
         }
 
         public virtual void Render(RenderSystem render)
@@ -101,7 +94,7 @@ namespace OppoCraft
 
         public virtual void AddCommand(OppoMessage msg)
         {
-            msg["UnitID"] = this.id;
+            msg["unitid"] = this.id;
             this.theGame.AddCommand(msg);
         }
 

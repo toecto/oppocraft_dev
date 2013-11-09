@@ -15,7 +15,7 @@ namespace testClient
 
         private LinkedList<byte[]> MessageList = new LinkedList<byte[]>();
         public delegate void onMessageHandler(TcpMessageClient x);
-        public event onMessageHandler onMessage;
+        public event onMessageHandler onMessage=null;
         private Thread ctThread=null;
         private bool Active=true;
 

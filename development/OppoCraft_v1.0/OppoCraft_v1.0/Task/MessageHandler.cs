@@ -31,7 +31,7 @@ namespace OppoCraft
             if (msg.Type == OppoMessageType.MoveUnit)
             { 
                 Unit u=this.theGame.units.getByID(msg["unitid"]);
-                u.movement=new Movement(u, new WorldCoords(msg["x"],msg["y"]));
+                u.task.AddUnique(new _Movement(u, new WorldCoords(msg["x"],msg["y"])));
             
             }
         }

@@ -16,8 +16,6 @@ namespace OppoCraft
 
         public void Render(RenderSystem render)
         {
-            
-
             foreach (Unit unit in this)
             {
                 unit.Render(render);
@@ -34,6 +32,10 @@ namespace OppoCraft
             return null;
         }
 
+        public void Add(Unit u)
+        {
+            this.AddLast(u);
+        }
 
     }
 }

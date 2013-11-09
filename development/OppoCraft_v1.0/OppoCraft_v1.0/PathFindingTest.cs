@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
+using testClient;
 
 namespace OppoCraft
 {
     class PathFinderTest: Unit
     {
         WorldPath aPath=null;
+        GridCoords lastSpot = new GridCoords(0,0);
 
         public PathFinderTest(Game1 g,int id)
             : base(g, id)
@@ -18,9 +20,22 @@ namespace OppoCraft
         {
             MouseState mouseState = Mouse.GetState();
             WorldCoords origCoord = new WorldCoords(60, 60);
-            WorldCoords destCoord = this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y));
+
+
+            GridCoords test = this.theGame.theGrid.getGridCoords(this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y)));
+            if (!test.Equals(this.lastSpot))
+            {
+                this.lastSpot = test;
+                WorldCoords destination=this.theGame.theGrid.getWorldCoords(test);
+                this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
+                OppoMessage msg=new OppoMessage(OppoMessageType.MoveUnit);
+                msg["unitid"]=2;
+                msg["x"]=destination.X;
+                msg["y"]=destination.Y;
+                this.theGame.AddCommand(msg);
+            }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
-            this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destCoord);
+            
   
         }
 

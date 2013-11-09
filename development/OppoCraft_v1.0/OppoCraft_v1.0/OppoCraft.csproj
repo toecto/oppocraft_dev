@@ -93,6 +93,9 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -108,12 +111,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates\Coordinates.cs" />
-    <Compile Include="Movement.cs" />
+    <Compile Include="StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Task\Movement.cs" />
     <Compile Include="Network\NetworkModule.cs" />
     <Compile Include="Network\OppoMessageCollection.cs" />
     <Compile Include="PathFindingTest.cs" />
     <Compile Include="Task\MessageHandler.cs" />
     <Compile Include="Task\Task.cs" />
+    <Compile Include="Task\TaskCollection.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UnitCollection.cs" />
     <Compile Include="Coordinates\WorldPath.cs" />
@@ -169,6 +179,11 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

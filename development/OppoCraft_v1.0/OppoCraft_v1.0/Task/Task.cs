@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OppoCraft
 {
-    class Task
+    public class Task
     {
         public virtual bool Tick()
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Forms;
 
 namespace OppoCraft
 {
@@ -8,12 +9,21 @@ namespace OppoCraft
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// 
+        public static NetworkModule network;
+
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            /*
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new StartForm());
+            /**/
+            using (Game1 game = new Game1(1,new NetworkModule("127.0.0.1")))
             {
                 game.Run();
             }
+             /**/
         }
     }
 #endif
