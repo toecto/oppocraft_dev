@@ -66,7 +66,7 @@ namespace OppoCraft
             }
             else
             {
-                Debug.WriteLine("No path");
+                //Debug.WriteLine("No path");
             }
         }
     }
