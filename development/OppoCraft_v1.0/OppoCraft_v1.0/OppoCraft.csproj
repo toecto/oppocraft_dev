@@ -117,6 +117,7 @@
     <Compile Include="StartForm.Designer.cs">
       <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Task\FindAPath.cs" />
     <Compile Include="Task\Movement.cs" />
     <Compile Include="Network\NetworkModule.cs" />
     <Compile Include="Network\OppoMessageCollection.cs" />

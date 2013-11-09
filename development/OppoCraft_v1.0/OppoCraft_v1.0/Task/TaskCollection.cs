@@ -23,8 +23,8 @@ namespace OppoCraft
         }
 
         public void Add(Task t)
-        {
-            this.AddLast(t);
+        { 
+            this.AddLast(t); 
         }
 
         public void AddUnique(Task task)
