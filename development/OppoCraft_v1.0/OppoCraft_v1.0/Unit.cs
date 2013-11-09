@@ -39,9 +39,7 @@ namespace OppoCraft
         
         public State state;
         public Direction direction;
-        public WorldPath worldPath;
-        public double dX, dY;
-        public double tempX, tempY;
+        public WorldPath worldPath;        
         Movement movement;
         
 
@@ -80,15 +78,11 @@ namespace OppoCraft
         public virtual void Tick()
         {
             if (this.movement != null)
-            {
-                if (this.movement.Move())
+            {                
+                if (this.movement.Tick())
                 {
                     this.movement = null;
-                }
-                else
-                {
-                    this.movement.Tick();
-                }
+                }                
             }
 
         }
