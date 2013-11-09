@@ -32,21 +32,22 @@ namespace OppoCraft
 
         protected Game1 theGame;
         Coordinates size;
-        WorldCoords location;
-        WorldCoords destination;
+        public WorldCoords location;
+        public WorldCoords destination;
         int id;
         int type;
         
         public State state;
         public Direction direction;
         public WorldPath worldPath;
-        double dX, dY;
-        double tempX, tempY;
+        public double dX, dY;
+        public double tempX, tempY;
+        Movement movement;
         
 
         int currHP;
         int maxHP;
-        double speed;
+        public double speed;
         int damage;
         int armour;
         int attackSpeed;
@@ -55,9 +56,7 @@ namespace OppoCraft
         {
             this.theGame = g;
             this.id = id;
-            this.size = new Coordinates(1, 1);            
-
-            this.speed = 5;
+            this.size = new Coordinates(1, 1);
         }
 
         public void SetPath(WorldCoords orig, WorldCoords dest)
@@ -71,27 +70,7 @@ namespace OppoCraft
 
             return nextStep;
         }
-
-        //Initial Move method, which takes the next WorldCoord in the Path as the destination coordinate
-        //it then calculates delta of X and Y, divided by the distance between the location, and the nextStep
-        public void Move(WorldCoords destination)
-        {
-            double distance = this.location.Distance(destination);
-            this.dX = (destination.X - this.location.X) / distance;
-            this.dY = (this.location.Y - destination.Y) / distance;
-        }
-
-        //Handler of the movement of the unit, as it receives the delta of X and Y, multiplied by speed, and applied to the location
-        //should this method return the values to increment X/Y, and allow the task from the server to pass it back to the unit?
-        public void MoveHandler()
-        {
-            this.tempX += (this.dX * this.speed);
-            this.tempY += (this.dY * this.speed);
-
-            this.location.X = (int)this.tempX;
-            this.location.Y = (int)this.tempY;
-        }
-
+        
         public virtual void SetGridValue()
         {
             GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
@@ -100,6 +79,17 @@ namespace OppoCraft
 
         public virtual void Tick()
         {
+            if (this.movement != null)
+            {
+                if (this.movement.Move())
+                {
+                    this.movement = null;
+                }
+                else
+                {
+                    this.movement.Tick();
+                }
+            }
 
         }
 

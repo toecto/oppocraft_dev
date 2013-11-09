@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Movement.cs" />
     <Compile Include="Network\NetworkModule.cs" />
     <Compile Include="Network\OppoMessageBuffer.cs" />
     <Compile Include="PathFindingTest.cs" />
