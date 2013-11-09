@@ -45,8 +45,8 @@ namespace OppoCraft
             this.tempX += (this.dX * this.unit.speed);
             this.tempY += (this.dY * this.unit.speed);
 
-            this.unit.location.X = (int)this.unit.tempX;
-            this.unit.location.Y = (int)this.unit.tempY;
+            this.unit.location.X = (int)this.tempX;
+            this.unit.location.Y = (int)this.tempY;
         }
 
 
