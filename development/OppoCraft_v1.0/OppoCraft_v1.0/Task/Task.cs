@@ -7,6 +7,8 @@ namespace OppoCraft
 {
     public class Task
     {
+        public Unit unit;
+
         public virtual bool Tick()
         {
             return false;

@@ -35,7 +35,8 @@ namespace OppoCraft
         }
 
         public void Add(Task t)
-        { 
+        {
+            t.unit = this.unit;
             this.AddLast(t); 
         }
 
