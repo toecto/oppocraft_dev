@@ -31,6 +31,7 @@ namespace OppoCraft
         {
             return new Vector2(this.X, this.Y);
         }
+
         public void setVector2(Vector2 v)
         {
             this.X = (int)v.X;

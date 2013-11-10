@@ -59,18 +59,6 @@ namespace OppoCraft
             this.id = id;
         }
 
-        public void SetPath(WorldCoords orig, WorldCoords dest)
-        {
-           this.worldPath = this.theGame.theGrid.thePathFinder.GetPath(orig, dest);
-        }
-
-        public WorldCoords GetNextStep()
-        {
-            WorldCoords nextStep = this.worldPath.ElementAt(1);  //The second World Coord in the collection
-
-            return nextStep;
-        }
-        
         public virtual void SetGridValue()
         {
             GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
