@@ -19,7 +19,9 @@ namespace OppoCraft
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new StartForm());
             /**/
-            using (Game1 game = new Game1(1,new NetworkModule("127.0.0.1")))
+            NetworkModule net = new NetworkModule("127.0.0.1");
+            while (net.buffer.Count == 0) ;//wait for client id
+            using (Game1 game = new Game1(net))
             {
                 game.Run();
             }

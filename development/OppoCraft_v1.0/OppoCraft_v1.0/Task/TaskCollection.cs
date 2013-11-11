@@ -14,7 +14,7 @@ namespace OppoCraft
             this.unit = u;
         }
 
-        public TaskCollection()
+        protected TaskCollection()
         {
         }
 
@@ -62,7 +62,7 @@ namespace OppoCraft
             toRemove.Clear();
         }
 
-        public void Remove(Task t)
+        new public void Remove(Task t)
         {
             t.onFinish();
             base.Remove(t);

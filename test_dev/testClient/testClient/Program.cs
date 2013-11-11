@@ -30,7 +30,7 @@ namespace testClient
                 else
                 {
                     OppoMessage msg = makeMessage(userInput);
-                    client.sendMessage(msg.toBin());
+                    client.sendMessage(msg.toBin(),true);
                 }
 
                

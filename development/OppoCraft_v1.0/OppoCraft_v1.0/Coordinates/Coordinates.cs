@@ -34,8 +34,8 @@ namespace OppoCraft
 
         public void setVector2(Vector2 v)
         {
-            this.X = (int)v.X;
-            this.Y = (int)v.Y;
+            this.X = (int)(v.X);
+            this.Y = (int)(v.Y);
         }
 
         public bool Equals(Coordinates test)

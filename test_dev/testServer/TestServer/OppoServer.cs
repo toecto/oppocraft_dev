@@ -71,7 +71,7 @@ namespace TestServer
                 {
                     if (toAll || sourceClientNo != (int)Item.Key)
                     {
-                        client.Net.sendMessage(msg);
+                        client.Net.sendMessage(msg,true);
                     }
                 }
                 catch (Exception ex)

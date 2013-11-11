@@ -9,19 +9,16 @@ namespace OppoCraft
 {
     public class _Movement: Task //do not assign directly
     {
-        Unit unit;
         Vector2 delta;//for a tick increment
         Vector2 location;
         Vector2 destination;
 
-        public _Movement(Unit u, WorldCoords dest)
+        public _Movement(WorldCoords dest)
         {
-            this.unit = u;
             this.destination = dest.getVector2();
-            this.Init();
         }
 
-        public void Init()
+        public override void onStart()
         {
             this.location = this.unit.location.getVector2();
             
