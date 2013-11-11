@@ -12,14 +12,14 @@ namespace OppoCraft
 
         public PathFinderTest(Game1 g,int id)
             : base(g, id)
-        { 
-        
+        {
+            this.location = new WorldCoords(100, 100);
         }
 
         public override void Tick()
         {
             MouseState mouseState = Mouse.GetState();
-            WorldCoords origCoord = new WorldCoords(60, 60);
+            WorldCoords origCoord = new WorldCoords(100, 100);
 
 
             GridCoords test = this.theGame.theGrid.getGridCoords(this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y)));
@@ -32,7 +32,7 @@ namespace OppoCraft
                 msg["unitid"]=2;
                 msg["x"]=destination.X;
                 msg["y"]=destination.Y;
-                this.theGame.AddCommand(msg);
+                //this.theGame.AddCommand(msg);
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
             
