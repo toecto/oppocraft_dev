@@ -13,17 +13,18 @@ namespace testClient
         private TcpClient ClientSocket=new TcpClient();
         private NetworkStream ServerStream;
 
-        private LinkedList<byte[]> MessageList = new LinkedList<byte[]>();
+        private LinkedList<byte[]> IncomeMessages = new LinkedList<byte[]>();
+        private LinkedList<byte[]> OutcomeMessages = new LinkedList<byte[]>();
         public delegate void onMessageHandler(TcpMessageClient x);
-        public event onMessageHandler onMessage=null;
-        private Thread ctThread=null;
-        private bool Active=true;
+        public event onMessageHandler onMessage = null;
+        private Thread IncomeThread = null;
+        private bool Active = true;
 
         public int Available
         {
             get
             {
-                return this.MessageList.Count;
+                return this.IncomeMessages.Count;
             }
         }
 
@@ -41,16 +42,16 @@ namespace testClient
         private void Start()
         {
             this.ServerStream = this.ClientSocket.GetStream();
-            this.ctThread = new Thread(this.receiveMessageLoop);
-            ctThread.Start();
+            this.IncomeThread = new Thread(this.receiveMessageLoop);
+            IncomeThread.Start();
         }
 
         public void Stop()
         {
             this.Active = false;
-            if (this.ctThread != null)
+            if (this.IncomeThread != null)
             {
-                this.ctThread.Abort();
+                this.IncomeThread.Abort();
             }
             if (this.ClientSocket != null)
                 this.ClientSocket.Close();
@@ -67,7 +68,6 @@ namespace testClient
             {
                 try
                 {
-                    Debug.WriteLine("receiveMessageLoop");
                     buffer = new Byte[sizeof(Int32)];
                     ServerStream.Read(buffer, 0, sizeof(Int32));
                     buffSize = BitConverter.ToInt32(buffer, 0);
@@ -83,9 +83,9 @@ namespace testClient
                         LeftToRead -= AvailableToRead;
                     }
                     /**/
-                    lock (this.MessageList)
+                    lock (this.IncomeMessages)
                     {
-                        this.MessageList.AddLast(buffer);
+                        this.IncomeMessages.AddLast(buffer);
                     }
 
                     if (this.onMessage != null)
@@ -94,32 +94,51 @@ namespace testClient
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    return; }
-                
+                    return; 
+                }
             }
         }
 
         public byte[] getMessage()
         {
-            if (this.MessageList.Count == 0) return null;
+            if (this.IncomeMessages.Count == 0) return null;
             byte[] Message;
-            lock (this.MessageList)
+            lock (this.IncomeMessages)
             {
-                Message = this.MessageList.First.Value;
-                this.MessageList.RemoveFirst();
+                Message = this.IncomeMessages.First.Value;
+                this.IncomeMessages.RemoveFirst();
             }
             return Message;
         }
 
-        public void sendMessage(byte[] msg)
+        public void sendMessage(byte[] msg, bool forceFlush=false)
         {
             byte[] rez = new byte[msg.Length + sizeof(Int32)];
             BitConverter.GetBytes((Int32)msg.Length).CopyTo(rez,0);
             msg.CopyTo(rez, sizeof(Int32));
-            ServerStream.Write(rez, 0, rez.Length);
-            ServerStream.Flush();
-        }
+            this.OutcomeMessages.AddLast(rez);
+            if (forceFlush)
+                this.Flush();
+       }
 
+        public void Flush()
+        {
+            int cursor = 0;
+            foreach (byte[] msg in this.OutcomeMessages)
+            {
+                cursor += msg.Length;
+            }
+            byte[] rez = new byte[cursor];
+            
+            cursor = 0;
+            foreach (byte[] msg in this.OutcomeMessages)
+            {
+                msg.CopyTo(rez, cursor);
+                cursor += msg.Length;
+            }
+            this.OutcomeMessages.Clear();
+            this.ServerStream.Write(rez, 0, rez.Length);
+        }
 
     }
 }

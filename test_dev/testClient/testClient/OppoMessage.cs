@@ -14,12 +14,12 @@ namespace testClient
         GetClientID
     };
 
-    public class OppoMessage : Dictionary<String, Int32>
+    public class OppoMessage : Dictionary<string, Int32>
     {
 
         public OppoMessageType Type;
 
-        public Dictionary<String, String> Text = new Dictionary<String, String>();
+        public Dictionary<string, string> Text = new Dictionary<string, string>();
 
         public OppoMessage(OppoMessageType Type)
         {
@@ -103,16 +103,20 @@ namespace testClient
         {
             string rez = "";
             rez += "Message "+this.Type.ToString()+"\n";
-            rez += "Numbers:\n";
             foreach (KeyValuePair<string, int> pair in this)
             {
-                rez += pair.Key + "=" + pair.Value + "\n";
+                rez += pair.Key + "=" + pair.Value + " ";
             }
-            rez += "Strings:\n";
+            if (this.Count > 0)
+                rez += "\n";
+            
             foreach (KeyValuePair<string, string> pair in this.Text)
             {
-                rez += pair.Key + "=" + pair.Value + "\n";
+                rez += pair.Key + "=" + pair.Value + " ";
             }
+            if(this.Text.Count>0)
+                rez += "\n";
+
             return rez;
         }
     }

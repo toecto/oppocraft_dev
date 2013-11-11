@@ -10,16 +10,18 @@ namespace OppoCraft
     public class MessageHandler
     {
         Game1 theGame;
+        NetworkModule network;
 
-        public MessageHandler(Game1 g)
+        public MessageHandler(Game1 g, NetworkModule network)
         {
             this.theGame = g;
+            this.network = network;
         }
 
         public void Tick()
         {
             OppoMessage msg;
-            while((msg=this.theGame.network.getMessage())!=null)   
+            while((msg=this.network.getMessage())!=null)   
             {
                 this.handle(msg);
             }
@@ -27,12 +29,32 @@ namespace OppoCraft
 
         void handle(OppoMessage msg)
         {
-            Debug.WriteLine(msg.ToString());
-            if (msg.Type == OppoMessageType.MoveUnit)
-            { 
-                Unit u=this.theGame.units.getByID(msg["unitid"]);
-                u.task.AddUnique(new _Movement(u, new WorldCoords(msg["x"],msg["y"])));
-            
+            //Debug.WriteLine(msg.ToString());
+            switch(msg.Type)
+            {
+                case OppoMessageType.GetClientID:
+                    {
+                        this.theGame.cid=msg["cid"];
+                        break;
+                    }
+                case OppoMessageType.CreateUnit:
+                    {
+                        Unit unit = new Unit(msg["cid"], msg["uid"]);
+                        unit.location = new WorldCoords(100, 100);
+                        this.theGame.units.Add(unit);
+                        break;
+                    }
+                case OppoMessageType.MoveUnit:
+                    {
+                        Unit u=this.theGame.units.getById(msg["uid"]);
+                        if (u == null)
+                        {
+                            Debug.WriteLine("Message for unexisting unit");
+                            break;
+                        }
+                        u.task.AddUnique(new _Movement(new WorldCoords(msg["x"],msg["y"])));
+                        break;
+                    }
             }
         }
 

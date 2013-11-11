@@ -10,8 +10,8 @@ namespace OppoCraft
         WorldPath aPath=null;
         GridCoords lastSpot = new GridCoords(0,0);
 
-        public PathFinderTest(Game1 g,int id)
-            : base(g, id)
+        public PathFinderTest(int pid,int id)
+            : base(pid, id)
         { 
         
         }
@@ -26,13 +26,18 @@ namespace OppoCraft
             if (!test.Equals(this.lastSpot))
             {
                 this.lastSpot = test;
-                WorldCoords destination=this.theGame.theGrid.getWorldCoords(test);
+                WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
                 this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
-                OppoMessage msg=new OppoMessage(OppoMessageType.MoveUnit);
-                msg["unitid"]=2;
-                msg["x"]=destination.X;
-                msg["y"]=destination.Y;
-                this.theGame.AddCommand(msg);
+                if (this.theGame.units.getById(this.theGame.myFirstUnit) != null)
+                { 
+
+                    OppoMessage msg=new OppoMessage(OppoMessageType.MoveUnit);
+                    msg["x"]=destination.X;
+                    msg["y"]=destination.Y;
+
+                    
+                    this.theGame.units.getById(this.theGame.myFirstUnit).AddCommand(msg);
+                }
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
             

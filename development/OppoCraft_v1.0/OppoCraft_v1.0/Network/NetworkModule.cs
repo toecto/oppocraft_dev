@@ -15,6 +15,8 @@ namespace OppoCraft{
         {
             this.net = new TcpMessageClient(IP, port);
             this.net.onMessage+=readMessage;
+            this.Send(new OppoMessage(OppoMessageType.GetClientID));
+            this.Flush();
         }
 
         void readMessage(TcpMessageClient client)
@@ -39,6 +41,11 @@ namespace OppoCraft{
                 }
                 
             }
+        }
+
+        public void Flush()
+        {
+            this.net.Flush();
         }
 
         public void Stop()

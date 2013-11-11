@@ -35,20 +35,29 @@ namespace OppoCraft
 
    
 
-        public NetworkModule network;
-        public UnitCollection units=new UnitCollection();
+        private NetworkModule network;
+        public UnitCollection units;
         public MessageHandler messageHandler;
 
-        int ID;
-        int UIDcnt = 0;
+        public int cid;
+        int UIDCnt = 0;
 
-        public Game1(int gameID, NetworkModule net)
+
+        //Testing properties
+
+        public int myFirstUnit;
+        
+        /**/
+
+
+
+        public Game1(NetworkModule net)
         {
-            this.ID = gameID;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.network = net;
-            this.messageHandler = new MessageHandler(this);
+            this.messageHandler = new MessageHandler(this,this.network);
+            this.messageHandler.Tick();//get client id
             //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
@@ -62,12 +71,14 @@ namespace OppoCraft
             this.render = new RenderSystem(this);
             this.theGrid = new Grid(this);
             this.debugger = new Debugger(this);
+            this.units = new UnitCollection(this);
 
-            this.units.AddLast(new PathFinderTest(this, 1));
-            Unit unit = new Unit(this, 2);
-            unit.location = new WorldCoords(100,100);
-            this.units.Add(unit);
-            unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
+
+            this.units.Add(new PathFinderTest(this.cid,this.CreateUID()));
+
+            OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
+            msg["uid"] = this.myFirstUnit = this.CreateUID();
+            this.AddCommand(msg);
 
             //Testing setting up obstacles
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
@@ -86,10 +97,10 @@ namespace OppoCraft
             }
         }
 
-        public int getUID()
+        public int CreateUID()
         {
-            this.UIDcnt++;
-            return int.Parse(this.ID + "" + this.UIDcnt);
+            this.UIDCnt++;
+            return int.Parse(this.cid + "" + this.UIDCnt);
         }
 
         /// <summary>
@@ -145,7 +156,7 @@ namespace OppoCraft
 
             messageHandler.Tick();
             this.units.Tick();
-
+            this.network.Flush();
             base.Update(gameTime);
         }
 
@@ -161,11 +172,11 @@ namespace OppoCraft
         }
 
 
-        public virtual void AddCommand(OppoMessage msg)
+        public void AddCommand(OppoMessage msg)
         {
+            msg["cid"] = this.cid;
             this.network.Send(msg);
         }
-
 
     }
 }

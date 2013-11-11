@@ -33,13 +33,13 @@ namespace OppoCraft
         }
 
         public Game1 theGame;
-        public TaskCollection task=new TaskCollection();
-
+        public TaskCollection task;
+        
 
         public Coordinates size = new Coordinates(1, 1);
-        public WorldCoords location;
-        public WorldCoords destination;
+        public WorldCoords location=new WorldCoords(1 , 1);
         public int id;
+        public int playerId = 0;
         public int type;
         
         public State state;
@@ -53,10 +53,11 @@ namespace OppoCraft
         public int armour;
         public int attackSpeed;
 
-        public Unit(Game1 g, int id)
+        public Unit(int playerId,int id)
         {
-            this.theGame = g;
+            this.playerId = playerId;
             this.id = id;
+            this.task = new TaskCollection(this);
         }
 
         public virtual void SetGridValue()
@@ -82,7 +83,7 @@ namespace OppoCraft
 
         public virtual void AddCommand(OppoMessage msg)
         {
-            msg["unitid"] = this.id;
+            msg["uid"] = this.id;
             this.theGame.AddCommand(msg);
         }
 

@@ -29,8 +29,14 @@ namespace TestServer
             {
                 byte[] buffer = client.getMessage();
                 OppoMessage message = OppoMessage.fromBin(buffer);
-                Console.WriteLine("From client " + ID + ": " + buffer.Length + " Bytes");
-                Console.WriteLine(message.ToString());
+                Console.Write("From client " + ID + ": " + buffer.Length + " Bytes ");
+                Console.Write(message.ToString());
+                if(message.Type==OppoMessageType.GetClientID)
+                {
+                    message["cid"]=this.ID;
+                    client.sendMessage(message.toBin(), true);
+                }
+                else
                 this.server.broadcast(buffer, this.ID);
             }
         }
