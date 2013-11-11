@@ -19,24 +19,27 @@ namespace OppoCraft
         public override void Tick()
         {
             MouseState mouseState = Mouse.GetState();
-            WorldCoords origCoord = new WorldCoords(100, 100);
 
 
             GridCoords test = this.theGame.theGrid.getGridCoords(this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y)));
             if (!test.Equals(this.lastSpot))
             {
                 this.lastSpot = test;
-                WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
-                this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
+
                 if (this.theGame.units.getById(this.theGame.myFirstUnit) != null)
                 { 
-
+                    /*
                     OppoMessage msg=new OppoMessage(OppoMessageType.MoveUnit);
                     msg["x"]=destination.X;
                     msg["y"]=destination.Y;
-
-                    
                     this.theGame.units.getById(this.theGame.myFirstUnit).AddCommand(msg);
+                    /**/
+                    WorldCoords origCoord = this.theGame.units.getById(this.theGame.myFirstUnit).location;
+                    WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
+                    Debug.WriteLine(destination.X+" "+destination.Y);
+
+                    this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
+                    this.theGame.units.getById(this.theGame.myFirstUnit).task.AddUnique(new GoTo(destination));
                 }
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
@@ -46,7 +49,7 @@ namespace OppoCraft
 
         public override void Render(RenderSystem render)
         {
-            int maxValue = 0;
+            int maxValue = 1;
             for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
             {
                 for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
@@ -58,7 +61,7 @@ namespace OppoCraft
                 }
             }
 
-            int color;
+            int color=1;
 
             for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
             {

@@ -43,9 +43,11 @@ namespace OppoCraft
         public int cid;
         int UIDCnt = 0;
 
-        public Game1(int gameID, NetworkModule net)
+        //Testing properties
+        public int myFirstUnit;
+
+        public Game1(NetworkModule net)
         {
-            this.ID = gameID;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.network = net;
@@ -76,7 +78,7 @@ namespace OppoCraft
             OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
             msg["uid"] = this.myFirstUnit = this.CreateUID();
             this.AddCommand(msg);
-            unit.task.Add(new GoTo(new WorldCoords(500, 500)));
+            
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
             
 

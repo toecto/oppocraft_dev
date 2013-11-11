@@ -18,24 +18,25 @@ namespace OppoCraft
 
         public GoTo(WorldCoords d)
         {
-            this.currStep = 0;
+            this.currStep = 1;
+            this.totalSteps = 0;
             this.dest = d;
         }
         
         public void GetPath()
         {
             this.worldPath = this.unit.theGame.theGrid.thePathFinder.GetPath(this.unit.location, this.dest);
+            if (this.worldPath == null)
+                return;
             this.totalSteps = this.worldPath.Count();
 
             this.destination = this.worldPath.First.Value.getVector2();
-            Debug.WriteLine("Path length "+this.totalSteps);
         }
         public override bool Tick()
         {
                 if (this.currStep < this.totalSteps)
                 {
-                    Debug.WriteLine("currStep " + this.currStep + " " + this.totalSteps);
-                    if (Vector2.Distance(this.unit.location.getVector2(), this.destination) < this.unit.speed)
+                    if (Vector2.Distance(this.unit.location.getVector2(), this.destination) < this.unit.speed || this.currStep==1)
                     {
 
                         this.destination = this.worldPath.ElementAt(this.currStep).getVector2();
