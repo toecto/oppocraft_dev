@@ -52,7 +52,7 @@ namespace OppoCraft
                             Debug.WriteLine("Message for unexisting unit");
                             break;
                         }
-                        u.task.AddUnique(new _Movement(new WorldCoords(msg["x"],msg["y"])));
+                        u.task.AddUnique(new CommandMovement(new WorldCoords(msg["x"],msg["y"])));
                         break;
                     }
             }

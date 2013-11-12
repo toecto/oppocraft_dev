@@ -39,7 +39,7 @@ namespace OppoCraft
                     Debug.WriteLine(destination.X+" "+destination.Y);
 
                     this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
-                    this.theGame.units.getById(this.theGame.myFirstUnit).task.AddUnique(new GoTo(destination));
+                    this.theGame.units.getById(this.theGame.myFirstUnit).task.AddUnique(new TaskGoTo(destination));
                 }
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);

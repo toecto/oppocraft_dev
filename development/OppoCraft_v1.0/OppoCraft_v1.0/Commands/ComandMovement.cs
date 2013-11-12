@@ -7,13 +7,13 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    public class _Movement: Task //do not assign directly
+    public class CommandMovement: Task //do not assign directly
     {
         Vector2 delta;//for a tick increment
         Vector2 location;
         Vector2 destination;
 
-        public _Movement(WorldCoords dest)
+        public CommandMovement(WorldCoords dest)
         {
             this.destination = dest.getVector2();
         }

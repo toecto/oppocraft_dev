@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace OppoCraft
 {
-    public class GoTo : Task    
+    public class TaskGoTo : Task    
     {       
         int currStep;
         int totalSteps;
@@ -16,7 +16,7 @@ namespace OppoCraft
         WorldPath worldPath;
         WorldCoords dest;
 
-        public GoTo(WorldCoords d)
+        public TaskGoTo(WorldCoords d)
         {
             this.currStep = 1;
             this.totalSteps = 0;
@@ -32,6 +32,7 @@ namespace OppoCraft
 
             this.destination = this.worldPath.First.Value.getVector2();
         }
+
         public override bool Tick()
         {
                 if (this.currStep < this.totalSteps)

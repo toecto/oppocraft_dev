@@ -38,7 +38,7 @@ namespace OppoCraft
         private NetworkModule network;
         public UnitCollection units;
         public MessageHandler messageHandler;
-        public GoTo goTo = new GoTo(new WorldCoords(500,500));
+        public TaskGoTo goTo = new TaskGoTo(new WorldCoords(500,500));
 
         public int cid;
         int UIDCnt = 0;
