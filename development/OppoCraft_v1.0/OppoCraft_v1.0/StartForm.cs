@@ -56,7 +56,7 @@ namespace OppoCraft
             if(Program.server.Start())
                 this.serverStatus.Text = "Started";
             else
-                this.serverStatus.Text = "Failed";
+                this.serverStatus.Text = "Failed to start";
             
         }
 

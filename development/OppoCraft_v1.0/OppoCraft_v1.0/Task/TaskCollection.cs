@@ -7,65 +7,6 @@ namespace OppoCraft
 {
     public class TaskCollection: LinkedList<Task>
     {
-        Unit unit;
-
-        public TaskCollection(Unit u)
-        {
-            this.unit = u;
-        }
-
-        protected TaskCollection()
-        {
-        }
-
-
-        public void Tick()
-        {
-            TaskCollection toRemove = new TaskCollection();
-            foreach(Task t in this)
-            {
-                if (!t.Tick())
-                    toRemove.AddLast(t);
-            }
-            foreach (Task t in toRemove)
-            {
-                 this.Remove(t);
-            }
-            toRemove.Clear();  
-        }
-
-        public void Add(Task t)
-        {
-            t.unit = this.unit;
-            this.AddLast(t);
-            t.onStart();
-        }
-
-        public void AddUnique(Task task)
-        {
-            this.RemoveByType(task.GetType());
-            this.Add(task);
-        }
-
-        public void RemoveByType(System.Type TypeToRemove)
-        {
-            TaskCollection toRemove = new TaskCollection();
-            foreach (Task t in this)
-            {
-                if (t.GetType() == TypeToRemove)
-                    toRemove.AddLast(t);
-            }
-            foreach (Task t in toRemove)
-            {
-                this.Remove(t);
-            }
-            toRemove.Clear();
-        }
-
-        new public void Remove(Task t)
-        {
-            t.onFinish();
-            base.Remove(t);
-        }
+    
     }
 }

@@ -20,13 +20,13 @@ namespace OppoCraft
         {
             MouseState mouseState = Mouse.GetState();
 
-
-            GridCoords test = this.theGame.theGrid.getGridCoords(this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y)));
+            WorldCoords x=this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y));
+            GridCoords test = this.theGame.theGrid.getGridCoords(x);
             if (!test.Equals(this.lastSpot))
             {
                 this.lastSpot = test;
 
-                if (this.theGame.units.getById(this.theGame.myFirstUnit) != null)
+                if (this.theGame.map.getById(this.theGame.myFirstUnit) != null)
                 { 
                     /*
                     OppoMessage msg=new OppoMessage(OppoMessageType.MoveUnit);
@@ -34,12 +34,12 @@ namespace OppoCraft
                     msg["y"]=destination.Y;
                     this.theGame.units.getById(this.theGame.myFirstUnit).AddCommand(msg);
                     /**/
-                    WorldCoords origCoord = this.theGame.units.getById(this.theGame.myFirstUnit).location;
+                    WorldCoords origCoord = this.theGame.map.getById(this.theGame.myFirstUnit).location;
                     WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
                     Debug.WriteLine(destination.X+" "+destination.Y);
 
                     this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
-                    this.theGame.units.getById(this.theGame.myFirstUnit).task.AddUnique(new TaskGoTo(destination));
+                    this.theGame.map.getById(this.theGame.myFirstUnit).task.AddUnique(new TaskGoTo(destination));
                 }
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);

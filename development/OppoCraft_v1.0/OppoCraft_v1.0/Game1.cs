@@ -36,7 +36,7 @@ namespace OppoCraft
    
 
         private NetworkModule network;
-        public UnitCollection units;
+        public GameMap map;
         public MessageHandler messageHandler;
         public TaskGoTo goTo = new TaskGoTo(new WorldCoords(500,500));
 
@@ -68,13 +68,13 @@ namespace OppoCraft
             this.render = new RenderSystem(this);
             this.theGrid = new Grid(this);
             this.debugger = new Debugger(this);
-            this.units = new UnitCollection(this);
+            this.map = new GameMap(this);
 
             //Testing setting up obstacles
             this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
             this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
-            this.units.Add(new PathFinderTest(this.cid,this.CreateUID()));
+            this.map.Add(new PathFinderTest(this.cid,this.CreateUID()));
 
             OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
             msg["uid"] = this.myFirstUnit = this.CreateUID();
@@ -160,7 +160,7 @@ namespace OppoCraft
 
             messageHandler.Tick();
             if(this.running)
-                this.units.Tick();
+                this.map.Tick();
 
             if (!this.network.Flush())
                 this.debugger.AddMessage("Lost connection to server");
