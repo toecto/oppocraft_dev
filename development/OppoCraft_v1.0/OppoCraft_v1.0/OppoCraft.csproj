@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Units\GameMap.cs" />
     <Compile Include="StartForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,12 +122,13 @@
     <Compile Include="Commands\ComandMovement.cs" />
     <Compile Include="Network\NetworkModule.cs" />
     <Compile Include="Network\OppoMessageCollection.cs" />
-    <Compile Include="PathFindingTest.cs" />
+    <Compile Include="Units\PathFindingTest.cs" />
     <Compile Include="Commands\MessageHandler.cs" />
     <Compile Include="Task\Task.cs" />
     <Compile Include="Task\TaskCollection.cs" />
-    <Compile Include="Unit.cs" />
-    <Compile Include="UnitCollection.cs" />
+    <Compile Include="Task\TaskManager.cs" />
+    <Compile Include="Units\Unit.cs" />
+    <Compile Include="Units\UnitCollection.cs" />
     <Compile Include="Coordinates\WorldPath.cs" />
     <Compile Include="Debugger.cs" />
     <Compile Include="Coordinates\Grid.cs" />
@@ -147,6 +149,10 @@
     <ProjectReference Include="..\..\..\test_dev\testClient\testClient\testClient.csproj">
       <Project>{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}</Project>
       <Name>testClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\test_dev\testServer\TestServer\TestServer.csproj">
+      <Project>{BD1BA7C5-E384-48E7-A229-09ECF77CFFE8}</Project>
+      <Name>TestServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\OppoCraft_v1.0Content\OppoCraft_v1.0Content.contentproj">
       <Name>OppoCraft_v1.0Content %28Content%29</Name>

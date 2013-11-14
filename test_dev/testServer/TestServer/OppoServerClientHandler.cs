@@ -1,6 +1,8 @@
 ﻿using System;
 using testClient;
 using System.Net.Sockets;
+using System.Diagnostics;
+using System.Collections;
 
 namespace TestServer
 {
@@ -29,15 +31,25 @@ namespace TestServer
             {
                 byte[] buffer = client.getMessage();
                 OppoMessage message = OppoMessage.fromBin(buffer);
+                message["cid"] = this.ID;
                 Console.Write("From client " + ID + ": " + buffer.Length + " Bytes ");
                 Console.Write(message.ToString());
                 if(message.Type==OppoMessageType.GetClientID)
                 {
-                    message["cid"]=this.ID;
                     client.sendMessage(message.toBin(), true);
                 }
+                else if (message.Type == OppoMessageType.GetClientList)
+                {
+                    OppoMessage msg = new OppoMessage(OppoMessageType.GetClientList);
+                    foreach (DictionaryEntry Item in this.server.clientsList)
+                    {
+                        msg[Item.Key.ToString()] = (int)Item.Key;
+                    }
+                    Console.Write(msg.ToString());
+                    client.sendMessage(msg.toBin(), true);
+                }
                 else
-                this.server.broadcast(buffer, this.ID);
+                    this.server.broadcast(buffer, this.ID);
             }
         }
 

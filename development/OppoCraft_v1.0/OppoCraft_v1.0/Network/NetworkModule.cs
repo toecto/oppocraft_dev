@@ -1,5 +1,6 @@
 ﻿using System;
 using testClient;
+using System.Diagnostics;
 
 namespace OppoCraft{
     public class NetworkModule
@@ -15,8 +16,6 @@ namespace OppoCraft{
         {
             this.net = new TcpMessageClient(IP, port);
             this.net.onMessage+=readMessage;
-            this.Send(new OppoMessage(OppoMessageType.GetClientID));
-            this.Flush();
         }
 
         void readMessage(TcpMessageClient client)
@@ -30,7 +29,7 @@ namespace OppoCraft{
                         msg=OppoMessage.fromBin(client.getMessage());
                     }
                     catch(Exception ex)
-                    {}
+                    { Debug.WriteLine("NetworkModule readMessage: " + ex.Message); }
                     if (msg != null)
                     {
                         this.buffer.AddLast(msg);
@@ -43,9 +42,9 @@ namespace OppoCraft{
             }
         }
 
-        public void Flush()
+        public bool Flush()
         {
-            this.net.Flush();
+            return this.net.Flush();
         }
 
         public void Stop()
@@ -53,9 +52,9 @@ namespace OppoCraft{
             this.net.Stop();
         }
 
-        public void Send(OppoMessage msg)
+        public bool Send(OppoMessage msg, bool force=false)
         {
-            this.net.sendMessage(msg.toBin());
+            return this.net.sendMessage(msg.toBin(), force);
         }
 
         public OppoMessage getMessage()

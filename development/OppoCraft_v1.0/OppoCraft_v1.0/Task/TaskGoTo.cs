@@ -42,7 +42,7 @@ namespace OppoCraft
 
                         this.destination = this.worldPath.ElementAt(this.currStep).getVector2();
 
-                        OppoMessage msg = new OppoMessage(OppoMessageType.MoveUnit);
+                        OppoMessage msg = new OppoMessage(OppoMessageType.Movement);
                         msg["x"] = (int)this.destination.X;
                         msg["y"] = (int)this.destination.Y;
                         this.unit.AddCommand(msg);

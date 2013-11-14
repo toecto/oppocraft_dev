@@ -46,9 +46,9 @@ namespace OppoCraft
            // TODO: Add your drawing code here
            this.spriteBatch.Begin();
 
-           this.theGame.units.Render(this);
+           this.theGame.map.Render(this);
 
-           //this.theGame.debugger.RenderMessages();
+           this.theGame.debugger.RenderMessages();
            this.spriteBatch.End();
        }
 

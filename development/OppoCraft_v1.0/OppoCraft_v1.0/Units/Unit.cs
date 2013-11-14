@@ -33,7 +33,7 @@ namespace OppoCraft
         }
 
         public Game1 theGame;
-        public TaskCollection task;
+        public TaskManager task;
         
 
         public Coordinates size = new Coordinates(1, 1);
@@ -57,7 +57,7 @@ namespace OppoCraft
         {
             this.playerId = playerId;
             this.id = id;
-            this.task = new TaskCollection(this);
+            this.task = new TaskManager(this);
         }
 
         public virtual void SetGridValue()

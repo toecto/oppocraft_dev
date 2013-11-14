@@ -89,13 +89,23 @@ namespace testClient
                     }
 
                     if (this.onMessage != null)
-                        this.onMessage(this);
+                    { 
+                        try 
+                        {
+                            this.onMessage(this);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine("TcpMessageClient receiveMessageLoop onMessage: " + ex.Message);
+                                this.onMessage=null;
+                        }/**/
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine("TcpMessageClient receiveMessageLoop: " + ex.Message);
                     return; 
-                }
+                }/**/
             }
         }
 
@@ -111,17 +121,18 @@ namespace testClient
             return Message;
         }
 
-        public void sendMessage(byte[] msg, bool forceFlush=false)
+        public bool sendMessage(byte[] msg, bool forceFlush=false)
         {
             byte[] rez = new byte[msg.Length + sizeof(Int32)];
             BitConverter.GetBytes((Int32)msg.Length).CopyTo(rez,0);
             msg.CopyTo(rez, sizeof(Int32));
             this.OutcomeMessages.AddLast(rez);
             if (forceFlush)
-                this.Flush();
+                return this.Flush();
+            return true;
        }
 
-        public void Flush()
+        public bool Flush()
         {
             int cursor = 0;
             foreach (byte[] msg in this.OutcomeMessages)
@@ -137,7 +148,15 @@ namespace testClient
                 cursor += msg.Length;
             }
             this.OutcomeMessages.Clear();
-            this.ServerStream.Write(rez, 0, rez.Length);
+            try
+            {
+                this.ServerStream.Write(rez, 0, rez.Length);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
 
     }
