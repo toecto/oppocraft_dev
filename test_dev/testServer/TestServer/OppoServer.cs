@@ -50,8 +50,14 @@ namespace TestServer
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
                 OppoServerClientHandler client = new OppoServerClientHandler(this, clientSocket, counter);
-                  clientsList.Add(counter, client);
+
                 Console.WriteLine("Client " + counter + " joined");
+                OppoMessage netClientMsg = new OppoMessage(OppoMessageType.Conected);
+                netClientMsg["cid"] = client.ID;
+                this.broadcast(netClientMsg.toBin(), client.ID, false);
+
+                clientsList.Add(counter, client);
+
             }
         }
 

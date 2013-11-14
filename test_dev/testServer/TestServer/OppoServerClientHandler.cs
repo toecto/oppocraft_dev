@@ -18,9 +18,6 @@ namespace TestServer
             this.Net.onMessage += this.gotMessage;
             this.ID = ID;
             this.server = server;
-            OppoMessage netClientMsg = new OppoMessage(OppoMessageType.Conected);
-            netClientMsg["cid"] = ID;
-            this.server.broadcast(netClientMsg.toBin(), ID, false);
         }
 
         public void Stop()
