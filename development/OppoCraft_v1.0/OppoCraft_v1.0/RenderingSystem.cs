@@ -48,7 +48,7 @@ namespace OppoCraft
 
            this.theGame.units.Render(this);
 
-           //this.theGame.debugger.RenderMessages();
+           this.theGame.debugger.RenderMessages();
            this.spriteBatch.End();
        }
 

@@ -41,25 +41,27 @@ namespace OppoCraft
         public TaskGoTo goTo = new TaskGoTo(new WorldCoords(500,500));
 
         public int cid;
+        public int enemyCid;
         int UIDCnt = 0;
+        public bool running=false;
 
         //Testing properties
         public int myFirstUnit;
+        
 
-        public Game1(NetworkModule net)
+        public Game1(NetworkModule net, int cid, int enemyCid,string Map)
         {
+            this.cid = cid;
+            this.enemyCid = enemyCid;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.network = net;
             this.messageHandler = new MessageHandler(this,this.network);
-            this.messageHandler.Tick();//get client id
             //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
 
-
-            
             this.cellSize = new Coordinates(40, 40);
             this.worldMapSize = new Coordinates(800, 800); // set back to 10240/10240
 
@@ -67,7 +69,6 @@ namespace OppoCraft
             this.theGrid = new Grid(this);
             this.debugger = new Debugger(this);
             this.units = new UnitCollection(this);
-
 
             //Testing setting up obstacles
             this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
@@ -80,9 +81,6 @@ namespace OppoCraft
             this.AddCommand(msg);
             
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
-            
-
-            
 
             //Testing setting up obstacles
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
@@ -100,6 +98,8 @@ namespace OppoCraft
                 }
             }
             /**/
+            if(Map!=null)
+            this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
         }
 
         public int CreateUID()
@@ -157,11 +157,13 @@ namespace OppoCraft
             this.scrollValue += (this.prevMouseState.ScrollWheelValue - this.mouseState.ScrollWheelValue) / 12;
             this.prevMouseState = this.mouseState;
             this.debugger.scrollRow = scrollValue;
-            
 
             messageHandler.Tick();
-            this.units.Tick();
-            this.network.Flush();
+            if(this.running)
+                this.units.Tick();
+
+            if (!this.network.Flush())
+                this.debugger.AddMessage("Lost connection to server");
             base.Update(gameTime);
         }
 

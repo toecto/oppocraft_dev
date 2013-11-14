@@ -3,50 +3,63 @@ using System.Collections;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using System.Diagnostics;
+using testClient;
 
 namespace TestServer
 {
-    class OppoServer
+    public class OppoServer
     {
-        Hashtable clientsList = new Hashtable();
+        public Hashtable clientsList = new Hashtable();
         TcpListener serverSocket;
         string IP;
         int Port;
         Thread sThread;
-
+        
         public OppoServer(string IP, int Port)
         {
             this.IP = IP;
             this.Port = Port;
         }
 
-        public void Start()
+        public bool Start()
         {
+            this.serverSocket = new TcpListener(IPAddress.Parse(this.IP), this.Port);
+            try
+            {
+                serverSocket.Start();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
             this.sThread = new Thread(this.ServerLoop);
             sThread.Start();
+
+            return true;
         }
 
         public void ServerLoop()
         {
-            this.serverSocket = new TcpListener(IPAddress.Parse(this.IP), this.Port);
             TcpClient clientSocket = default(TcpClient);
             int counter = 0;
-
-            serverSocket.Start();
             counter = 0;
             while ((true))
             {
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
                 OppoServerClientHandler client = new OppoServerClientHandler(this, clientSocket, counter);
-                clientsList.Add(counter, client);
+                  clientsList.Add(counter, client);
                 Console.WriteLine("Client " + counter + " joined");
             }
         }
 
         public void Stop()
         {
-            this.sThread.Join();
+            if(this.sThread!=null)
+                this.sThread.Abort();
+            this.sThread = null;
             foreach (DictionaryEntry Item in clientsList)
             {
                 OppoServerClientHandler client = (OppoServerClientHandler)Item.Value;
@@ -55,7 +68,9 @@ namespace TestServer
                     client.Stop();
                 }
                 catch (Exception ex)
-                {}
+                {
+                    Debug.WriteLine("OppoServer Stop " + ex.Message);
+                }
             }
             this.serverSocket.Stop();
         }
@@ -67,23 +82,24 @@ namespace TestServer
             foreach (DictionaryEntry Item in clientsList)
             {
                 client = (OppoServerClientHandler)Item.Value;
-                try
+
+                if (toAll || sourceClientNo != (int)Item.Key)
                 {
-                    if (toAll || sourceClientNo != (int)Item.Key)
+                    if (!client.Net.sendMessage(msg, true))
                     {
-                        client.Net.sendMessage(msg,true);
+                        client.Stop();
+                        toRemove.Add(client.ID);
                     }
-                }
-                catch (Exception ex)
-                {
-                    client.Stop();
-                    toRemove.Add(client.ID);
                 }
             }
 
             foreach (int Item in toRemove)
             {
                 clientsList.Remove(Item);
+                OppoMessage discMsg=new OppoMessage(OppoMessageType.Disconected);
+                discMsg["cid"] = Item;
+                Console.WriteLine(discMsg.ToString());
+                this.broadcast(discMsg.toBin(), 0);
                 Console.WriteLine("Client "+ Item + " is removed");
             }
             

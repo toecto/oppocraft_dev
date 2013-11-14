@@ -8,10 +8,17 @@ namespace testClient
 
     public enum OppoMessageType
     {
+        GetClientID,
+        GetClientList,
+        Disconected,
+        Conected,
+        Ping,
+        LoadGame,
+        StartGame,
         CreateUnit,
         RemoveUnit,
-        MoveUnit,
-        GetClientID
+        Movement,
+        
     };
 
     public class OppoMessage : Dictionary<string, Int32>
@@ -99,7 +106,7 @@ namespace testClient
             return rez;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             string rez = "";
             rez += "Message "+this.Type.ToString()+"\n";

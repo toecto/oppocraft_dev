@@ -20,6 +20,7 @@ namespace OppoCraft
 
         public void Tick()
         {
+            
             OppoMessage msg;
             while((msg=this.network.getMessage())!=null)   
             {
@@ -29,12 +30,16 @@ namespace OppoCraft
 
         void handle(OppoMessage msg)
         {
-            //Debug.WriteLine(msg.ToString());
             switch(msg.Type)
             {
+                case OppoMessageType.StartGame:
+                    {
+                        this.theGame.running=true;
+                        break;
+                    }
                 case OppoMessageType.GetClientID:
                     {
-                        this.theGame.cid=msg["cid"];
+                        this.theGame.cid = msg["cid"];
                         break;
                     }
                 case OppoMessageType.CreateUnit:
@@ -44,7 +49,7 @@ namespace OppoCraft
                         this.theGame.units.Add(unit);
                         break;
                     }
-                case OppoMessageType.MoveUnit:
+                case OppoMessageType.Movement:
                     {
                         Unit u=this.theGame.units.getById(msg["uid"]);
                         if (u == null)
