@@ -19,6 +19,7 @@ namespace OppoCraft
     public class Game1 : Microsoft.Xna.Framework.Game
     {        
         public RenderSystem render;
+        public GraphContentManager graphContent;
 
         //Cells, Map, and Coordinate Properties
         public Coordinates cellSize;
@@ -63,9 +64,10 @@ namespace OppoCraft
             this.prevMouseState = mouseState;
 
             this.cellSize = new Coordinates(40, 40);
-            this.worldMapSize = new Coordinates(800, 800); // set back to 10240/10240
+            this.worldMapSize = new Coordinates(1600, 1600); // set back to 10240/10240
 
             this.render = new RenderSystem(this);
+            this.graphContent = new GraphContentManager(this);
             this.theGrid = new Grid(this);
             this.debugger = new Debugger(this);
             this.map = new GameMap(this);
@@ -75,10 +77,14 @@ namespace OppoCraft
             this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
             this.map.Add(new PathFinderTest(this.cid,this.CreateUID()));
-
-            OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
-            msg["uid"] = this.myFirstUnit = this.CreateUID();
-            this.AddCommand(msg);
+            for (int i = 1; i < 2; i++)
+            {
+                OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
+                msg["uid"] = this.myFirstUnit = this.CreateUID();
+                msg["x"] = 40*i;
+                msg["y"] = 40*i;
+                this.AddCommand(msg);
+            }
             
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
@@ -174,14 +180,13 @@ namespace OppoCraft
         protected override void Draw(GameTime gameTime)
         {         
             this.render.Render(gameTime);
-
             base.Draw(gameTime);
         }
 
 
         public void AddCommand(OppoMessage msg)
         {
-            msg["cid"] = this.cid;
+            //msg["cid"] = this.cid;
             this.network.Send(msg);
         }
 

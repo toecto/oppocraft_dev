@@ -35,32 +35,35 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-                if (this.currStep < this.totalSteps)
-                {
-                    if (Vector2.Distance(this.unit.location.getVector2(), this.destination) < this.unit.speed || this.currStep==1)
-                    {
-
-                        this.destination = this.worldPath.ElementAt(this.currStep).getVector2();
-
-                        OppoMessage msg = new OppoMessage(OppoMessageType.Movement);
-                        msg["x"] = (int)this.destination.X;
-                        msg["y"] = (int)this.destination.Y;
-                        this.unit.AddCommand(msg);
-
-                        this.currStep++;
-                    }
-                    return true;
-                }
-                else
-                {
+            if (Vector2.Distance(this.unit.location.getVector2(), this.destination) < this.unit.speed || this.currStep==1)
+            {
+                if (this.currStep >= this.totalSteps)
                     return false;
-                }
+
+
+                this.destination = this.worldPath.ElementAt(this.currStep).getVector2();
+
+                OppoMessage msg = new OppoMessage(OppoMessageType.Movement);
+                msg["x"] = (int)this.destination.X;
+                msg["y"] = (int)this.destination.Y;
+                this.unit.AddCommand(msg);
+
+                this.currStep++;
+            }
+            return true;
         }
 
         public override void onStart()
         {
             base.onStart();
             this.GetPath();
+        }
+
+        public override void onFinish()
+        {
+            OppoMessage msg = new OppoMessage(OppoMessageType.ChangeState);
+            msg["state"]=(int)Unit.State.Halt;
+            this.unit.AddCommand(msg);
         }
     }
 }

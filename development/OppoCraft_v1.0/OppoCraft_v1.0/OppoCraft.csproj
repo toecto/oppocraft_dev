@@ -110,6 +110,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\AnimationMap.cs" />
+    <Compile Include="Animation\GraphContentManager.cs" />
+    <Compile Include="Animation\SpriteSheet.cs" />
+    <Compile Include="Animation\SpriteSheetMap.cs" />
+    <Compile Include="Animation\UnitAnimation.cs" />
+    <Compile Include="Commands\CommandChangeUnitState.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
     <Compile Include="Units\GameMap.cs" />
     <Compile Include="StartForm.cs">
@@ -192,6 +198,7 @@
       <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

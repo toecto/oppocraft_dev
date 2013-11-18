@@ -160,7 +160,12 @@ namespace OppoCraft
             {
                 cntReady++;
             }
-            if (cntReady > 1)
+
+            int waitPlayers = 2;
+            if (onePlayerChk.Checked)
+                waitPlayers = 1;
+
+            if (cntReady == waitPlayers)
             {
                 return true;
             }

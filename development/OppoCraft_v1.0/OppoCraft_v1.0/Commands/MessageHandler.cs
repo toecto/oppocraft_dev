@@ -45,19 +45,24 @@ namespace OppoCraft
                 case OppoMessageType.CreateUnit:
                     {
                         Unit unit = new Unit(msg["cid"], msg["uid"]);
-                        unit.location = new WorldCoords(100, 100);
+                        unit.location = new WorldCoords(msg["x"], msg["y"]);
                         this.theGame.map.Add(unit);
                         break;
                     }
                 case OppoMessageType.Movement:
                     {
-                        Unit u=this.theGame.map.getById(msg["uid"]);
+                        Unit u = this.theGame.map.getById(msg["uid"]);
                         if (u == null)
-                        {
                             Debug.WriteLine("Message for unexisting unit");
-                            break;
-                        }
-                        u.task.AddUnique(new CommandMovement(new WorldCoords(msg["x"],msg["y"])));
+                        else
+                            u.task.AddUnique(new CommandMovement(msg));
+                        break;
+                    }
+                case OppoMessageType.ChangeState:
+                    {
+                        Unit u = this.theGame.map.getById(msg["uid"]);
+                        if (u != null)
+                            u.task.Add(new CommandChangeUnitState(msg));
                         break;
                     }
             }

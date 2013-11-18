@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using testClient;
+using System.Collections.Generic;
 
 namespace OppoCraft
 {
@@ -26,20 +27,17 @@ namespace OppoCraft
             {
                 this.lastSpot = test;
 
-                if (this.theGame.map.getById(this.theGame.myFirstUnit) != null)
-                { 
-                    /*
-                    OppoMessage msg=new OppoMessage(OppoMessageType.MoveUnit);
-                    msg["x"]=destination.X;
-                    msg["y"]=destination.Y;
-                    this.theGame.units.getById(this.theGame.myFirstUnit).AddCommand(msg);
-                    /**/
-                    WorldCoords origCoord = this.theGame.map.getById(this.theGame.myFirstUnit).location;
+                foreach(KeyValuePair<int,Unit> item in this.theGame.map)
+                {
+                    
+                    Unit u = item.Value;
+                    if (u.cid != this.theGame.cid) continue;
+
+                    WorldCoords origCoord = u.location;
                     WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
-                    Debug.WriteLine(destination.X+" "+destination.Y);
 
                     this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
-                    this.theGame.map.getById(this.theGame.myFirstUnit).task.AddUnique(new TaskGoTo(destination));
+                    u.task.AddUnique(new TaskGoTo(destination));
                 }
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);

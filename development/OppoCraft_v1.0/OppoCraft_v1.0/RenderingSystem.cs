@@ -18,6 +18,7 @@ namespace OppoCraft
        public SpriteBatch spriteBatch;
        public SpriteFont font;
        public Texture2D primRect;
+       public Texture2D testKnight;
        Coordinates scroll = new Coordinates(0, 0);
        public RenderSystem(Game1 g)
        {
@@ -33,9 +34,14 @@ namespace OppoCraft
            this.spriteBatch = new SpriteBatch(this.theGame.GraphicsDevice);
 
            primRect = this.theGame.Content.Load<Texture2D>("Prim_Rect");
-
+           testKnight = this.theGame.Content.Load<Texture2D>("Blue Knight");
            // Load the font from xml file
            this.font = this.theGame.Content.Load<SpriteFont>("myFont");
+       }
+
+       public Texture2D LoadContent(string name)
+       {
+           return this.theGame.Content.Load<Texture2D>(name);
        }
 
 
@@ -44,7 +50,7 @@ namespace OppoCraft
            this.theGame.GraphicsDevice.Clear(new Color(160, 160, 160));
 
            // TODO: Add your drawing code here
-           this.spriteBatch.Begin();
+           this.spriteBatch.Begin(SpriteSortMode.BackToFront,BlendState.AlphaBlend);
 
            this.theGame.map.Render(this);
 

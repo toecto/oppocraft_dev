@@ -15,9 +15,11 @@ namespace testClient
         Ping,
         LoadGame,
         StartGame,
+
         CreateUnit,
         RemoveUnit,
         Movement,
+        ChangeState,
         
     };
 

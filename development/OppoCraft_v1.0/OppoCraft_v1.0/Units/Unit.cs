@@ -22,43 +22,52 @@ namespace OppoCraft
         }
         public enum Direction
         {
-            North,
-            South,
             East,
-            West,
             North_East,
+            North,
             North_West,
-            South_East,
-            South_West
+            West,
+            South_West,
+            South,
+            South_East
         }
 
         public Game1 theGame;
         public TaskManager task;
-        
+        public UnitAnimation animation;
 
         public Coordinates size = new Coordinates(1, 1);
         public WorldCoords location=new WorldCoords(1 , 1);
-        public int id;
-        public int playerId = 0;
+        public int uid;
+        public int cid = 0;
         public int type;
         
         public State state;
         public Direction direction;
-        public WorldPath worldPath;        
-
+        public WorldPath worldPath;
+        
         public int currHP;
         public int maxHP;
-        public float speed=2;
+        public float speed=1;
         public int damage;
         public int armour;
         public int attackSpeed;
 
-        public Unit(int playerId,int id)
+        public Unit(int cid,int uid)
         {
-            this.playerId = playerId;
-            this.id = id;
+            this.state = State.Walking;
+            this.direction = Direction.East;
+            this.cid = cid;
+            this.uid = uid;
             this.task = new TaskManager(this);
         }
+
+        public void onStart()
+        {
+            this.animation = new UnitAnimation(this, "Blue Knight");
+            this.updateAnimation();
+        }
+
 
         public virtual void SetGridValue()
         {
@@ -73,18 +82,25 @@ namespace OppoCraft
 
         public virtual void Render(RenderSystem render)
         {
+            /*
             Vector2 position = this.theGame.render.getScreenCoords(this.location);
             position.X -= this.theGame.render.primRect.Width / 2;
             position.Y -= this.theGame.render.primRect.Height / 2;
                 
             render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
-
+            /**/
+            this.animation.Render(render);
         }
 
         public virtual void AddCommand(OppoMessage msg)
         {
-            msg["uid"] = this.id;
+            msg["uid"] = this.uid;
             this.theGame.AddCommand(msg);
+        }
+
+        public virtual void updateAnimation()
+        {
+            this.animation.currentAnimation = this.animation.sprites.map.animations[(int)this.state][(int)this.direction];
         }
 
     }
