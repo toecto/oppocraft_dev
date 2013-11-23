@@ -18,7 +18,6 @@ namespace OppoCraft
         {
             if(this.message.ContainsKey("state"))
                 this.unit.state = (Unit.State)this.message["state"];
-            this.unit.updateAnimation();
         }
     }
 }

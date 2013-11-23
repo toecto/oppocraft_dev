@@ -27,7 +27,6 @@ namespace OppoCraft
             this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location),distance);
             this.unit.direction = deltaToDirection(this.delta);
             this.unit.state = Unit.State.Walking;
-            this.unit.updateAnimation();
         }
 
         public override bool Tick()

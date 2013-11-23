@@ -30,13 +30,19 @@ namespace OppoCraft
 
        public void LoadContent()
        {
+           Debug.WriteLine("LoadContent start");
            // Create a new SpriteBatch, which can be used to draw textures.
            this.spriteBatch = new SpriteBatch(this.theGame.GraphicsDevice);
 
            primRect = this.theGame.Content.Load<Texture2D>("Prim_Rect");
-           testKnight = this.theGame.Content.Load<Texture2D>("Blue Knight");
+           //testKnight = this.theGame.Content.Load<Texture2D>("BlueKnight");
            // Load the font from xml file
            this.font = this.theGame.Content.Load<SpriteFont>("myFont");
+
+
+           this.theGame.graphContent.LoadContent();
+
+
        }
 
        public Texture2D LoadContent(string name)

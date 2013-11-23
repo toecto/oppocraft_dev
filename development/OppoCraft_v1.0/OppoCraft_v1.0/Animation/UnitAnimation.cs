@@ -3,31 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
     public class UnitAnimation
     {
-        public SpriteSheet sprites;
-        int frameCounter=0;
-        public AnimationMap currentAnimation;//{ get { return currentAnimation; } set { frameCounter = 0; currentAnimation = value; } }
-        
-        Unit unit;
+        private Dictionary<string, ActionAnimation> actions;
+        public Unit unit;
+        private ActionAnimation currentAction;
 
-        public UnitAnimation(Unit unit, string name)
+        public UnitAnimation(Unit unit)
         {
             this.unit = unit;
-            this.sprites = unit.theGame.graphContent.Load(name);
+            this.actions = new Dictionary<string, ActionAnimation>();
+        }
+
+        public void Add(string name, ActionAnimation action)
+        {
+            this.actions.Add(name, action);
+            if (this.currentAction == null)
+                this.currentAction = action;
+        }
+
+        public void Tick()
+        {
+            if (this.currentAction != null)
+                this.currentAction.Tick();
         }
 
         public void Render(RenderSystem render)
         {
-            this.sprites.Render(render,unit.location, this.currentAnimation, frameCounter);
-            this.frameCounter = this.currentAnimation.getNextFrame(this.frameCounter);
+            if (this.currentAction == null) return;
             
+            Vector2 position = render.getScreenCoords(this.unit.location);
+            currentAction.Render(render, position);
         }
-
-
-
     }
 }

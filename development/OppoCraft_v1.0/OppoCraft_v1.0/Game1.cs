@@ -46,18 +46,26 @@ namespace OppoCraft
         int UIDCnt = 0;
         public bool running=false;
 
+        public string loadMap;
+
+
         //Testing properties
         public int myFirstUnit;
         
+        public Database db;
 
-        public Game1(NetworkModule net, int cid, int enemyCid,string Map)
+        
+
+        public Game1(NetworkModule net, int cid, int enemyCid,string map)
         {
+            this.loadMap = map;
             this.cid = cid;
             this.enemyCid = enemyCid;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.network = net;
             this.messageHandler = new MessageHandler(this,this.network);
+            this.db = new Database("Data Source=OppoClient.sdf");
             //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
@@ -72,19 +80,6 @@ namespace OppoCraft
             this.debugger = new Debugger(this);
             this.map = new GameMap(this);
 
-            //Testing setting up obstacles
-            this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
-            this.map.Add(new PathFinderTest(this.cid,this.CreateUID()));
-            for (int i = 1; i < 2; i++)
-            {
-                OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
-                msg["uid"] = this.myFirstUnit = this.CreateUID();
-                msg["x"] = 40*i;
-                msg["y"] = 40*i;
-                this.AddCommand(msg);
-            }
             
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
@@ -104,8 +99,7 @@ namespace OppoCraft
                 }
             }
             /**/
-            if(Map!=null)
-            this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
+
         }
 
         public int CreateUID()
@@ -134,9 +128,32 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.render.LoadContent();
+            if(this.loadMap!=null)
+            {
+                this.LoadMap();
+                this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
+            }
             
         }
 
+
+        public void LoadMap()
+        {
+        //Testing setting up obstacles
+            //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
+            this.map.Add(new PathFinderTest(this.cid,this.CreateUID()));
+            for (int i = 1; i < 2; i++)
+            {
+                OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
+                msg["uid"] = this.myFirstUnit = this.CreateUID();
+                msg["x"] = 40*i+100;
+                msg["y"] = 40*i+100;
+                this.AddCommand(msg);
+            }
+            
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

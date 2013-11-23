@@ -64,8 +64,7 @@ namespace OppoCraft
 
         public void onStart()
         {
-            this.animation = new UnitAnimation(this, "Blue Knight");
-            this.updateAnimation();
+            this.animation = this.theGame.graphContent.LoadUnitAnimation(this, "BlueKnight");
         }
 
 
@@ -78,6 +77,7 @@ namespace OppoCraft
         public virtual void Tick()
         {
             this.task.Tick();
+            this.animation.Tick();
         }
 
         public virtual void Render(RenderSystem render)
@@ -98,10 +98,7 @@ namespace OppoCraft
             this.theGame.AddCommand(msg);
         }
 
-        public virtual void updateAnimation()
-        {
-            this.animation.currentAnimation = this.animation.sprites.map.animations[(int)this.state][(int)this.direction];
-        }
+
 
     }
 }
