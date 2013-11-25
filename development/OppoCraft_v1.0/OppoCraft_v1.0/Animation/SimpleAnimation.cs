@@ -5,7 +5,7 @@ namespace OppoCraft
 {
     public class SimpleAnimation
     {
-        private AnimationFile file;
+        public AnimationFile file;
         public int frames;
         public int delay=5;
         public int startX;
@@ -32,7 +32,7 @@ namespace OppoCraft
             return new Rectangle((this.startX + number) * this.file.width, this.startY * this.file.height, this.file.width, this.file.height);
         }
 
-        internal void Tick()
+        public bool Tick()
         {
             this.currentDelay++;
 
@@ -42,16 +42,30 @@ namespace OppoCraft
                 this.currentFrame++;
 
                 if (this.currentFrame >= this.frames)
+                {
                     this.currentFrame = 0;
+                    if (!this.looped)
+                    {
+                        this.currentFrame = this.frames-1;
+                        return false;
+                    }
+                }
             }
+            return true;
         }
 
-        internal void Render(RenderSystem render, Vector2 position)
+        public void Render(RenderSystem render, Vector2 position)
         {
             this.Tick();
             position.X -= this.file.width / 2;
             position.Y -= this.file.height - 26;
             render.spriteBatch.Draw(this.file.texture, position, getFrame(this.currentFrame), Microsoft.Xna.Framework.Color.White);
+        }
+
+        public void reset()
+        {
+            this.currentDelay = 0;
+            this.currentFrame = 0;
         }
     }
 }

@@ -16,8 +16,27 @@ namespace OppoCraft
 
         public override void onStart()
         {
-            if(this.message.ContainsKey("state"))
-                this.unit.state = (Unit.State)this.message["state"];
+            if (this.message.Text.ContainsKey("startact"))
+            {
+                //this.unit.state = (Unit.State)this.message["state"];
+                this.unit.animation.startAction(this.message.Text["startact"]);
+            }
+            if (this.message.Text.ContainsKey("onlyact"))
+            {
+                //this.unit.state = (Unit.State)this.message["state"];
+                this.unit.animation.Clear();
+                this.unit.animation.startAction(this.message.Text["onlyact"]);
+            }
+            if (this.message.Text.ContainsKey("stopact"))
+            {
+                //this.unit.state = (Unit.State)this.message["state"];
+                this.unit.animation.stopAction(this.message.Text["stopact"]);
+            }
+            if (this.message.ContainsKey("addhp"))
+            {
+                this.unit.currHP += this.message["addhp"];
+            }
+
         }
     }
 }

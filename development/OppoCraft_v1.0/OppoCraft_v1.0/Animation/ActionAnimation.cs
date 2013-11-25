@@ -11,19 +11,21 @@ namespace OppoCraft
         public List<SimpleAnimation> animations;
         public Unit unit;
         public int priority;
-        protected SimpleAnimation currentAnimation;
+        public SimpleAnimation currentAnimation;
+        public string name;
 
-        public ActionAnimation(List<SimpleAnimation> animations, Unit unit, int priority)
+        public ActionAnimation(string name, List<SimpleAnimation> animations, Unit unit, int priority)
         {
+            this.name = name;
             this.unit = unit;
             this.animations = animations;
             this.priority = priority;
             this.currentAnimation = animations[0];
         }
 
-        virtual public void Tick()
+        virtual public bool Tick()
         {
-            this.currentAnimation.Tick();
+            return this.currentAnimation.Tick();
         }
 
         virtual public void Render(RenderSystem render, Vector2 position)

@@ -44,7 +44,7 @@ namespace OppoCraft
                     }
                 case OppoMessageType.CreateUnit:
                     {
-                        Unit unit = new Unit(msg["cid"], msg["uid"]);
+                        Unit unit = new Unit(msg["ownercid"], msg["uid"]);
                         unit.location = new WorldCoords(msg["x"], msg["y"]);
                         this.theGame.map.Add(unit);
                         break;
@@ -55,16 +55,30 @@ namespace OppoCraft
                         if (u == null)
                             Debug.WriteLine("Message for unexisting unit");
                         else
-                            u.task.AddUnique(new CommandMovement(msg));
+                            u.task.Add(new CommandMovement(msg));
                         break;
                     }
                 case OppoMessageType.ChangeState:
                     {
+                        //Debug.WriteLine("ChangeState "+msg.ToString());
                         Unit u = this.theGame.map.getById(msg["uid"]);
                         if (u != null)
                             u.task.Add(new CommandChangeUnitState(msg));
                         break;
                     }
+
+                case OppoMessageType.Stop:
+                    {
+                        Unit u = this.theGame.map.getById(msg["uid"]);
+                        if (u != null)
+                        {
+                            u.task.RemoveByType(typeof(TaskGoTo));
+                            u.task.RemoveByType(typeof(CommandMovement));
+                            u.location = new WorldCoords(msg["x"], msg["y"]);
+                        }
+                        break;
+                    }
+
             }
         }
 

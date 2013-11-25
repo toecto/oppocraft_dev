@@ -20,7 +20,8 @@ namespace testClient
         RemoveUnit,
         Movement,
         ChangeState,
-        
+        Stop,
+
     };
 
     public class OppoMessage : Dictionary<string, Int32>

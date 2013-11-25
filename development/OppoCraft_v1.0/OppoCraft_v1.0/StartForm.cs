@@ -109,10 +109,16 @@ namespace OppoCraft
             if (Program.server != null) //server-client
                 map = "main";
             int enemyCid=0;
-            if (this.clients.Count > 1)
+            
+            foreach(KeyValuePair<int,bool> item in this.clients)
             {
-                enemyCid = this.clients.Keys.ToArray()[1];
+                if (item.Key != this.cid)
+                {
+                    enemyCid = item.Key;
+                    break;
+                }
             }
+
             using (Game1 game = new Game1(Program.network, this.cid, enemyCid, map))
             {
                 game.Run();

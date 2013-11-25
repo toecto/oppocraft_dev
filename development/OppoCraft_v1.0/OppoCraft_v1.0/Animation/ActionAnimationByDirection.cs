@@ -12,8 +12,8 @@ namespace OppoCraft
     {
         int[] directionMap = new int[8];
 
-        public ActionAnimationByDirection(List<SimpleAnimation> animations, Unit unit, int priority)
-            :base(animations,unit,priority)
+        public ActionAnimationByDirection(string name, List<SimpleAnimation> animations, Unit unit, int priority)
+            :base(name,animations,unit,priority)
         {
             directionMap[(int)Unit.Direction.North] = 0;
             directionMap[(int)Unit.Direction.South] = 1;
@@ -25,10 +25,10 @@ namespace OppoCraft
             directionMap[(int)Unit.Direction.South_East] = 7;
         }
 
-        override public void Tick()
+        override public bool Tick()
         {
-            base.Tick();
             this.currentAnimation = this.animations[directionMap[(int)this.unit.direction]];
+            return base.Tick();
         }
     }
 }

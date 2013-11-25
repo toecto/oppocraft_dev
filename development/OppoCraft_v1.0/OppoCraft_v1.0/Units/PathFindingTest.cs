@@ -15,6 +15,7 @@ namespace OppoCraft
             : base(pid, id)
         {
             this.location = new WorldCoords(100, 100);
+            this.type = Unit.Type.System;
         }
 
         public override void Tick()
@@ -32,17 +33,15 @@ namespace OppoCraft
                     
                     Unit u = item.Value;
                     if (u.cid != this.theGame.cid) continue;
-
+                    //Unit u = this.theGame.map.getById(this.theGame.myFirstUnit);
                     WorldCoords origCoord = u.location;
                     WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
 
                     this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
-                    u.task.AddUnique(new TaskGoTo(destination));
+                    //u.task.Add(new TaskGoTo(destination));
                 }
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
-            
-  
         }
 
         public override void Render(RenderSystem render)
@@ -59,7 +58,7 @@ namespace OppoCraft
                 }
             }
 
-            int color=1;
+            int color = 1;
 
             for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
             {

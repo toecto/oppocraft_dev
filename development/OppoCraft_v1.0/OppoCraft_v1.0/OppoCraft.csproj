@@ -120,9 +120,14 @@
     <Compile Include="Animation\SimpleAnimation.cs" />
     <Compile Include="Animation\AnimationFile.cs" />
     <Compile Include="Animation\GraphContentManager.cs" />
+    <Compile Include="Animation\UnitAnimationAdditions.cs" />
     <Compile Include="Animation\UnitAnimation.cs" />
     <Compile Include="Commands\CommandChangeUnitState.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Task\TaskFight.cs" />
+    <Compile Include="Task\TaskFindTarget.cs" />
+    <Compile Include="Task\TaskKnightDriver.cs" />
+    <Compile Include="Task\TaskMortable.cs" />
     <Compile Include="Units\GameMap.cs" />
     <Compile Include="StartForm.cs">
       <SubType>Form</SubType>

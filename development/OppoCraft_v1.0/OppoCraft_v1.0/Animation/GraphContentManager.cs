@@ -21,7 +21,6 @@ namespace OppoCraft
 
         public void LoadContent()
         {
-            Debug.WriteLine("AnimationFileData start");
             DataTable filesData = this.theGame.db.Query("SELECT * FROM AnimationFile");
             foreach (DataRow AnimationFileData in filesData.Rows)
             {
@@ -32,35 +31,33 @@ namespace OppoCraft
                 if ((bool)AnimationFileData["Coloured"])
                 {
                     name = "Blue" + (string)AnimationFileData["Path"];
-                    texture = this.theGame.Content.Load<Texture2D>("Animations\\" + name);
+                    texture = this.LoadTexture(name);
                     file = new AnimationFile(texture, (int)AnimationFileData["FrameWidth"], (int)AnimationFileData["FrameHeight"], (int)AnimationFileData["AnimationFileID"]);
                     this.files.Add(name, file);
 
                     name = "Red" + (string)AnimationFileData["Path"];
-                    texture = this.theGame.Content.Load<Texture2D>("Animations\\" + name);
+                    texture = this.LoadTexture(name);
                     file = new AnimationFile(texture, (int)AnimationFileData["FrameWidth"], (int)AnimationFileData["FrameHeight"], (int)AnimationFileData["AnimationFileID"]);
                     this.files.Add(name, file);
                 }
                 else
                 {
                     name =  (string)AnimationFileData["Path"];
-                    texture = this.theGame.Content.Load<Texture2D>("Animations\\" + name);
+                    texture = this.LoadTexture(name);
                     file = new AnimationFile(texture, (int)AnimationFileData["FrameWidth"], (int)AnimationFileData["FrameHeight"], (int)AnimationFileData["AnimationFileID"]);
                     this.files.Add(name, file);
 
                 }
             }
-            Debug.WriteLine("AnimationFileData done!");
+        }
+
+        public Texture2D LoadTexture(string name)
+        {
+            return this.theGame.Content.Load<Texture2D>("Animations\\" + name);
         }
 
         public UnitAnimation LoadUnitAnimation(Unit unit, string name)
         {
-            Debug.WriteLine("LoadUnitAnimation " + name);
-            foreach (KeyValuePair<string, AnimationFile> test in this.files)
-            {
-                Debug.WriteLine("Have" + test.Key);
-            }
-            
             AnimationFile file = this.files[name];
             DataTable actions = this.theGame.db.Query("SELECT * FROM Animation where AnimationFileID=" + file.id);
             
@@ -72,12 +69,12 @@ namespace OppoCraft
                 if ((string)action["AnimationMap"] == "Directions")
                 {
                     actionAnimations = file.getAnimations((int)action["StartX"], (int)action["StartY"], (int)action["Frames"], (int)action["Delay"], (bool)action["Looped"], 2, 4);
-                    unitAnimation.Add((string)action["AnimationNameID"], new ActionAnimationByDirection(actionAnimations, unit, (int)action["Priority"]));
+                    unitAnimation.Add((string)action["AnimationNameID"], new ActionAnimationByDirection((string)action["AnimationNameID"],actionAnimations, unit, (int)action["Priority"]));
                 }
                 else
                 {
                     actionAnimations = file.getAnimations((int)action["StartX"], (int)action["StartY"], (int)action["Frames"], (int)action["Delay"], (bool)action["Looped"]);
-                    unitAnimation.Add((string)action["AnimationNameID"], new ActionAnimation(actionAnimations, unit, (int)action["Priority"]));
+                    unitAnimation.Add((string)action["AnimationNameID"], new ActionAnimation((string)action["AnimationNameID"],actionAnimations, unit, (int)action["Priority"]));
                 }
             }
 

@@ -23,7 +23,7 @@ namespace OppoCraft
 
         public void Render(RenderSystem render)
         {
-            foreach (KeyValuePair<int,Unit> item in this)
+            foreach (KeyValuePair<int, Unit> item in this.OrderBy(item => item.Value.location.Y))
             {
                 item.Value.Render(render);
             }
@@ -35,4 +35,6 @@ namespace OppoCraft
             base.Add(u);
         }
     }
+
+
 }

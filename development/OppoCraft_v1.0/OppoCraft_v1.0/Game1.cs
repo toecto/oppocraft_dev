@@ -128,6 +128,7 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.render.LoadContent();
+            this.map.Add(new PathFinderTest(this.cid, this.CreateUID()));
             if(this.loadMap!=null)
             {
                 this.LoadMap();
@@ -143,17 +144,33 @@ namespace OppoCraft
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
-            this.map.Add(new PathFinderTest(this.cid,this.CreateUID()));
+            
             for (int i = 1; i < 2; i++)
             {
                 OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
                 msg["uid"] = this.myFirstUnit = this.CreateUID();
-                msg["x"] = 40*i+100;
-                msg["y"] = 40*i+100;
+                msg["ownercid"] = this.cid;
+                msg["x"] = 400*i+100;
+                msg["y"] = 400*i+100;
                 this.AddCommand(msg);
             }
-            
+
+            this.map.Add(new PathFinderTest(this.cid, this.CreateUID()));
+            for (int i = 1; i < 2; i++)
+            {
+                OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
+                msg["uid"] = this.myFirstUnit = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 400 * i + 300;
+                msg["y"] = 400 * i + 100;
+                this.AddCommand(msg);
+            }
+
+
         }
+
+        
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

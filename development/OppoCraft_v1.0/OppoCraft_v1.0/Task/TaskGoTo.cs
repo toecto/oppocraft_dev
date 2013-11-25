@@ -35,12 +35,12 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (Vector2.Distance(this.unit.location.getVector2(), this.destination) < this.unit.speed || this.currStep==1)
+            if (Vector2.Distance(this.unit.location.getVector2(), this.destination) <= this.unit.speed || this.currStep==1)
             {
                 if (this.currStep >= this.totalSteps)
+                {
                     return false;
-
-
+                }
                 this.destination = this.worldPath.ElementAt(this.currStep).getVector2();
 
                 OppoMessage msg = new OppoMessage(OppoMessageType.Movement);
@@ -62,7 +62,7 @@ namespace OppoCraft
         public override void onFinish()
         {
             OppoMessage msg = new OppoMessage(OppoMessageType.ChangeState);
-            msg["state"]=(int)Unit.State.Halt;
+            msg.Text["stopact"] = "Walk";
             this.unit.AddCommand(msg);
         }
     }
