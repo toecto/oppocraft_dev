@@ -35,7 +35,6 @@ namespace OppoCraft
             LinkedListNode<ActionAnimation> act=this.current.First;
             while(act!=null)
             {
-                
                 if (!act.Value.Tick() && this.current.Count > 1)
                 {
                     Debug.WriteLine("Removed act "+act.Value.name);

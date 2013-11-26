@@ -38,6 +38,7 @@ namespace OppoCraft
                     OppoMessage msg = new OppoMessage(OppoMessageType.ChangeState);
                     msg["uid"] = this.target.uid;
                     msg["addhp"] = -this.unit.damage;
+                    msg.Text["startact"] = "TakeDamage";
                     this.unit.theGame.AddCommand(msg);
 
                     msg = new OppoMessage(OppoMessageType.ChangeState);
