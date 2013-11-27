@@ -72,8 +72,8 @@ namespace OppoCraft
                         Unit u = this.theGame.map.getById(msg["uid"]);
                         if (u != null)
                         {
-                            u.task.RemoveByType(typeof(TaskGoTo));
-                            u.task.RemoveByType(typeof(CommandMovement));
+                            u.task.Remove(typeof(TaskGoTo));
+                            u.task.Remove(typeof(CommandMovement));
                             u.location = new WorldCoords(msg["x"], msg["y"]);
                         }
                         break;

@@ -59,7 +59,7 @@ namespace OppoCraft
             this.Tick();
             position.X -= this.file.width / 2;
             position.Y -= this.file.height - 26;
-            render.spriteBatch.Draw(this.file.texture, position, getFrame(this.currentFrame), Microsoft.Xna.Framework.Color.White);
+            render.Draw(this.file.texture, position, getFrame(this.currentFrame), Microsoft.Xna.Framework.Color.White);
         }
 
         public void reset()

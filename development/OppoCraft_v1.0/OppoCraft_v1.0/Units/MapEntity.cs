@@ -5,8 +5,9 @@ using System.Text;
 
 namespace OppoCraft
 {
-    public class TaskCollection: Dictionary<Type, Task>
+    public class MapEntity
     {
-    
+
+
     }
 }

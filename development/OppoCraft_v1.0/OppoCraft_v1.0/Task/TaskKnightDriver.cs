@@ -10,16 +10,14 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (this.unit.state == Unit.State.Main)
+            if (!this.unit.task.isRunning(typeof(TaskFindTarget)) && !this.unit.task.isRunning(typeof(TaskFight)))
             {
                 this.unit.task.Add(new TaskFindTarget(Unit.Type.Knight));
-                this.unit.state = Unit.State.Patrol;
             }
 
-            if (this.unit.state != Unit.State.Fight && this.unit.task.checkShared("targetUnit"))
+            if (!this.unit.task.isRunning(typeof(TaskFight)) && this.unit.task.checkShared("targetUnit"))
             {
-                this.unit.state = Unit.State.Fight;
-                this.unit.task.Add(new TaskFight(this.unit.task.getShared<Unit>("targetUnit")));
+                this.unit.task.Add(new TaskFight(this.unit.task.removeShared<Unit>("targetUnit")));
             }
             return true;
         }

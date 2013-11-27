@@ -35,7 +35,7 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (Vector2.Distance(this.unit.location.getVector2(), this.destination) <= this.unit.speed || this.currStep==1)
+            if (!this.unit.task.isRunning(typeof(CommandMovement)) || this.currStep==1)
             {
                 if (this.currStep >= this.totalSteps)
                 {

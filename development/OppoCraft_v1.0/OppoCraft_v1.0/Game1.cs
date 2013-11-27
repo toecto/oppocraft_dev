@@ -22,8 +22,8 @@ namespace OppoCraft
         public GraphContentManager graphContent;
 
         //Cells, Map, and Coordinate Properties
-        public Coordinates cellSize;
-        public Coordinates worldMapSize;
+        public WorldCoords cellSize;
+        public WorldCoords worldMapSize;
         public Grid theGrid;
 
         //debug test
@@ -39,7 +39,6 @@ namespace OppoCraft
         private NetworkModule network;
         public GameMap map;
         public MessageHandler messageHandler;
-        public TaskGoTo goTo = new TaskGoTo(new WorldCoords(500,500));
 
         public int cid;
         public int enemyCid;
@@ -53,11 +52,13 @@ namespace OppoCraft
         public int myFirstUnit;
         
         public Database db;
+        public UserInputSystem userInput;
 
         
 
         public Game1(NetworkModule net, int cid, int enemyCid,string map)
         {
+            this.debugger = new Debugger(this);
             this.loadMap = map;
             this.cid = cid;
             this.enemyCid = enemyCid;
@@ -71,15 +72,16 @@ namespace OppoCraft
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
 
-            this.cellSize = new Coordinates(40, 40);
-            this.worldMapSize = new Coordinates(1600, 1600); // set back to 10240/10240
+            this.cellSize = new WorldCoords(40, 40);
+            this.worldMapSize = new WorldCoords(2600, 2600); // set back to 10240/10240
 
+            this.userInput = new UserInputSystem(this);
             this.render = new RenderSystem(this);
             this.graphContent = new GraphContentManager(this);
             this.theGrid = new Grid(this);
-            this.debugger = new Debugger(this);
+            
             this.map = new GameMap(this);
-
+            
             
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
@@ -145,24 +147,24 @@ namespace OppoCraft
             //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
             
-            for (int i = 1; i < 2; i++)
+            for (int i = 1; i < 30; i++)
             {
                 OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
                 msg["uid"] = this.myFirstUnit = this.CreateUID();
                 msg["ownercid"] = this.cid;
-                msg["x"] = 400*i+100;
-                msg["y"] = 400*i+100;
+                msg["x"] = 70 * i + 50;
+                msg["y"] = 50 * i + 100;
                 this.AddCommand(msg);
             }
 
             this.map.Add(new PathFinderTest(this.cid, this.CreateUID()));
-            for (int i = 1; i < 2; i++)
+            for (int i = 1; i < 30; i++)
             {
                 OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
                 msg["uid"] = this.myFirstUnit = this.CreateUID();
                 msg["ownercid"] = this.enemyCid;
-                msg["x"] = 400 * i + 300;
-                msg["y"] = 400 * i + 100;
+                msg["x"] = 70 * i + 200;
+                msg["y"] = 50 * i + 100;
                 this.AddCommand(msg);
             }
 
@@ -192,12 +194,30 @@ namespace OppoCraft
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            //Keys[] keys =this.userInput.keyboard.GetPressedKeys();
+            //debugger.AddMessage(String.Join("",keys));
+
+            if (this.userInput.keyboard.IsKeyDown(Keys.Escape))
+            {
+                debugger.AddMessage("test exit");
+                this.Exit();
+            }
+
+
+            if (this.userInput.isKeyPressed(Keys.F10))
+            {
+                this.render.ToggleFullScreen();
+            }
+
             // TODO: Add your update logic here
+
             this.mouseState = Mouse.GetState();
             this.scrollValue += (this.prevMouseState.ScrollWheelValue - this.mouseState.ScrollWheelValue) / 12;
             this.prevMouseState = this.mouseState;
             this.debugger.scrollRow = scrollValue;
 
+
+            this.userInput.Tick();
             messageHandler.Tick();
             if(this.running)
                 this.map.Tick();

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace OppoCraft
 {
@@ -15,19 +16,58 @@ namespace OppoCraft
 
        public Game1 theGame;
        GraphicsDeviceManager graphics;
-       public SpriteBatch spriteBatch;
+       private SpriteBatch spriteBatch;
        public SpriteFont font;
+       public SpriteFont fontSmall;
        public Texture2D primRect;
        public Texture2D primDot;
-       public Texture2D testKnight;
-       Coordinates scroll = new Coordinates(0, 0);
+       
+       public Coordinates scroll = new Coordinates(0, 0);
+       public SmoothScroller scroller;
+       public Coordinates size;
+
+
        public RenderSystem(Game1 g)
        {
            this.theGame = g;
            this.graphics = new GraphicsDeviceManager(this.theGame);
-           this.graphics.PreferredBackBufferWidth = 1000;
-           this.graphics.PreferredBackBufferHeight = 600;
+
+           this.theGame.Window.ClientSizeChanged += new EventHandler<EventArgs>(this.Window_ClientSizeChanged);
+
+           this.size = new Coordinates(1000, 600);
+           
+           graphics.PreferredBackBufferWidth = this.size.X;
+           graphics.PreferredBackBufferHeight = this.size.Y;
+           
+           this.Window_ClientSizeChanged();
+           //this.theGame.Window.AllowUserResizing = true;
+           //ToggleFullScreen();
        }
+
+       void Window_ClientSizeChanged(object sender=null, EventArgs e=null)
+       {
+           if (sender!=null)
+                this.size = new Coordinates(this.theGame.Window.ClientBounds.Width, this.theGame.Window.ClientBounds.Height);
+           Coordinates saveScroll = this.scroll;
+           this.scroll = new Coordinates(0, 0);
+           Coordinates worldSizeOnScreen = new Coordinates(0, 0);
+           worldSizeOnScreen.setVector2(this.getScreenCoords(this.theGame.worldMapSize));
+           this.scroll = saveScroll;
+           this.scroller = new SmoothScroller(this.theGame.userInput, this.scroll, worldSizeOnScreen, this.size);
+       }
+
+       public void ToggleFullScreen()
+       {
+           if (!graphics.IsFullScreen)
+               this.size = new Coordinates(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+           else
+               this.size = new Coordinates(1000, 600);
+           
+           graphics.PreferredBackBufferWidth = this.size.X;
+           graphics.PreferredBackBufferHeight = this.size.Y;
+           graphics.ToggleFullScreen();
+       }
+
 
        public void LoadContent()
        {
@@ -35,16 +75,14 @@ namespace OppoCraft
            // Create a new SpriteBatch, which can be used to draw textures.
            this.spriteBatch = new SpriteBatch(this.theGame.GraphicsDevice);
 
-           primDot = this.theGame.Content.Load<Texture2D>("dot");
-           primRect = this.theGame.Content.Load<Texture2D>("Prim_Rect");
+           this.primDot = this.theGame.Content.Load<Texture2D>("dot");
+           this.primRect = this.theGame.Content.Load<Texture2D>("Prim_Rect");
            //testKnight = this.theGame.Content.Load<Texture2D>("BlueKnight");
            // Load the font from xml file
            this.font = this.theGame.Content.Load<SpriteFont>("myFont");
-
+           this.fontSmall = this.theGame.Content.Load<SpriteFont>("smallFont");
 
            this.theGame.graphContent.LoadContent();
-
-
        }
 
        public Texture2D LoadContent(string name)
@@ -52,9 +90,10 @@ namespace OppoCraft
            return this.theGame.Content.Load<Texture2D>(name);
        }
 
-
        public void Render(GameTime gameTime)
        {
+           
+           this.scroller.Tick();
            this.theGame.GraphicsDevice.Clear(new Color(160, 160, 160));
 
            // TODO: Add your drawing code here
@@ -68,7 +107,14 @@ namespace OppoCraft
 
        public void DrawText(string msg, Vector2 position)
        {
-           this.spriteBatch.DrawString(font, msg, position, new Color(225, 225, 225));
+           if (position.X < this.size.X && position.Y < this.size.Y && position.X > -100 && position.Y > -100)
+                this.spriteBatch.DrawString(font, msg, position, new Color(225, 225, 225));
+       }
+
+       public void DrawTextSmall(string msg, Vector2 position)
+       {
+           if (position.X < this.size.X && position.Y < this.size.Y && position.X > -100 && position.Y > -100)
+                this.spriteBatch.DrawString(fontSmall, msg, position, new Color(225, 225, 225));
        }
 
         //paramater is for screen coordinates, used to shift the coordinates
@@ -81,9 +127,13 @@ namespace OppoCraft
         public WorldCoords getWorldCoords(Vector2 screen)
         {
             return new WorldCoords((int)screen.X + scroll.X, (int)((screen.Y + scroll.Y) / this.kY));
-        }             
+        }
 
-       
+        public void Draw(Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color)
+        {
+            if (position.X < this.size.X && position.Y < this.size.Y && position.X > -100 && position.Y > -100)
+                this.spriteBatch.Draw(texture, position, sourceRectangle, color);
+        }
 
     }
 }

@@ -124,10 +124,12 @@
     <Compile Include="Animation\UnitAnimation.cs" />
     <Compile Include="Commands\CommandChangeUnitState.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="SmoothScroller.cs" />
     <Compile Include="Task\TaskFight.cs" />
     <Compile Include="Task\TaskFindTarget.cs" />
     <Compile Include="Task\TaskKnightDriver.cs" />
     <Compile Include="Task\TaskMortable.cs" />
+    <Compile Include="Units\MapEntity.cs" />
     <Compile Include="Units\GameMap.cs" />
     <Compile Include="StartForm.cs">
       <SubType>Form</SubType>
@@ -157,6 +159,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="RenderingSystem.cs" />
+    <Compile Include="UserInputSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

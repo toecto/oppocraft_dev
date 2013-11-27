@@ -69,9 +69,9 @@ namespace OppoCraft
                     position.Y -= this.theGame.render.primRect.Height/ 2; 
                     color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
                     if (color < 0)
-                        render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
+                        render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
                     else
-                        render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
+                        render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
                 }
             }
             if (this.aPath != null)
@@ -81,7 +81,7 @@ namespace OppoCraft
                     Vector2 position = this.theGame.render.getScreenCoords(coords);
                     position.X -= this.theGame.render.primRect.Width / 2;
                     position.Y -= this.theGame.render.primRect.Height / 2; 
-                    render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 255, 0));
+                    render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 255, 0));
                 }
             }
             else

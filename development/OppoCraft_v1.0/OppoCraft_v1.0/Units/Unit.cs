@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    public class Unit
+    public class Unit: MapEntity
     {
         public enum State
         {
@@ -75,9 +75,22 @@ namespace OppoCraft
 
         public void onStart()
         {
-            this.animation = this.theGame.graphContent.LoadUnitAnimation(this, "BlueKnight");
+            if(this.cid==this.theGame.cid)
+                this.animation = this.theGame.graphContent.LoadUnitAnimation(this, "BlueKnight");
+            else
+                this.animation = this.theGame.graphContent.LoadUnitAnimation(this, "RedKnight");
             if (this.cid == this.theGame.cid)
-                this.task.addDriver();
+                this.addDriver();
+        }
+
+        private void addDriver()
+        {
+            switch (this.type)
+            {
+                case Unit.Type.Knight:
+                    this.task.Add(new TaskKnightDriver());
+                    break;
+            }
         }
 
 
@@ -114,10 +127,6 @@ namespace OppoCraft
             msg["uid"] = this.uid;
             this.theGame.AddCommand(msg);
         }
-
-
-
-
-        
+                
     }
 }

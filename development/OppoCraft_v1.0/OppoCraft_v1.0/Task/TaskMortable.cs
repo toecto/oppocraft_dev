@@ -25,7 +25,7 @@ namespace OppoCraft
 
         public override void onFinish()
         {
-            this.unit.task.tasks.Clear();
+            this.unit.task.Clear();
             OppoMessage msg = new OppoMessage(OppoMessageType.ChangeState);
             msg.Text["onlyact"] = "Die";
             this.unit.AddCommand(msg);

@@ -37,7 +37,7 @@ namespace OppoCraft
             {
                 if (!act.Value.Tick() && this.current.Count > 1)
                 {
-                    Debug.WriteLine("Removed act "+act.Value.name);
+                    //Debug.WriteLine("Removed act "+act.Value.name);
                     this.current.Remove(act);
                 }
                 act = act.Next;

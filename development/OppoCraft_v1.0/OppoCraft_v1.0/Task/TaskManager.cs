@@ -8,70 +8,54 @@ namespace OppoCraft
     public class TaskManager 
     {
         Unit unit;
-        public TaskCollection tasks;
-        public Dictionary<string, Object> sharedMsg;
+        TaskCollection tasks;
+        Dictionary<string, Object> sharedMsg;
+        LinkedList<KeyValuePair<bool, Object>> tasksChanges;
 
         public TaskManager(Unit u)
         {
             this.unit = u;
             this.sharedMsg = new Dictionary<string, object>();
             this.tasks = new TaskCollection();
+            this.tasksChanges = new LinkedList<KeyValuePair<bool, Object>>();
         }
 
         public void Tick()
         {
-            LinkedListNode<Task> cursor=this.tasks.First;
-            while (cursor != null)
+            foreach (KeyValuePair<Type, Task> item in this.tasks)
             {
-                if (!cursor.Value.Tick())
-                    this.Remove(cursor.Value);
-                cursor = cursor.Next;
+                if (!item.Value.Tick())
+                    this.Remove(item.Key);
             }
+            this.applyChanges();
+
         }
 
-        public void AddNonUnique(Task t)
+        public TaskCollection getTasks()
         {
-            t.unit = this.unit;
-            this.tasks.AddLast(t);
-            t.onStart();
+            return this.tasks;
         }
 
-        public void Add(Task task)
+        public void Add(Task t)
         {
-            this.RemoveByType(task.GetType());
-            this.AddNonUnique(task);
+            this.tasksChanges.AddLast(new KeyValuePair<bool, Object>(true, t));
         }
 
-        public void RemoveByType(System.Type TypeToRemove)
+        public void Remove(Type t)
         {
-            TaskCollection toRemove = new TaskCollection();
-            foreach (Task t in this.tasks)
-            {
-                if (t.GetType() == TypeToRemove)
-                    toRemove.AddLast(t);
-            }
-            foreach (Task t in toRemove)
-            {
-                this.Remove(t);
-            }
-            toRemove.Clear();
+            this.tasksChanges.AddLast(new KeyValuePair<bool, Object>(false, t));
         }
 
-        public void Remove(Task t)
+        internal void Clear()
         {
-            t.onFinish();
-            this.tasks.Remove(t);
+            this.tasksChanges.AddLast(new KeyValuePair<bool, Object>(false, null));
         }
 
-        public void addDriver()
+
+
+        public bool isRunning(Type t)
         {
-            switch (this.unit.type)
-            { 
-                case Unit.Type.Knight:
-                    this.Add(new TaskKnightDriver());
-                    break;
-            }
-        
+            return this.tasks.ContainsKey(t);
         }
 
         public bool checkShared(string name)
@@ -95,8 +79,65 @@ namespace OppoCraft
 
         public void setShared(string name, Object data)
         {
+            this.sharedMsg.Remove(name);
             this.sharedMsg.Add(name, data);
         }
+
+
+        //private---------------------------------------------
+        private void applyChanges()
+        {
+            LinkedListNode<KeyValuePair<bool, Object>> cursor = this.tasksChanges.First;
+            KeyValuePair<bool, Object> item;
+            while(cursor!=null)
+            {
+                item = cursor.Value;
+                if (item.Key == true)
+                {
+                    this._actualAdd((Task)item.Value);
+                }
+                else
+                {
+                    if (item.Value == null)
+                        this._actualClear();
+                    else
+                        this._actualRemove((Type)item.Value);
+                }
+                cursor=cursor.Next;
+            }
+
+            this.tasksChanges.Clear();
+        }
+
+        private void _actualClear()
+        {
+            LinkedList<Type> toRemove = new LinkedList<Type>();
+            foreach (KeyValuePair<Type, Task> item in this.tasks)
+            {
+                toRemove.AddLast(item.Key);
+            }
+            foreach (Type item in toRemove)
+            {
+                this._actualRemove(item);
+            }
+            this.tasks.Clear();
+        }
+
+        private void _actualAdd(Task task)
+        {
+            task.unit = this.unit;
+            this.tasks.Remove(task.GetType());
+            this.tasks.Add(task.GetType(), task);
+            task.onStart();
+        }
+
+        private void _actualRemove(System.Type t)
+        {
+            if (this.tasks.ContainsKey(t))
+                this.tasks[t].onFinish();
+            this.tasks.Remove(t);
+        }
+
 
     }
 }

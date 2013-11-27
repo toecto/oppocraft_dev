@@ -18,7 +18,12 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (target.currHP == 0) return false;
+            if (target.currHP <= 0)
+            {
+                if (this.going!=null)
+                    this.unit.task.Remove(typeof(TaskGoTo));
+                return false;
+            }
 
             if (this.unit.location.Distance(this.target.location) < this.unit.attackRange)
             {
@@ -62,6 +67,7 @@ namespace OppoCraft
 
         public override void onStart()
         {
+
         }
 
         public override void onFinish()
