@@ -12,7 +12,7 @@ namespace OppoCraft
         {
             if (!this.unit.task.isRunning(typeof(TaskFindTarget)) && !this.unit.task.isRunning(typeof(TaskFight)))
             {
-                this.unit.task.Add(new TaskFindTarget(Unit.Type.Knight));
+                this.unit.task.Add(new TaskFindTarget("Knight"));
             }
 
             if (!this.unit.task.isRunning(typeof(TaskFight)) && this.unit.task.checkShared("targetUnit"))
@@ -24,7 +24,7 @@ namespace OppoCraft
 
         public override void onStart()
         {
-            this.unit.task.Add(new TaskMortable());
+            this.unit.task.Add(new TaskMortality());
         }
 
         public override void onFinish()

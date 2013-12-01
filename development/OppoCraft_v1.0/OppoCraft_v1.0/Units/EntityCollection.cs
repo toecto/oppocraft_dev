@@ -4,9 +4,9 @@ using System.Diagnostics;
 
 namespace OppoCraft
 {
-    public class UnitCollection : Dictionary<int, Unit>
+    public class EntityCollection : Dictionary<int, MapEntity>
     {
-        public Unit getById(int id)
+        public MapEntity getById(int id)
         {
             if(this.ContainsKey(id))
                 return this[id];
@@ -15,17 +15,20 @@ namespace OppoCraft
 
         new public void Remove(int uid)
         {
-            Unit u = this.getById(uid);
+            MapEntity u = this.getById(uid);
             if (u != null)
-                this.Remove(u);
+            {
+                u.onFinish();
+                base.Remove(uid);
+            }
         }
 
-        public void Remove(Unit u)
+        public void Remove(MapEntity u)
         {
             this.Remove(u.uid);
         }
 
-        public virtual void Add(Unit u)
+        public virtual void Add(MapEntity u)
         {
             this.Add(u.uid,u);
             u.onStart();

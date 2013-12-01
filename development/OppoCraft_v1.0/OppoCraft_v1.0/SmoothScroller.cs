@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -29,10 +30,8 @@ namespace OppoCraft
         public void HandleInput()
         {
             this.delta.X += this.input.arrowX;
-            if (this.delta.X > 10) this.delta.X = 10;
 
             this.delta.Y += this.input.arrowY;
-            if (this.delta.Y > 10) this.delta.Y = 10;
 
             if (this.input.mouse.RightButton == ButtonState.Pressed)
                 this.delta = this.input.mouseCoordinatesDelta;
@@ -52,8 +51,11 @@ namespace OppoCraft
 
         public void Slow()
         {
-            this.delta.X += 0.5f * -Math.Sign(this.delta.X);
-            this.delta.Y += 0.5f * -Math.Sign(this.delta.Y);
+            this.delta.X *= 0.9f;
+            this.delta.Y *= 0.9f;
+
+            if (Math.Abs(this.delta.X) < 0.1) this.delta.X = 0;
+            if (Math.Abs(this.delta.Y) < 0.1) this.delta.Y = 0;
         }
 
 

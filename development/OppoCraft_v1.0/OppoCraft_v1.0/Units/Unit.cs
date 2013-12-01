@@ -11,19 +11,6 @@ namespace OppoCraft
 {
     public class Unit: MapEntity
     {
-        public enum State
-        {
-            Halt,
-            TakeDamage,
-            Dying,
-            Walking,
-            Running,
-            Attacking,
-            Fight,
-            Patrol,
-            Main
-        }
-
         public enum Direction
         {
             East,
@@ -36,87 +23,87 @@ namespace OppoCraft
             South_East
         }
 
-        public enum Type
-        {
-            Knight,
-            System
-        }
-
-
-        public Game1 theGame;
+       
         public TaskManager task;
         public UnitAnimation animation;
+        
+        public string type;
+        public string status;
 
-        public Coordinates size = new Coordinates(1, 1);
-        public WorldCoords location = new WorldCoords(1 , 1);
-        public int uid;
-        public int cid = 0;
-        public Unit.Type type;
-        
-        public State state;
         public Direction direction;
-        
         public int currHP = 100;
+        public bool alive { get { return this.currHP > 0; } }
         public int maxHP = 100;
         public float speed = 1f;
         public int damage = 5;
         public int armour = 1;
         public int attackSpeed = 30;
         public int attackRange = 50;
+        public int viewRange = 50;
+        public bool isMy;
+        public bool isServed;
 
-        public Unit(int cid,int uid)
+        public Unit(OppoMessage settings)
         {
-            this.state = State.Main;
+            this.settings = settings;
             this.direction = Direction.East;
-            this.cid = cid;
-            this.uid = uid;
+            this.cid = this.settings["ownercid"];
+            this.uid = this.settings["uid"];
+            
+
+            this.type = this.settings.Text["type"];
+            this.location = new WorldCoords(this.settings["x"], this.settings["y"]);
             this.task = new TaskManager(this);
         }
 
-        public void onStart()
+        public override void onStart()
         {
-            if(this.cid==this.theGame.cid)
-                this.animation = this.theGame.graphContent.LoadUnitAnimation(this, "BlueKnight");
-            else
-                this.animation = this.theGame.graphContent.LoadUnitAnimation(this, "RedKnight");
-            if (this.cid == this.theGame.cid)
+            this.isMy = this.settings["ownercid"] == this.theGame.cid;
+            this.isServed = this.settings["ownercid"] == 0 && this.theGame.loadMap!=null;
+
+            this.animation = this.theGame.graphContent.GetUnitAnimation(this, this.type);
+            if (this.isMy || this.isServed)
                 this.addDriver();
+        }
+        public override void onFinish()
+        {
+            this.SetGridValue(0);
         }
 
         private void addDriver()
         {
             switch (this.type)
             {
-                case Unit.Type.Knight:
+                case "Knight":
                     this.task.Add(new TaskKnightDriver());
+                    break;
+                case "Archer":
+                    this.task.Add(new TaskKnightDriver());
+                    break;
+                case "Tree":
+                    this.task.Add(new TaskTreeDriver());
                     break;
             }
         }
 
 
-        public virtual void SetGridValue()
+        public virtual void SetGridValue(int val)
         {
-            GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
-            this.theGame.theGrid.fillRectValues(gridlocation, size, -1);
+            this.theGame.theGrid.fillRectValues(this.location, this.size, val);
         }
 
-        public virtual void Tick()
+        public override void Tick()
         {
+            this.SetGridValue(0);
             this.task.Tick();
             this.animation.Tick();
+            this.SetGridValue(-this.uid);
         }
 
-        public virtual void Render(RenderSystem render)
+        public override void Render(RenderSystem render)
         {
-            /*
-            Vector2 position =  this.theGame.render.getScreenCoords(this.location);
-            position.X -=       this.theGame.render.primRect.Width / 2;
-            position.Y -=       this.theGame.render.primRect.Height / 2;
-                
-            render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
-            /**/
             this.animation.Render(render);
-            if(this.type != Unit.Type.System)
+            if(this.type != "System")
             {
                 UnitAnimationAdditions.Render(this,render);
             }
@@ -127,6 +114,23 @@ namespace OppoCraft
             msg["uid"] = this.uid;
             this.theGame.AddCommand(msg);
         }
-                
+
+        /*
+        public void setStatus(string name, string value)
+        {
+            this.status.Remove(name);
+            this.status.Add(name, value);
+        }
+
+        public void removeStatus(string name)
+        {
+            this.status.Remove(name);
+        }
+        public string getStatus(string name)
+        {
+            if (!this.status.ContainsKey(name)) return "";
+            return this.status[name];
+        }
+        */
     }
 }

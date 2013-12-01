@@ -11,7 +11,7 @@ namespace OppoCraft
     public class GraphContentManager
     {
         Game1 theGame;
-        Dictionary<string, AnimationFile> files;
+        public Dictionary<string, AnimationFile> files;
 
         public GraphContentManager(Game1 game)
         {
@@ -30,6 +30,7 @@ namespace OppoCraft
                 string name;
                 if ((bool)AnimationFileData["Coloured"])
                 {
+                    this.files.Add((string)AnimationFileData["Path"], null);//mark that the animation exists and coloured
                     name = "Blue" + (string)AnimationFileData["Path"];
                     texture = this.LoadTexture(name);
                     file = new AnimationFile(texture, (int)AnimationFileData["FrameWidth"], (int)AnimationFileData["FrameHeight"], (int)AnimationFileData["AnimationFileID"]);
@@ -56,16 +57,25 @@ namespace OppoCraft
             return this.theGame.Content.Load<Texture2D>("Animations\\" + name);
         }
 
-        public UnitAnimation LoadUnitAnimation(Unit unit, string name)
+        public UnitAnimation GetUnitAnimation(Unit unit, string name)
         {
             AnimationFile file = this.files[name];
-            DataTable actions = this.theGame.db.Query("SELECT * FROM Animation where AnimationFileID=" + file.id);
-            
-            UnitAnimation unitAnimation = new UnitAnimation(unit);
 
+            if (file == null)
+            {
+                if (unit.cid == this.theGame.cid)
+                    name = "Blue" + name;
+                else
+                    name = "Red" + name;
+                file = this.files[name];
+            }
+            
+
+            DataTable actions = this.theGame.db.Query("SELECT * FROM Animation where AnimationFileID=" + file.id);
+            UnitAnimation unitAnimation = new UnitAnimation(unit);
+            List<SimpleAnimation> actionAnimations = null;
             foreach (DataRow action in actions.Rows)
             {
-                List<SimpleAnimation> actionAnimations = null;
                 if ((string)action["AnimationMap"] == "Directions")
                 {
                     actionAnimations = file.getAnimations((int)action["StartX"], (int)action["StartY"], (int)action["Frames"], (int)action["Delay"], (bool)action["Looped"], 2, 4);
@@ -80,8 +90,14 @@ namespace OppoCraft
 
             return unitAnimation;
         }
-
-
-
+        
+        public SimpleAnimation GetDecaleAnimation(string name)
+        {
+            AnimationFile file = this.files[name];
+            DataTable actions = this.theGame.db.Query("SELECT Animation.*, Units. FROM Units, Animation where Decales.AnimationID=Animation.AnimationID and Decales.Name='" + name + "'");
+            DataRow action=actions.Rows[0];
+            SimpleAnimation rez= file.getAnimations((int)action["StartX"], (int)action["StartY"], (int)action["Frames"], (int)action["Delay"], (bool)action["Looped"])[0];
+            return rez;
+        }
     }
 }

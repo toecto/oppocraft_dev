@@ -9,7 +9,7 @@ namespace OppoCraft
     class TaskFight: Task
     {
         Unit target;
-        WorldCoords going=null;
+        GridCoords going=null;
         int cooldown;
         public TaskFight(Unit target)
         {
@@ -18,7 +18,7 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (target.currHP <= 0)
+            if (!target.alive)
             {
                 if (this.going!=null)
                     this.unit.task.Remove(typeof(TaskGoTo));
@@ -55,10 +55,10 @@ namespace OppoCraft
             }
             else
             {
-                if (this.going==null || this.going!=this.target.location)
+                if (!this.unit.task.isRunning(typeof(TaskGoTo)) || !this.target.locationGrid.Equals(this.going))
                 {
                     this.unit.task.Add(new TaskGoTo(target.location));
-                    this.going = target.location;
+                    this.going = target.locationGrid;
                 }
             }
             

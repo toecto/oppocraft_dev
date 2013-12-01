@@ -15,27 +15,47 @@ namespace OppoCraft
         Vector2 destination;
         WorldPath worldPath;
         WorldCoords dest;
+        MessageState messageState = MessageState.Ready;
+
+        enum MessageState { 
+            Ready,
+            Sent,
+            InProcess,
+        }
 
         public TaskGoTo(WorldCoords d)
         {
             this.currStep = 1;
             this.totalSteps = 0;
             this.dest = d;
+            this.messageState = MessageState.Ready;
         }
         
         public void GetPath()
         {
-            this.worldPath = this.unit.theGame.theGrid.thePathFinder.GetPath(this.unit.location, this.dest);
+            this.worldPath = this.unit.theGame.pathFinder.GetPath(this.unit.location, this.dest,true);
             if (this.worldPath == null)
                 return;
+            
             this.totalSteps = this.worldPath.Count();
+            
+            if (this.totalSteps == 0)
+                return;
+            
 
             this.destination = this.worldPath.First.Value.getVector2();
         }
 
         public override bool Tick()
         {
-            if (!this.unit.task.isRunning(typeof(CommandMovement)) || this.currStep==1)
+
+            if (this.messageState == MessageState.Sent && this.unit.task.isRunning(typeof(CommandMovement)))
+                this.messageState = MessageState.InProcess;
+
+            if (this.messageState == MessageState.InProcess && !this.unit.task.isRunning(typeof(CommandMovement)))
+                this.messageState = MessageState.Ready;
+
+            if (this.messageState == MessageState.Ready)
             {
                 if (this.currStep >= this.totalSteps)
                 {
@@ -47,8 +67,9 @@ namespace OppoCraft
                 msg["x"] = (int)this.destination.X;
                 msg["y"] = (int)this.destination.Y;
                 this.unit.AddCommand(msg);
-
+                
                 this.currStep++;
+                this.messageState = MessageState.Sent;
             }
             return true;
         }

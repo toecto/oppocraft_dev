@@ -21,6 +21,8 @@ namespace testClient
         Movement,
         ChangeState,
         Stop,
+        CreateDecale,
+        TreeGrow,
 
     };
 

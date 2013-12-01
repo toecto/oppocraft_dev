@@ -23,15 +23,22 @@ namespace OppoCraft
             bar = new Rectangle(0, 0, render.primRect.Bounds.Width * unit.currHP/unit.maxHP, 2);
             render.Draw(render.primDot, position, bar, Microsoft.Xna.Framework.Color.GreenYellow);
 
-
-            string text = unit.currHP + "/" + unit.maxHP + "\n";
+            string text = "";
+            //text += unit.currHP + "/" + unit.maxHP + "\n";
             //text += unit.direction.ToString()+"\n";
-            foreach (KeyValuePair<Type,Task> task in unit.task.getTasks())
+            /*
+            foreach (ActionAnimation anim in unit.animation.current)
             {
-                //text += task.Value.GetType().ToString() + "\n";
-                
+                text += anim.name + " " + anim.currentAnimation.currentFrame + "/" + anim.currentAnimation.frames + "\n";
+
+            } /**/
+            /*
+            foreach (KeyValuePair<Type,Task> item in unit.task.getTasks())
+            {
+                text += item.Value.GetType().ToString() +"\n";
+
             }
-            
+            /**/
             render.DrawText(text, position);
         }
 

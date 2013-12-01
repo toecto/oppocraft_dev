@@ -26,7 +26,7 @@ namespace OppoCraft
         {
             this.actions.Add(name, action);
             if (this.current.First == null)
-                this.current.AddFirst(action);
+                this.startAction(name);
         }
 
         public void Tick()
@@ -38,7 +38,7 @@ namespace OppoCraft
                 if (!act.Value.Tick() && this.current.Count > 1)
                 {
                     //Debug.WriteLine("Removed act "+act.Value.name);
-                    this.current.Remove(act);
+                    this.current.Remove(act.Value);
                 }
                 act = act.Next;
             }
@@ -54,20 +54,26 @@ namespace OppoCraft
 
         public void startAction(string name)
         {
-            //Debug.WriteLine("startAction " + name);
+            //Debug.WriteLine("startAction " + name+ " "+this.unit.uid);
+            if (!this.actions.ContainsKey(name)) return;
             ActionAnimation act = this.actions[name];
             LinkedListNode<ActionAnimation> cursor;
 
-            if (!act.currentAnimation.looped)
-                act.currentAnimation.reset();
-
 
             cursor = this.current.First;
+
+
+            if (!act.currentAnimation.looped)
+               act.currentAnimation.Reset();
 
             if (cursor != null && cursor.Value.name==act.name)
             {
                 return;
             }
+
+            if (act.currentAnimation.looped)
+                act.currentAnimation.Random();
+
 
             //Delete the same actions
             while (cursor != null)
@@ -98,7 +104,7 @@ namespace OppoCraft
 
         public void stopAction(string name)
         {
-            //Debug.WriteLine("stopAction " + name);
+            //Debug.WriteLine("stopAction " + name + " " + this.unit.uid);
             if (this.actions.ContainsKey(name))
             {
                 ActionAnimation act = this.actions[name];

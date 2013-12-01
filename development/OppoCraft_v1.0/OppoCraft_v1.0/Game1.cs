@@ -25,6 +25,7 @@ namespace OppoCraft
         public WorldCoords cellSize;
         public WorldCoords worldMapSize;
         public Grid theGrid;
+        public PathFinder pathFinder;
 
         //debug test
         public Debugger debugger;
@@ -73,15 +74,15 @@ namespace OppoCraft
             this.prevMouseState = mouseState;
 
             this.cellSize = new WorldCoords(40, 40);
-            this.worldMapSize = new WorldCoords(2600, 2600); // set back to 10240/10240
+            this.worldMapSize = new WorldCoords(4600, 4600); // set back to 10240/10240
 
             this.userInput = new UserInputSystem(this);
             this.render = new RenderSystem(this);
             this.graphContent = new GraphContentManager(this);
             this.theGrid = new Grid(this);
-            
+            this.pathFinder = new PathFinder(this.theGrid);
             this.map = new GameMap(this);
-            
+
             
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
@@ -130,7 +131,11 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.render.LoadContent();
-            this.map.Add(new PathFinderTest(this.cid, this.CreateUID()));
+            OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
+            this.map.Add(new PathFinderTest(this.CreateUID()));
+            this.map.Add(new Background(this.CreateUID()));
+            this.map.Add(new MiniMap(this.CreateUID()));
+
             if(this.loadMap!=null)
             {
                 this.LoadMap();
@@ -147,24 +152,37 @@ namespace OppoCraft
             //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
             
-            for (int i = 1; i < 30; i++)
+            
+
+            for (int i = 1; i < 40; i++)
             {
                 OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
                 msg["uid"] = this.myFirstUnit = this.CreateUID();
                 msg["ownercid"] = this.cid;
                 msg["x"] = 70 * i + 50;
                 msg["y"] = 50 * i + 100;
+                msg.Text["type"] = "Knight";
                 this.AddCommand(msg);
             }
-
-            this.map.Add(new PathFinderTest(this.cid, this.CreateUID()));
-            for (int i = 1; i < 30; i++)
+            Random rnd = new Random();
+            for (int i = 0; i < 100; i++)
+            {
+                OppoMessage msg1 = new OppoMessage(OppoMessageType.CreateUnit);
+                msg1["uid"] = this.myFirstUnit = this.CreateUID();
+                msg1["ownercid"] = 0;
+                msg1["x"] = 40 * rnd.Next(1,this.theGrid.gridSize.X-2);
+                msg1["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y-2);
+                msg1.Text["type"] = "Tree";
+                this.AddCommand(msg1);
+            }
+            for (int i = 1; i < 40; i++)
             {
                 OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
                 msg["uid"] = this.myFirstUnit = this.CreateUID();
                 msg["ownercid"] = this.enemyCid;
-                msg["x"] = 70 * i + 200;
+                msg["x"] = 70 * i + 300;
                 msg["y"] = 50 * i + 100;
+                msg.Text["type"] = "Knight";
                 this.AddCommand(msg);
             }
 
@@ -199,7 +217,6 @@ namespace OppoCraft
 
             if (this.userInput.keyboard.IsKeyDown(Keys.Escape))
             {
-                debugger.AddMessage("test exit");
                 this.Exit();
             }
 

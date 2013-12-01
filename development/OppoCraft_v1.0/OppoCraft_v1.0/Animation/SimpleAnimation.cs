@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using System;
 
 namespace OppoCraft
 {
@@ -38,7 +39,7 @@ namespace OppoCraft
 
             if (this.currentDelay >= this.delay)
             {
-                this.currentDelay = 0;
+                
                 this.currentFrame++;
 
                 if (this.currentFrame >= this.frames)
@@ -50,6 +51,8 @@ namespace OppoCraft
                         return false;
                     }
                 }
+                this.currentDelay = 0;
+                
             }
             return true;
         }
@@ -62,10 +65,15 @@ namespace OppoCraft
             render.Draw(this.file.texture, position, getFrame(this.currentFrame), Microsoft.Xna.Framework.Color.White);
         }
 
-        public void reset()
+        public void Reset()
         {
             this.currentDelay = 0;
             this.currentFrame = 0;
+        }
+        public void Random()
+        {
+            this.currentDelay = 0;
+            this.currentFrame = (new Random()).Next(0, this.frames - 1);
         }
     }
 }

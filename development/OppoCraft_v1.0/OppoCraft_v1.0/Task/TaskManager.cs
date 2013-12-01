@@ -85,7 +85,7 @@ namespace OppoCraft
 
 
         //private---------------------------------------------
-        private void applyChanges()
+        public void applyChanges()
         {
             LinkedListNode<KeyValuePair<bool, Object>> cursor = this.tasksChanges.First;
             KeyValuePair<bool, Object> item;

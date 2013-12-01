@@ -7,30 +7,34 @@ namespace OppoCraft
 {
     class TaskFindTarget : Task
     {
-        Unit.Type type;
+        string type;
+        bool anySide;
 
-        public TaskFindTarget(Unit.Type type)
+        public TaskFindTarget(string type, bool anySide=false)
         {
-            this.type = type;    
+            this.type = type;
+            this.anySide = anySide;    
         }
 
         public override bool Tick()
         {
             double minDistance = 0, checkDistance;
-            Unit target=null;
-            foreach (KeyValuePair<int, Unit> item in this.unit.theGame.map)
+            Unit target=null, unit;
+            foreach (KeyValuePair<int, MapEntity> item in this.unit.theGame.map)
             {
-                if (item.Value.cid == this.unit.cid) continue;
-                if (item.Value.uid == this.unit.uid) continue;
-                if (item.Value.type != this.type) continue;
+                if (item.Value.GetType() != typeof(Unit)) continue;
+                unit = (Unit)item.Value;
+                if (unit.cid == this.unit.cid && !anySide) continue;
+                if (unit.uid == this.unit.uid) continue;
+                if (unit.type != this.type) continue;
 
-                if (item.Value.currHP <= 0) continue;
+                if (!unit.alive) continue;
 
                 checkDistance=this.unit.location.Distance(item.Value.location);
                 if (checkDistance < minDistance || minDistance == 0)
                 {
                     minDistance = checkDistance;
-                    target = item.Value;
+                    target = unit;
                 }
                     
             }

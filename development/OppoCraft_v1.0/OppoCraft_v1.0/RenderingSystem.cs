@@ -49,10 +49,8 @@ namespace OppoCraft
            if (sender!=null)
                 this.size = new Coordinates(this.theGame.Window.ClientBounds.Width, this.theGame.Window.ClientBounds.Height);
            Coordinates saveScroll = this.scroll;
-           this.scroll = new Coordinates(0, 0);
            Coordinates worldSizeOnScreen = new Coordinates(0, 0);
-           worldSizeOnScreen.setVector2(this.getScreenCoords(this.theGame.worldMapSize));
-           this.scroll = saveScroll;
+           worldSizeOnScreen.setVector2(this.getAbsScreenCoords(this.theGame.worldMapSize));
            this.scroller = new SmoothScroller(this.theGame.userInput, this.scroll, worldSizeOnScreen, this.size);
        }
 
@@ -117,22 +115,38 @@ namespace OppoCraft
                 this.spriteBatch.DrawString(fontSmall, msg, position, new Color(225, 225, 225));
        }
 
-        //paramater is for screen coordinates, used to shift the coordinates
-        public Vector2 getScreenCoords(WorldCoords worldCoords)
-        {
-            return new Vector2(worldCoords.X - scroll.X, (int)(worldCoords.Y * this.kY - scroll.Y));
-        }
+       //paramater is for screen coordinates, used to shift the coordinates
+       public Vector2 getScreenCoords(WorldCoords worldCoords)
+       {
+           return new Vector2(worldCoords.X - scroll.X, (int)(worldCoords.Y * this.kY - scroll.Y));
+       }
+       //paramater is for screen coordinates, used to shift the coordinates
+       public Vector2 getAbsScreenCoords(WorldCoords worldCoords)
+       {
+           return new Vector2(worldCoords.X, (int)(worldCoords.Y * this.kY));
+       }
 
         //paramaters are for the screen, and scroll coords, to convert from screen to World
         public WorldCoords getWorldCoords(Vector2 screen)
         {
             return new WorldCoords((int)screen.X + scroll.X, (int)((screen.Y + scroll.Y) / this.kY));
         }
+        //paramaters are for the screen, and scroll coords, to convert from screen to World
+        public WorldCoords getAbsWorldCoords(Vector2 screen)
+        {
+            return new WorldCoords((int)screen.X, (int)((screen.Y) / this.kY));
+        }
 
         public void Draw(Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color)
         {
-            if (position.X < this.size.X && position.Y < this.size.Y && position.X > -100 && position.Y > -100)
+            if (position.X < this.size.X && position.Y < this.size.Y && position.X > -300 && position.Y > -300)
                 this.spriteBatch.Draw(texture, position, sourceRectangle, color);
+        }
+
+        public void Draw(Texture2D texture, Rectangle DestinationRectangle, Rectangle sourceRectangle, Color color)
+        {
+            if (DestinationRectangle.X < this.size.X && DestinationRectangle.Y < this.size.Y && DestinationRectangle.X > -300 && DestinationRectangle.Y > -300)
+                this.spriteBatch.Draw(texture, DestinationRectangle, sourceRectangle, color);
         }
 
     }

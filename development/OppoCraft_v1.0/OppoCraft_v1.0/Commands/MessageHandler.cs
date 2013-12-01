@@ -44,37 +44,63 @@ namespace OppoCraft
                     }
                 case OppoMessageType.CreateUnit:
                     {
-                        Unit unit = new Unit(msg["ownercid"], msg["uid"]);
-                        unit.location = new WorldCoords(msg["x"], msg["y"]);
-                        this.theGame.map.Add(unit);
+                        this.theGame.map.Add(new Unit(msg));
+                        break;
+                    }
+                case OppoMessageType.CreateDecale:
+                    {
+                        this.theGame.map.Add(new Decal(msg));
                         break;
                     }
                 case OppoMessageType.Movement:
                     {
-                        Unit u = this.theGame.map.getById(msg["uid"]);
-                        if (u == null)
+                        Unit u = (Unit)this.theGame.map.getById(msg["uid"]);
+                        if (u == null && u.GetType() == typeof(Unit))
                             Debug.WriteLine("Message for unexisting unit");
                         else
                             u.task.Add(new CommandMovement(msg));
                         break;
                     }
+                case OppoMessageType.TreeGrow:
+                    {
+                        Unit u = (Unit)this.theGame.map.getById(msg["uid"]);
+                        if (u != null)
+                            u.task.Add(new CommandTreeGrow(msg));
+                        break;
+                    }
+
                 case OppoMessageType.ChangeState:
                     {
                         //Debug.WriteLine("ChangeState "+msg.ToString());
-                        Unit u = this.theGame.map.getById(msg["uid"]);
+                        Unit u = (Unit)this.theGame.map.getById(msg["uid"]);
                         if (u != null)
                             u.task.Add(new CommandChangeUnitState(msg));
                         break;
                     }
 
+                case OppoMessageType.RemoveUnit:
+                    {
+                        this.theGame.map.Remove(msg["uid"]);
+                        break;
+                    }
+
                 case OppoMessageType.Stop:
                     {
-                        Unit u = this.theGame.map.getById(msg["uid"]);
+                        Unit u = (Unit)this.theGame.map.getById(msg["uid"]);
                         if (u != null)
                         {
                             u.task.Remove(typeof(TaskGoTo));
                             u.task.Remove(typeof(CommandMovement));
-                            u.location = new WorldCoords(msg["x"], msg["y"]);
+                            u.task.applyChanges();
+                            /*
+                            Debug.WriteLine(u.uid + " " + u.type + " Stop");
+                            foreach (KeyValuePair<Type, Task> task in u.task.getTasks())
+                            {
+                                Debug.WriteLine(task.Value.GetType().ToString());
+
+                            }
+                            */
+                            //u.location = new WorldCoords(msg["x"], msg["y"]);
                         }
                         break;
                     }
