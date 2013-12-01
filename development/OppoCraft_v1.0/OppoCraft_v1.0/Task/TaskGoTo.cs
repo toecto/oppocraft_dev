@@ -9,10 +9,8 @@ using System.Diagnostics;
 namespace OppoCraft
 {
     public class TaskGoTo : Task    
-    {       
-        int currStep;
-        int totalSteps;
-        Vector2 destination;
+    {
+        WorldCoords step;
         WorldPath worldPath;
         WorldCoords dest;
         MessageState messageState = MessageState.Ready;
@@ -25,50 +23,48 @@ namespace OppoCraft
 
         public TaskGoTo(WorldCoords d)
         {
-            this.currStep = 1;
-            this.totalSteps = 0;
             this.dest = d;
-            this.messageState = MessageState.Ready;
         }
         
         public void GetPath()
         {
             this.worldPath = this.unit.theGame.pathFinder.GetPath(this.unit.location, this.dest,true);
-            if (this.worldPath == null)
-                return;
-            
-            this.totalSteps = this.worldPath.Count();
-            
-            if (this.totalSteps == 0)
-                return;
-            
-
-            this.destination = this.worldPath.First.Value.getVector2();
+            this.messageState = MessageState.Ready;
         }
 
         public override bool Tick()
         {
-
+            
             if (this.messageState == MessageState.Sent && this.unit.task.isRunning(typeof(CommandMovement)))
                 this.messageState = MessageState.InProcess;
 
             if (this.messageState == MessageState.InProcess && !this.unit.task.isRunning(typeof(CommandMovement)))
                 this.messageState = MessageState.Ready;
 
+            if (this.messageState == MessageState.InProcess)
+            {
+                if (this.unit.theGame.theGrid.getGridValue(this.step) < 0)
+                {
+                    GetPath();
+                    return true;
+                }
+            }
+
             if (this.messageState == MessageState.Ready)
             {
-                if (this.currStep >= this.totalSteps)
-                {
-                    return false;
-                }
-                this.destination = this.worldPath.ElementAt(this.currStep).getVector2();
+                if (this.worldPath == null) return false;
+                if (this.worldPath.Count == 0) return false;
+
+                
+                this.step = this.worldPath.First.Value;
+                this.worldPath.RemoveFirst();
+                
 
                 OppoMessage msg = new OppoMessage(OppoMessageType.Movement);
-                msg["x"] = (int)this.destination.X;
-                msg["y"] = (int)this.destination.Y;
+                msg["x"] = this.step.X;
+                msg["y"] = this.step.Y;
                 this.unit.AddCommand(msg);
                 
-                this.currStep++;
                 this.messageState = MessageState.Sent;
             }
             return true;
@@ -76,7 +72,6 @@ namespace OppoCraft
 
         public override void onStart()
         {
-            base.onStart();
             this.GetPath();
         }
 

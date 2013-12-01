@@ -32,7 +32,7 @@ namespace OppoCraft
 
         public bool Equals(Coordinates test)
         {
-            return (this.X == test.X) && (this.Y == test.Y);
+            return test!=null && (this.X == test.X) && (this.Y == test.Y);
         }
 
     }

@@ -24,6 +24,10 @@ namespace OppoCraft
         public int getGridValue(GridCoords gc)
         {
             return this.gridValues[gc.X, gc.Y];
+        }        //returns the int value for the coordiante on the grid
+        public int getGridValue(WorldCoords wc)
+        {
+            return getGridValue(this.getGridCoords(wc));
         }
 
         //returns new WorldCoords based on Grid coordinates
