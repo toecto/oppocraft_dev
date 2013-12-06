@@ -31,7 +31,6 @@ namespace OppoCraft
         public virtual void Add(MapEntity u)
         {
             this.Add(u.uid,u);
-            u.onStart();
         }
 
     }

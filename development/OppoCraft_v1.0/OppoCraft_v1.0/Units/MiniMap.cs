@@ -8,14 +8,9 @@ namespace OppoCraft
 {
     class MiniMap: MapEntity
     {
-        public MiniMap(int uid)
-        {
-            this.uid = uid;
-        }
-
         public override void onStart()
         {
-            this.location.Y = this.theGame.worldMapSize.Y;
+            this.location.Y = this.theGame.worldMapSize.Y;//to render last
         }
 
         public override void Tick()
@@ -25,7 +20,7 @@ namespace OppoCraft
         public override void Render(RenderSystem render)
         {
             Vector2 position;
-            Rectangle dot = new Rectangle(0,0, 2, 2);
+            Rectangle dot = new Rectangle(0,0, 3, 3);
             int scale = 15;
             int sizeX = this.theGame.worldMapSize.X / scale;
             int sizeY = this.theGame.worldMapSize.Y / scale;
@@ -42,7 +37,8 @@ namespace OppoCraft
                 if (item.Value.GetType() == typeof(Unit))
                 {
                     Unit unit=(Unit)item.Value;
-                    position = new Vector2(unit.location.X * sizeX / this.theGame.worldMapSize.X, unit.location.Y * sizeY / this.theGame.worldMapSize.Y + shiftToBottom);
+                    if (unit.animation == null) continue;
+                    position = new Vector2(unit.location.X * sizeX / this.theGame.worldMapSize.X-1, unit.location.Y * sizeY / this.theGame.worldMapSize.Y + shiftToBottom-1);
                     if (unit.cid == this.theGame.cid)
                         render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Blue);
                     else

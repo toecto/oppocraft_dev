@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using testClient;
 using System.Diagnostics;
+using System.Threading;
 
 namespace OppoCraft
 {
@@ -55,6 +56,7 @@ namespace OppoCraft
         public Database db;
         public UserInputSystem userInput;
 
+        public static Random rnd = new Random();
         
 
         public Game1(NetworkModule net, int cid, int enemyCid,string map)
@@ -74,7 +76,7 @@ namespace OppoCraft
             this.prevMouseState = mouseState;
 
             this.cellSize = new WorldCoords(40, 40);
-            this.worldMapSize = new WorldCoords(4600, 4600); // set back to 10240/10240
+            this.worldMapSize = new WorldCoords(5000, 5000); // set back to 10240/10240
 
             this.userInput = new UserInputSystem(this);
             this.render = new RenderSystem(this);
@@ -131,14 +133,15 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.render.LoadContent();
-            OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
-            this.map.Add(new PathFinderTest(this.CreateUID()));
-            this.map.Add(new Background(this.CreateUID()));
-            this.map.Add(new MiniMap(this.CreateUID()));
+            this.map.Add(new PathFinderTest());
+            this.map.Add(new Background());
+            this.map.Add(new MiniMap());
 
             if(this.loadMap!=null)
             {
                 this.LoadMap();
+                this.network.Flush();
+                Thread.Sleep(1000);
                 this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
             }
             
@@ -147,46 +150,68 @@ namespace OppoCraft
 
         public void LoadMap()
         {
-        //Testing setting up obstacles
+            //Testing setting up obstacles
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
 
 
             Random rnd = new Random();
+            OppoMessage msg;
+            
 
-            for (int i = 1; i < 100; i++)
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["x"] = 100;
+            msg["y"] = 100; 
+            msg.Text["class"] = "EntityEnvironment";
+            this.AddCommand(msg);
+
+            
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"]= this.CreateUID();
+            msg["x"] = 200;
+            msg["y"] = 3400;
+            msg.Text["class"] = "EntityForest";
+            this.AddCommand(msg);
+            
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["x"] = 1900;
+            msg["y"] = 1900;
+            msg.Text["class"] = "EntityForest";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["x"] = 3400;
+            msg["y"] = 200;
+            msg.Text["class"] = "EntityForest";
+            this.AddCommand(msg);
+            
+
+            for (int i = 0; i < 200; i++)
             {
-                OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
-                msg["uid"] = this.myFirstUnit = this.CreateUID();
-                msg["ownercid"] = this.cid;
-                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2)+20;
-                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Knight";
-                this.AddCommand(msg);
-            }
-            for (int i = 0; i < 100; i++)
-            {
-                OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
-                msg["uid"] = this.myFirstUnit = this.CreateUID();
-                msg["ownercid"] = 0;
-                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
-                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Tree";
-                this.AddCommand(msg);
-            }
-            for (int i = 1; i < 100; i++)
-            {
-                OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
-                msg["uid"] = this.myFirstUnit = this.CreateUID();
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"]  = this.CreateUID();
                 msg["ownercid"] = this.enemyCid;
                 msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
                 msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
                 msg.Text["type"] = "Knight";
                 this.AddCommand(msg);
             }
-
-
+            for (int i = 0; i < 200; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Knight";
+                this.AddCommand(msg);
+            }
+            /**/
         }
 
         

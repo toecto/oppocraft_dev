@@ -42,22 +42,17 @@ namespace OppoCraft
                         this.theGame.cid = msg["cid"];
                         break;
                     }
-                case OppoMessageType.CreateUnit:
+                case OppoMessageType.CreateEntity:
                     {
-                        this.theGame.map.Add(new Unit(msg));
+                        if (this.theGame.theGrid.getGridValue(new WorldCoords(msg["x"], msg["y"])) >= 0) 
+                            this.theGame.map.Add(EntityFactory.Create(this.theGame,msg));
                         break;
                     }
-                case OppoMessageType.CreateDecale:
-                    {
-                        this.theGame.map.Add(new Decal(msg));
-                        break;
-                    }
+
                 case OppoMessageType.Movement:
                     {
                         Unit u = (Unit)this.theGame.map.getById(msg["uid"]);
-                        if (u == null && u.GetType() == typeof(Unit))
-                            Debug.WriteLine("Message for unexisting unit");
-                        else
+                        if (u != null)
                             u.task.Add(new CommandMovement(msg));
                         break;
                     }

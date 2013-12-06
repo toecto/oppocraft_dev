@@ -11,12 +11,10 @@ namespace OppoCraft
         WorldPath aPath=null;
         GridCoords lastSpot = new GridCoords(0,0);
 
-        public PathFinderTest(int uid)
+        public override void onStart()
         {
-            this.location = new WorldCoords(100, 100);
-            this.uid = uid;
+            this.location.Y = this.theGame.worldMapSize.Y;//to render last
         }
-
 
         public override void Tick()
         {
@@ -65,8 +63,6 @@ namespace OppoCraft
                 for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
                 {
                     Vector2 position = this.theGame.render.getScreenCoords(this.theGame.theGrid.getWorldCoords(new GridCoords(x, y)));
-                    position.X-=this.theGame.render.primRect.Width/2;
-                    position.Y -= this.theGame.render.primRect.Height/ 2; 
                     color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
                     if (color < 0)
                     {

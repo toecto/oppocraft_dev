@@ -126,13 +126,17 @@
     <Compile Include="Commands\CommandTreeGrow.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
     <Compile Include="SmoothScroller.cs" />
+    <Compile Include="Task\TaskFactory.cs" />
     <Compile Include="Task\TaskFight.cs" />
     <Compile Include="Task\TaskFindTarget.cs" />
     <Compile Include="Task\TaskKnightDriver.cs" />
     <Compile Include="Task\TaskMortality.cs" />
+    <Compile Include="Task\TaskObstacleDriver.cs" />
     <Compile Include="Task\TaskTreeDriver.cs" />
     <Compile Include="Units\Background.cs" />
-    <Compile Include="Units\Decal.cs" />
+    <Compile Include="Units\EntityEnvironment.cs" />
+    <Compile Include="Units\EntityFactory.cs" />
+    <Compile Include="Units\GameMapLoader.cs" />
     <Compile Include="Units\MapEntity.cs" />
     <Compile Include="Units\GameMap.cs" />
     <Compile Include="StartForm.cs">
@@ -164,6 +168,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="RenderingSystem.cs" />
+    <Compile Include="Units\EntityForest.cs" />
+    <Compile Include="Units\UnitLoader.cs" />
     <Compile Include="UserInputSystem.cs" />
   </ItemGroup>
   <ItemGroup>

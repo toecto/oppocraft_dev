@@ -39,6 +39,11 @@ namespace OppoCraft
             {
                 this.unit.status = this.message.Text["status"];
             }
+            if (this.message.ContainsKey("direction"))
+            {
+                this.unit.direction = (Unit.Direction)this.message["direction"];
+            }
+            
 
         }
     }

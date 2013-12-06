@@ -14,22 +14,29 @@ namespace OppoCraft
         WorldPath worldPath;
         WorldCoords dest;
         MessageState messageState = MessageState.Ready;
-
+        int range;
         enum MessageState { 
             Ready,
             Sent,
             InProcess,
         }
 
-        public TaskGoTo(WorldCoords d)
+        public TaskGoTo(WorldCoords d, int range)
         {
             this.dest = d;
+            this.range = range;
+        }
+        public TaskGoTo(WorldPath worldPath, WorldCoords d, int range)
+        {
+            this.dest = d;
+            this.range = range;
+            this.worldPath = worldPath;
+            this.messageState = MessageState.Ready;
         }
         
         public void GetPath()
         {
-            this.worldPath = this.unit.theGame.pathFinder.GetPath(this.unit.location, this.dest,true);
-            this.messageState = MessageState.Ready;
+            this.worldPath = this.unit.theGame.pathFinder.GetPath(this.unit.location, this.dest, this.range);
         }
 
         public override bool Tick()
@@ -46,6 +53,7 @@ namespace OppoCraft
                 if (this.unit.theGame.theGrid.getGridValue(this.step) < 0)
                 {
                     GetPath();
+                    this.messageState = MessageState.Ready;
                     return true;
                 }
             }

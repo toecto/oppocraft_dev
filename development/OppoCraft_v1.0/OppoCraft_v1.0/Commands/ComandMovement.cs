@@ -25,7 +25,7 @@ namespace OppoCraft
             
             float distance = Vector2.Distance(this.location, this.destination);
             this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location),distance);
-            this.unit.direction = deltaToDirection(this.delta);
+            this.unit.direction = vectorToDirection(this.delta);
             this.unit.animation.startAction("Walk");
         }
 
@@ -50,7 +50,7 @@ namespace OppoCraft
             
         }
 
-        public static Unit.Direction deltaToDirection(Vector2 delta)
+        public static Unit.Direction vectorToDirection(Vector2 delta)
         {
             delta.Normalize();
             if (delta.X > 0)

@@ -11,10 +11,6 @@ namespace OppoCraft
         public int repeatX;
         public int repeatY;
         SimpleAnimation animation;
-        public Background(int uid)
-        {
-            this.uid = uid;
-        }
 
         public override void onStart()
         {
