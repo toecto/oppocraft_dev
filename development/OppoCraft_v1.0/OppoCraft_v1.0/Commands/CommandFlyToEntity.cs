@@ -43,7 +43,7 @@ namespace OppoCraft
                 this.onStart();
             }
 
-            if (Vector2.Distance(this.location, this.destination) <= 5)
+            if (Vector2.DistanceSquared(this.location, this.destination) <= this.unit.speedSqr)
             {
                 return false; 
             }

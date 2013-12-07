@@ -41,6 +41,9 @@ namespace OppoCraft
         public int attackSpeed = 30;
         public int attackRange = 1;
         public int viewRange = 15;
+        public int viewRangeSqr { get {return this.viewRange*this.viewRange;}}
+        public int attackRangeSqr { get { return this.attackRange * this.attackRange; } }
+        public double speedSqr { get { return this.speed * this.speed; } }
 
         public bool isObstacle;
 
@@ -149,5 +152,7 @@ namespace OppoCraft
             return this.status[name];
         }
         */
+
+        
     }
 }

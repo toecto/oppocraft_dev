@@ -49,9 +49,9 @@ namespace OppoCraft
                 if (!unit.alive) continue;
                 if (!this.type.Contains(unit.type)) continue;
                 if (this.ignore.Contains(unit.uid)) continue;
-                
 
-                checkDistance = this.unit.location.Distance(unit.location);
+
+                checkDistance = this.unit.location.DistanceSqr(unit.location.X, unit.location.Y);
                 if (checkDistance < minDistance || minDistance == 0)
                 {
                         minDistance = checkDistance;

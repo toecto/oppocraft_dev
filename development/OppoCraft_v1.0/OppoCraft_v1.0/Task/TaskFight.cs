@@ -30,7 +30,7 @@ namespace OppoCraft
                 return false;
             }
 
-            if ((int)this.unit.locationGrid.Distance(this.target.locationGrid) <= this.unit.attackRange)
+            if ((int)this.unit.locationGrid.DistanceSqr(this.target.locationGrid.X, this.target.locationGrid.Y) <= this.unit.attackRangeSqr)
             {
 
                 if (this.going != null)

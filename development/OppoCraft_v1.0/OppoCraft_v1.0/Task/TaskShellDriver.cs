@@ -18,7 +18,7 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (this.unit.location.Distance(this.target.location) <= this.unit.speed || !this.target.alive)
+            if (this.unit.location.DistanceSqr(this.target.location.X,this.target.location.Y) <= this.unit.speedSqr || !this.target.alive)
             {
                 return false;
             }
