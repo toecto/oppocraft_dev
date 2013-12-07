@@ -26,6 +26,7 @@ namespace OppoCraft
             {
                 if (this.going!=null)
                     this.unit.task.Remove(typeof(TaskGoTo));
+                //this.unit.task.setShared("IgnoreUnits", new List<int>(8));
                 return false;
             }
 
@@ -56,7 +57,7 @@ namespace OppoCraft
                     msg["damage"] = this.unit.damage;
                     msg["forcecreate"] = 1;
                     msg.Text["type"] = "Shell";
-                    msg.Text["status"] = "Arrow";
+                    msg.Text["status"] = "Fireball";
                     msg.Text["class"] = "UnitShell";
 
                     this.unit.theGame.AddCommand(msg);

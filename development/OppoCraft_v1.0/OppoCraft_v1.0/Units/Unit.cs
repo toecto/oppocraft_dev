@@ -64,7 +64,7 @@ namespace OppoCraft
                 this.attackRange = 10;
                 this.attackSpeed = 100;
             }
-            UnitDataLoader.Load(this, this.type);
+            this.theGame.unitDataLoader.Load(this, this.type);
         }
 
         

@@ -47,18 +47,15 @@ namespace OppoCraft
             {
                 return false; 
             }
-            else
-            {
-                this.MoveHandler();
-                return true;
-            }            
+         
+            this.MoveHandler();
+            return true;
         }
 
         public void MoveHandler()
         {
             this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speed));
             this.unit.location.setVector2(this.location);
-            
         }
 
 

@@ -27,6 +27,7 @@ namespace OppoCraft
             {
                 if (this.going!=null)
                     this.unit.task.Remove(typeof(TaskGoTo));
+                //this.unit.task.setShared("IgnoreUnits", new List<int>(8));
                 return false;
             }
 

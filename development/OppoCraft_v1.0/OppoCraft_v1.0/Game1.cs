@@ -56,6 +56,8 @@ namespace OppoCraft
         public Database db;
         public UserInputSystem userInput;
 
+        public UnitDataLoader unitDataLoader;
+
         public static Random rnd = new Random();
         
 
@@ -84,7 +86,7 @@ namespace OppoCraft
             this.theGrid = new Grid(this);
             this.pathFinder = new PathFinder(this.theGrid);
             this.map = new GameMap(this);
-
+            this.unitDataLoader = new UnitDataLoader(this);
             
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
@@ -194,7 +196,7 @@ namespace OppoCraft
             this.AddCommand(msg);
 
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 msg = new OppoMessage(OppoMessageType.CreateEntity);
                 msg["uid"] = this.CreateUID();
@@ -204,7 +206,7 @@ namespace OppoCraft
                 msg.Text["type"] = "Knight";
                 this.AddCommand(msg);
             }
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 msg = new OppoMessage(OppoMessageType.CreateEntity);
                 msg["uid"] = this.CreateUID();
@@ -215,7 +217,7 @@ namespace OppoCraft
                 this.AddCommand(msg);
             }
             
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 msg = new OppoMessage(OppoMessageType.CreateEntity);
                 msg["uid"] = this.CreateUID();
@@ -225,7 +227,7 @@ namespace OppoCraft
                 msg.Text["type"] = "Archer";
                 this.AddCommand(msg);
             }
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 msg = new OppoMessage(OppoMessageType.CreateEntity);
                 msg["uid"] = this.CreateUID();

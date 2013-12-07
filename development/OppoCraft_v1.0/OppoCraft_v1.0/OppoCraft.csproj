@@ -151,6 +151,7 @@
     <Compile Include="Task\TaskFightArcher.cs" />
     <Compile Include="Task\TaskFindTarget.cs" />
     <Compile Include="Task\TaskKnightDriver.cs" />
+    <Compile Include="Task\TaskLamberjackDriver.cs" />
     <Compile Include="Task\TaskMortality.cs" />
     <Compile Include="Task\TaskObstacleDriver.cs" />
     <Compile Include="Task\TaskShellDriver.cs" />
@@ -192,7 +193,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="RenderingSystem.cs" />
     <Compile Include="Units\EntityForest.cs" />
-    <Compile Include="Units\UnitLoader.cs" />
+    <Compile Include="Units\UnitDataLoader.cs" />
     <Compile Include="UserInputSystem.cs" />
   </ItemGroup>
   <ItemGroup>

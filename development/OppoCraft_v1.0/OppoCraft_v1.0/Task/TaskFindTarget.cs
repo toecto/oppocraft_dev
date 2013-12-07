@@ -13,6 +13,8 @@ namespace OppoCraft
         List<int> ignore;
         int cooldown = 10;
         int currentCooldown = 0;
+        int ignoreCooldown = 10;
+        int currentignoreCooldown = 0;
 
         public TaskFindTarget(List<string> type, bool anySide=false)
         {
@@ -31,10 +33,10 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-
+            currentCooldown--;
             if (currentCooldown > 0) return true;
             currentCooldown = cooldown;
-            currentCooldown--;
+
 
             double minDistance = 0, checkDistance;
             Unit target=null;
@@ -45,19 +47,17 @@ namespace OppoCraft
             {
                 if (unit.cid == this.unit.cid && !anySide) continue;
                 if (unit.uid == this.unit.uid) continue;
-                //if (!unit.location.isIn(start, end)) continue;
+                if (!unit.location.isIn(start, end)) continue;
                 if (!unit.alive) continue;
                 if (!this.type.Contains(unit.type)) continue;
                 if (this.ignore.Contains(unit.uid)) continue;
 
-
                 checkDistance = this.unit.location.DistanceSqr(unit.location.X, unit.location.Y);
                 if (checkDistance < minDistance || minDistance == 0)
                 {
-                        minDistance = checkDistance;
-                        target = unit;
+                    minDistance = checkDistance;
+                    target = unit;
                 }
-                    
             }
 
             if (target != null)
@@ -65,6 +65,15 @@ namespace OppoCraft
                 this.unit.task.setShared("targetUnit", target);
                 return false;
             }
+
+            currentignoreCooldown--;
+            if (currentignoreCooldown < 0)
+            {
+                currentignoreCooldown = ignoreCooldown;
+                this.unit.task.setShared("IgnoreUnits", new List<int>(8));
+            }
+
+
 
             return true;
         }
