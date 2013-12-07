@@ -15,8 +15,6 @@ namespace OppoCraft
 
         public override void onStart()
         {
-            Debug.WriteLine("TaskObstacleDriver " + this.unit.status);
-
             this.unit.animation.Clear();
             this.unit.animation.startAction(this.unit.type);
         }

@@ -18,6 +18,9 @@ namespace OppoCraft
                 case "Archer":
                     return new TaskArcherDriver();
 
+                case "Lumberjack":
+                    return new TaskLumberjackDriver();
+
                 case "Tree":
                     return new TaskTreeDriver();
 

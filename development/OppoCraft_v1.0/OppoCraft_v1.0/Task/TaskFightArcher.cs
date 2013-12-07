@@ -33,12 +33,11 @@ namespace OppoCraft
             if ((int)this.unit.locationGrid.DistanceSqr(this.target.locationGrid.X, this.target.locationGrid.Y) <= this.unit.attackRangeSqr)
             {
 
-                if (this.going != null)
+                //if (this.going != null)
                 {
-                    OppoMessage msg = new OppoMessage(OppoMessageType.Stop);
-                    msg["x"] = this.unit.location.X;
-                    msg["y"] = this.unit.location.Y;
-                    this.unit.AddCommand(msg);
+                    //OppoMessage msg = new OppoMessage(OppoMessageType.Stop);
+                    //this.unit.AddCommand(msg);
+                    this.unit.task.Remove(typeof(TaskGoTo));
                     this.going = null;
                 }
 

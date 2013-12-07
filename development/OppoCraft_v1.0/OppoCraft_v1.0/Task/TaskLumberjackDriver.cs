@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
 
 namespace OppoCraft
 {
-    class TaskKnightDriver : Task
+    class TaskLumberjackDriver: Task
     {
+        enum Status
+        {
 
-        enum Status { 
-        
             Main,
             Searching,
             Fighting
@@ -21,10 +20,10 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (this.status==Status.Main)
+            if (this.status == Status.Main)
             {
                 this.status = Status.Searching;
-                this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Knight", "Archer" }));
+                this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Tree" }, true));
                 this.unit.task.Add(new TaskPatrolArea(new WorldCoords(0, 0), this.unit.theGame.worldMapSize));
                 return true;
             }

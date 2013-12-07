@@ -12,7 +12,7 @@ namespace OppoCraft
     {
         Vector2 delta;//for a tick increment
         Vector2 location;
-        Vector2 destination;
+        public Vector2 destination;
 
         public CommandMovement(OppoMessage msg)
         {
@@ -24,6 +24,10 @@ namespace OppoCraft
             this.location = this.unit.location.getVector2();
             
             float distance = Vector2.Distance(this.location, this.destination);
+            if (distance > 200)
+            {
+                Debug.WriteLine("WTF!!");
+            }
             this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location),distance);
             this.unit.direction = vectorToDirection(this.delta);
             this.unit.animation.startAction("Walk");
@@ -31,7 +35,7 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (Vector2.DistanceSquared(this.location, this.destination) <= this.unit.speedSqr)
+            if (Vector2.Distance(this.location, this.destination) <= this.unit.speed)
             {
                 this.unit.location.setVector2(this.destination);
                 return false; 

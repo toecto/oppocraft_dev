@@ -35,7 +35,10 @@ namespace OppoCraft
 
             if (this.SetValues(origGrid, destGrid, range))
                 result = this.SetPath(origGrid, destGrid);
-
+            if (result!=null && result.Count < 2 && origGrid.Distance(destGrid) > 20)
+            {
+                ;
+            }
             return result;
         }
 
@@ -101,6 +104,9 @@ namespace OppoCraft
                 current = this.makeNextStep(current, orig);
                 
             }
+            if (!this.theGrid.getGridCoords(path.First.Value).Equals(orig)) 
+                return null;//did not get to the end
+
             path.RemoveFirst();
             return path;
         }

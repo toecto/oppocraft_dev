@@ -34,10 +34,22 @@ namespace OppoCraft
                 text += anim.name + " " + anim.currentAnimation.currentFrame + "/" + anim.currentAnimation.frames + "\n";
 
             } /**/
+
             /*
-            foreach (KeyValuePair<Type,Task> item in unit.task.getTasks())
+            if (unit.type == "Archer")
             {
-                text += item.Value.GetType().ToString() +"\n";
+                foreach (KeyValuePair<Type, Task> item in unit.task.getTasks())
+                {
+                    text += item.Value.GetType().ToString() + "\n";
+
+                }
+
+                if (unit.task.isRunning(typeof(CommandMovement)))
+                { 
+                    CommandMovement cmd=(CommandMovement)unit.task.getTasks()[typeof(CommandMovement)];
+                    text += "Movement " + unit.location.X + ":" + unit.location.Y + "  >  " + cmd.destination.X + ":" + cmd.destination.Y;
+                
+                }
 
             }
             /**/

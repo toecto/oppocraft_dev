@@ -41,12 +41,18 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            
+
             if (this.messageState == MessageState.Sent && this.unit.task.isRunning(typeof(CommandMovement)))
+            {
                 this.messageState = MessageState.InProcess;
+                return true;
+            }
 
             if (this.messageState == MessageState.InProcess && !this.unit.task.isRunning(typeof(CommandMovement)))
+            {
                 this.messageState = MessageState.Ready;
+                return true;
+            }
 
             if (this.messageState == MessageState.InProcess)
             {

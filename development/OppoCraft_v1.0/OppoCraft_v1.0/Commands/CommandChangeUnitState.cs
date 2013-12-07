@@ -32,6 +32,10 @@ namespace OppoCraft
                 this.unit.animation.startAction(this.message.Text["startact"]);
             }
 
+            if (this.message.Text.ContainsKey("startactforced"))
+            {
+                this.unit.animation.startAction(this.message.Text["startactforced"]);
+            }
             if (this.message.ContainsKey("addhp"))
             {
                 this.unit.currHP += this.message["addhp"];

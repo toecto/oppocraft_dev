@@ -151,9 +151,11 @@
     <Compile Include="Task\TaskFightArcher.cs" />
     <Compile Include="Task\TaskFindTarget.cs" />
     <Compile Include="Task\TaskKnightDriver.cs" />
-    <Compile Include="Task\TaskLamberjackDriver.cs" />
+    <Compile Include="Task\TaskLumberjackDriver.cs" />
     <Compile Include="Task\TaskMortality.cs" />
     <Compile Include="Task\TaskObstacleDriver.cs" />
+    <Compile Include="Task\TaskPatrol.cs" />
+    <Compile Include="Task\TaskPatrolArea.cs" />
     <Compile Include="Task\TaskShellDriver.cs" />
     <Compile Include="Task\TaskTreeDriver.cs" />
     <Compile Include="Units\Background.cs" />
