@@ -11,7 +11,7 @@ namespace OppoCraft
         public static void Render(Unit unit, RenderSystem render)
         {
             Vector2 position = render.getScreenCoords(unit.location);
-            render.Draw(render.primDot, position, new Rectangle(0, 0, 4, 4), Microsoft.Xna.Framework.Color.White);
+            //render.Draw(render.primDot, position, new Rectangle(0, 0, 4, 4), Microsoft.Xna.Framework.Color.White);
 
             //position = Vector2.Subtract(position, Vector2.Divide(new Vector2(render.primRect.Bounds.Width,render.primRect.Bounds.Height), 2f));
 
@@ -34,7 +34,7 @@ namespace OppoCraft
                 text += anim.name + " " + anim.currentAnimation.currentFrame + "/" + anim.currentAnimation.frames + "\n";
 
             } /**/
-            
+            /*
             foreach (KeyValuePair<Type,Task> item in unit.task.getTasks())
             {
                 text += item.Value.GetType().ToString() +"\n";

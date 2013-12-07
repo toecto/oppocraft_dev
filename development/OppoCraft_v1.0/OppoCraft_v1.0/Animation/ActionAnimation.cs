@@ -14,10 +14,9 @@ namespace OppoCraft
         public SimpleAnimation currentAnimation;
         public string name;
 
-        public ActionAnimation(string name, List<SimpleAnimation> animations, Unit unit, int priority)
+        public ActionAnimation(string name, List<SimpleAnimation> animations, int priority)
         {
             this.name = name;
-            this.unit = unit;
             this.animations = animations;
             this.priority = priority;
             this.currentAnimation = animations[0];

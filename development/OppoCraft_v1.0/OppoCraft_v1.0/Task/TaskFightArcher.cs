@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using testClient;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace OppoCraft
 {
-    class TaskFight: Task
+    class TaskFightArcher:Task
     {
         Unit target;
         GridCoords going=null;
@@ -16,7 +15,7 @@ namespace OppoCraft
         List<int> ignore;
 
 
-        public TaskFight(Unit target)
+        public TaskFightArcher(Unit target)
         {
             this.target = target;
         }
@@ -46,17 +45,27 @@ namespace OppoCraft
                 {
                     this.cooldown = this.unit.attackSpeed;
                     OppoMessage msg;
-                    
-                    msg = new OppoMessage(OppoMessageType.ChangeState);
-                    msg["uid"] = this.target.uid;
-                    msg["addhp"] = -this.unit.damage;
-                    msg.Text["startact"] = "TakeDamage";
+
+                    msg = new OppoMessage(OppoMessageType.CreateEntity);
+                    msg["uid"] = this.unit.theGame.CreateUID();
+                    msg["ownercid"] = this.unit.theGame.cid;
+                    msg["target"] = this.target.uid;
+                    msg["owneruid"] = this.unit.uid;
+                    msg["x"] = this.unit.location.X;
+                    msg["y"] = this.unit.location.Y;
+                    msg["damage"] = this.unit.damage;
+                    msg["forcecreate"] = 1;
+                    msg.Text["type"] = "Shell";
+                    msg.Text["status"] = "Arrow";
+                    msg.Text["class"] = "UnitShell";
+
                     this.unit.theGame.AddCommand(msg);
 
                     msg = new OppoMessage(OppoMessageType.ChangeState);
                     msg.Text["startact"] = "Attack";
-                    msg["direction"] = (int)CommandMovement.vectorToDirection(Vector2.Subtract(target.location.getVector2(),this.unit.location.getVector2()));
+                    msg["direction"] = (int)CommandMovement.vectorToDirection(Vector2.Subtract(target.location.getVector2(), this.unit.location.getVector2()));
                     this.unit.AddCommand(msg);
+
                 }
                 this.cooldown--;                
 
@@ -85,6 +94,7 @@ namespace OppoCraft
             if (!this.unit.task.checkShared("IgnoreUnits"))
                 this.unit.task.setShared("IgnoreUnits", new List<int>(8));
             this.ignore = this.unit.task.getShared<List<int>>("IgnoreUnits");
+            this.cooldown = Game1.rnd.Next(0,this.unit.attackSpeed);
         }
 
         public override void onFinish()

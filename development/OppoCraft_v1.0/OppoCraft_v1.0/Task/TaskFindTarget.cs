@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace OppoCraft 
 {
     class TaskFindTarget : Task
     {
-        string type;
+        List<string> type;
         bool anySide;
         List<int> ignore;
-        
+        int cooldown = 10;
+        int currentCooldown = 0;
 
-        public TaskFindTarget(string type, bool anySide=false)
+        public TaskFindTarget(List<string> type, bool anySide=false)
         {
             this.type = type;
             this.anySide = anySide;
-
+            
         }
 
         public override void onStart()
@@ -29,23 +31,25 @@ namespace OppoCraft
 
         public override bool Tick()
         {
+
+            if (currentCooldown > 0) return true;
+            currentCooldown = cooldown;
+            currentCooldown--;
+
             double minDistance = 0, checkDistance;
-            Unit target=null, unit;
+            Unit target=null;
             int range = this.unit.theGame.theGrid.getWorldCoords(new GridCoords(this.unit.viewRange, 0)).X;
             WorldCoords start = new WorldCoords(this.unit.location.X - range / 2, this.unit.location.Y - range / 2);
             WorldCoords end = new WorldCoords(start.X + range, start.Y + range);
-
-            foreach (MapEntity item in this.unit.theGame.map.Values)
+            foreach (Unit unit in this.unit.theGame.map.units)
             {
-                if (item.GetType() != typeof(Unit)) continue;
-                unit = (Unit)item;            
-            
                 if (unit.cid == this.unit.cid && !anySide) continue;
-                if (this.ignore.Contains(unit.uid)) continue;
                 if (unit.uid == this.unit.uid) continue;
-                if (unit.type != this.type) continue;
-
+                //if (!unit.location.isIn(start, end)) continue;
                 if (!unit.alive) continue;
+                if (!this.type.Contains(unit.type)) continue;
+                if (this.ignore.Contains(unit.uid)) continue;
+                
 
                 checkDistance = this.unit.location.Distance(unit.location);
                 if (checkDistance < minDistance || minDistance == 0)

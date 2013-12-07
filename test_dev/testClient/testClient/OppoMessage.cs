@@ -23,6 +23,7 @@ namespace testClient
         Stop,
         CreateDecale,
         TreeGrow,
+        FlyToEntity,
 
     };
 

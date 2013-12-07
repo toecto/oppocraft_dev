@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using testClient;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -26,6 +27,13 @@ namespace OppoCraft
 
                 case "EntityEnvironment":
                     return new EntityEnvironment(theGame, message);
+
+                case "UnitShell":
+                    {
+                        return new UnitShell(theGame, message);
+                    }
+
+                    
             }
             return null;
         }

@@ -32,7 +32,7 @@ namespace OppoCraft
             
             render.Draw(render.primRect, new Rectangle((int)frameStart.X, (int)frameStart.Y+shiftToBottom, (int)frameSize.X, (int)frameSize.Y), new Rectangle(0, 0, 40, 24), Microsoft.Xna.Framework.Color.BlueViolet);
 
-            foreach (KeyValuePair<int, MapEntity> item in this.theGame.map)
+            foreach (KeyValuePair<int, MapEntity> item in this.theGame.map.entities)
             {
                 if (item.Value.GetType() == typeof(Unit))
                 {

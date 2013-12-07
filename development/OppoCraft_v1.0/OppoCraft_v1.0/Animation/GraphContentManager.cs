@@ -73,31 +73,37 @@ namespace OppoCraft
 
             DataTable actions = this.theGame.db.Query("SELECT * FROM Animation where AnimationFileID=" + file.id);
             UnitAnimation unitAnimation = new UnitAnimation(unit);
-            List<SimpleAnimation> actionAnimations = null;
             foreach (DataRow action in actions.Rows)
             {
-                if ((string)action["AnimationMap"] == "Directions")
-                {
-                    actionAnimations = file.getAnimations((int)action["StartX"], (int)action["StartY"], (int)action["Frames"], (int)action["Delay"], (bool)action["Looped"], 2, 4);
-                    unitAnimation.Add((string)action["AnimationNameID"], new ActionAnimationByDirection((string)action["AnimationNameID"],actionAnimations, unit, (int)action["Priority"]));
-                }
-                else
-                {
-                    actionAnimations = file.getAnimations((int)action["StartX"], (int)action["StartY"], (int)action["Frames"], (int)action["Delay"], (bool)action["Looped"]);
-                    unitAnimation.Add((string)action["AnimationNameID"], new ActionAnimation((string)action["AnimationNameID"],actionAnimations, unit, (int)action["Priority"]));
-                }
+                unitAnimation.Add((string)action["AnimationNameID"], GetActionAnimation(file, action));
             }
 
             return unitAnimation;
         }
-        
-        public SimpleAnimation GetDecaleAnimation(string name)
+
+        public ActionAnimation GetActionAnimation(string fileName, string ActionName)
         {
-            AnimationFile file = this.files[name];
-            DataTable actions = this.theGame.db.Query("SELECT Animation.*, Units. FROM Units, Animation where Decales.AnimationID=Animation.AnimationID and Decales.Name='" + name + "'");
+            AnimationFile file = this.files[fileName];
+            DataTable actions = this.theGame.db.Query("SELECT * FROM Animation where AnimationFileID=" + file.id + " and AnimationNameID='"+ActionName+"'");
             DataRow action=actions.Rows[0];
-            SimpleAnimation rez= file.getAnimations((int)action["StartX"], (int)action["StartY"], (int)action["Frames"], (int)action["Delay"], (bool)action["Looped"])[0];
-            return rez;
+            return GetActionAnimation(file,action);
         }
+
+        public ActionAnimation GetActionAnimation(AnimationFile file, DataRow actionData)
+        {
+            List<SimpleAnimation> actionAnimations = null;
+            if ((string)actionData["AnimationMap"] == "Directions")
+            {
+                actionAnimations = file.getAnimations((int)actionData["StartX"], (int)actionData["StartY"], (int)actionData["Frames"], (int)actionData["Delay"], (bool)actionData["Looped"], 2, 4);
+                return new ActionAnimationByDirection((string)actionData["AnimationNameID"], actionAnimations, (int)actionData["Priority"]);
+            }
+            else
+            {
+                actionAnimations = file.getAnimations((int)actionData["StartX"], (int)actionData["StartY"], (int)actionData["Frames"], (int)actionData["Delay"], (bool)actionData["Looped"]);
+                return new ActionAnimation((string)actionData["AnimationNameID"], actionAnimations, (int)actionData["Priority"]);
+            }
+        }
+
+
     }
 }

@@ -26,7 +26,7 @@ namespace OppoCraft
             {
                 this.lastSpot = test;
 
-                foreach(KeyValuePair<int,MapEntity> item in this.theGame.map)
+                foreach(KeyValuePair<int,MapEntity> item in this.theGame.map.entities)
                 {
                     if (item.Value.GetType() != typeof(Unit)) continue;
                     Unit unit = (Unit)item.Value;

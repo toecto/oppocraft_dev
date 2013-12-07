@@ -22,8 +22,10 @@ namespace OppoCraft
         {
             
             OppoMessage msg;
+            int cnt = 0;
             while((msg=this.network.getMessage())!=null)   
             {
+                if (cnt > 5) break;
                 this.handle(msg);
             }
         }
@@ -44,7 +46,7 @@ namespace OppoCraft
                     }
                 case OppoMessageType.CreateEntity:
                     {
-                        if (this.theGame.theGrid.getGridValue(new WorldCoords(msg["x"], msg["y"])) >= 0) 
+                        if (this.theGame.theGrid.getGridValue(new WorldCoords(msg["x"], msg["y"])) >= 0 || msg.ContainsKey("forcecreate")) 
                             this.theGame.map.Add(EntityFactory.Create(this.theGame,msg));
                         break;
                     }

@@ -7,8 +7,11 @@ using System.Diagnostics;
 
 namespace OppoCraft
 {
-    class UnitLoader
+    class UnitDataLoader
     {
+   
+
+
         public static bool Load(Unit theUnit, string type)
         {
             DataTable unitDataTable = theUnit.theGame.db.Query("Select * from Units where UnitType like '" + type + "'");

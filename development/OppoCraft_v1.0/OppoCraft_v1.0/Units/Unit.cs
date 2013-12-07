@@ -44,6 +44,8 @@ namespace OppoCraft
 
         public bool isObstacle;
 
+        public Unit() { } // Default constructor
+
         public Unit(Game1 theGame, OppoMessage settings)
             : base(theGame,settings)
         {
@@ -54,8 +56,15 @@ namespace OppoCraft
                 this.status = this.settings.Text["status"];
             this.task = new TaskManager(this);
 
-            UnitLoader.Load(this, this.type);
+            if (this.type == "Archer")
+            {
+                this.attackRange = 10;
+                this.attackSpeed = 100;
+            }
+            UnitDataLoader.Load(this, this.type);
         }
+
+        
 
         public override void onFinish()
         {

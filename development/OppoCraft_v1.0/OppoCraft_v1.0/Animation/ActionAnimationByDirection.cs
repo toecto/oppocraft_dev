@@ -12,8 +12,8 @@ namespace OppoCraft
     {
         int[] directionMap = new int[8];
 
-        public ActionAnimationByDirection(string name, List<SimpleAnimation> animations, Unit unit, int priority)
-            :base(name,animations,unit,priority)
+        public ActionAnimationByDirection(string name, List<SimpleAnimation> animations, int priority)
+            :base(name,animations,priority)
         {
             directionMap[(int)Unit.Direction.North] = 0;
             directionMap[(int)Unit.Direction.South] = 1;

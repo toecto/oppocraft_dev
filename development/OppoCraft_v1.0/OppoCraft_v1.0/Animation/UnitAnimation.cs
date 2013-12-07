@@ -25,6 +25,7 @@ namespace OppoCraft
         public void Add(string name, ActionAnimation action)
         {
             this.actions.Add(name, action);
+            action.unit = this.unit;
             if (this.current.First == null)
                 this.startAction(name);
         }

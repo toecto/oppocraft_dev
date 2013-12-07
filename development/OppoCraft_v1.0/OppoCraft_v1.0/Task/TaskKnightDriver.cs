@@ -12,7 +12,7 @@ namespace OppoCraft
         {
             if (!this.unit.task.isRunning(typeof(TaskFindTarget)) && !this.unit.task.isRunning(typeof(TaskFight)))
             {
-                this.unit.task.Add(new TaskFindTarget("Knight"));
+                this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Knight", "Archer" }));
             }
 
             if (!this.unit.task.isRunning(typeof(TaskFight)) && this.unit.task.checkShared("targetUnit"))

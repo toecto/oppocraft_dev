@@ -30,13 +30,16 @@ namespace OppoCraft
             {
                 Program.network.Stop();
                 ConnectionStatus.Text = "Disconnected";
+                ConnectBtn.Text = "Connet";
             }
-            if (IPAddr.Text == "")
-                IPAddr.Text = "127.0.0.1";
-            if (!this.connect(IPAddr.Text))
-                ConnectionStatus.Text = "Failed to connect";
             else
             {
+                if (IPAddr.Text == "")
+                    IPAddr.Text = "127.0.0.1";
+                if (!this.connect(IPAddr.Text))
+                    ConnectionStatus.Text = "Failed to connect";
+                else
+                    ConnectBtn.Text = "Disconnet";
             }
         }
 
@@ -45,18 +48,26 @@ namespace OppoCraft
             if (Program.server != null)
             {
                 Program.server.Stop();
+                Program.server = null;
                 this.serverStatus.Text = "Stopped";
+                StartSrvBtn.Text = "Start Server";
             }
+            else
+            { 
             if (Program.network != null)
             {
                 Program.network.Stop();
                 ConnectionStatus.Text = "Disconnected";
             }
             Program.server = new OppoServer("0.0.0.0", 8898);
-            if(Program.server.Start())
+            if (Program.server.Start())
+            {
                 this.serverStatus.Text = "Started";
+                StartSrvBtn.Text = "Stop Server";
+            }
             else
                 this.serverStatus.Text = "Failed to start";
+            }
             
         }
 

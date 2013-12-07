@@ -8,21 +8,24 @@ namespace OppoCraft
 {
     class DriverTaskFactory
     {
-        public static Task Create(string type)
+        public static Task Create(string driver)
         {
-            switch (type)
+            switch (driver)
             {
                 case "Knight":
                     return new TaskKnightDriver();
 
                 case "Archer":
-                    return new TaskKnightDriver();
+                    return new TaskArcherDriver();
 
                 case "Tree":
                     return new TaskTreeDriver();
 
                 case "Obstacle":
                     return new TaskObstacleDriver();
+
+                case "Shell":
+                    return new TaskShellDriver();
 
             }
 
