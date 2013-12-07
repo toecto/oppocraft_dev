@@ -57,7 +57,7 @@ namespace OppoCraft
                     msg["damage"] = this.unit.damage;
                     msg["forcecreate"] = 1;
                     msg.Text["type"] = "Shell";
-                    msg.Text["status"] = "Fireball";
+                    msg.Text["status"] = "Arrow";
                     msg.Text["class"] = "UnitShell";
 
                     this.unit.theGame.AddCommand(msg);

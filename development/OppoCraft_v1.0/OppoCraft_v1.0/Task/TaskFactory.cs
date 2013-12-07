@@ -30,6 +30,9 @@ namespace OppoCraft
                 case "Shell":
                     return new TaskShellDriver();
 
+                case "Tower":
+                    return new TaskTowerDriver();
+
             }
 
             return null;

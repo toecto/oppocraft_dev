@@ -157,6 +157,7 @@
     <Compile Include="Task\TaskPatrol.cs" />
     <Compile Include="Task\TaskPatrolArea.cs" />
     <Compile Include="Task\TaskShellDriver.cs" />
+    <Compile Include="Task\TaskTowerDriver.cs" />
     <Compile Include="Task\TaskTreeDriver.cs" />
     <Compile Include="Units\Background.cs" />
     <Compile Include="Units\EntityEnvironment.cs" />

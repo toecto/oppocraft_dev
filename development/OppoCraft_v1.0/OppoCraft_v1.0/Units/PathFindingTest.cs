@@ -71,8 +71,8 @@ namespace OppoCraft
                     }
                     else
                     {
-                        render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
-                        render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
+                        //render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
+                        //render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
                     }
                 }
             }

@@ -138,7 +138,7 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.render.LoadContent();
-            //this.map.Add(new PathFinderTest());
+            this.map.Add(new PathFinderTest());
             this.map.Add(new Background());
             this.map.Add(new MiniMap());
             
@@ -165,7 +165,8 @@ namespace OppoCraft
             OppoMessage msg;
             int tmp;
 
-            
+
+
             
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
@@ -238,7 +239,7 @@ namespace OppoCraft
                 msg.Text["type"] = "Lumberjack";
                 this.AddCommand(msg);
             }
-            
+
             for (int i = 0; i < 50; i++)
             {
                 msg = new OppoMessage(OppoMessageType.CreateEntity);
@@ -257,6 +258,27 @@ namespace OppoCraft
                 msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
                 msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
                 msg.Text["type"] = "Archer";
+                this.AddCommand(msg);
+            }
+            /**/
+            for (int i = 0; i < 10; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Tower";
+                this.AddCommand(msg);
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Tower";
                 this.AddCommand(msg);
             }
             /**/

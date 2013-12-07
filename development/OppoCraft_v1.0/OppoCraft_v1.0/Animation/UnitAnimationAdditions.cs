@@ -11,12 +11,12 @@ namespace OppoCraft
         public static void Render(Unit unit, RenderSystem render)
         {
             Vector2 position = render.getScreenCoords(unit.location);
-            //render.Draw(render.primDot, position, new Rectangle(0, 0, 4, 4), Microsoft.Xna.Framework.Color.White);
+            render.Draw(render.primDot, position, new Rectangle(0, 0, 4, 4), Microsoft.Xna.Framework.Color.White);
 
             //position = Vector2.Subtract(position, Vector2.Divide(new Vector2(render.primRect.Bounds.Width,render.primRect.Bounds.Height), 2f));
 
             position.X -= render.primRect.Bounds.Width / 2;
-            if (unit.animation.current.First!=null)
+            if (unit.animation.current.First != null)
                 position.Y -= unit.animation.current.First.Value.currentAnimation.file.height/2 + 5;
             if (unit.currHP > 0 && unit.currHP < unit.maxHP)
             {
@@ -36,7 +36,7 @@ namespace OppoCraft
             } /**/
 
             /*
-            if (unit.type == "Archer")
+            if (unit.type == "Tower")
             {
                 foreach (KeyValuePair<Type, Task> item in unit.task.getTasks())
                 {
