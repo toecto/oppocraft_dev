@@ -127,6 +127,7 @@ namespace OppoCraft
             this.forms.Add(new UnitDescription());
             this.map.Add(new Background());
             this.forms.Add(new MiniMap());
+            this.forms.Add(new ScoreEntity());
 
 
             if(this.loadMap!=null)
@@ -158,8 +159,18 @@ namespace OppoCraft
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
             msg["ownercid"] = this.cid;
-            msg["x"] = 40*30+20;
+            msg["x"] = 40 * 30 + 20;
             msg["y"] = 40 * 30 + 20;
+            msg.Text["type"] = "Castle";
+            msg.Text["class"] = "UnitCastle";
+            this.AddCommand(msg);
+
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = 40 * 100 + 20;
+            msg["y"] = 40 * 100 + 20;
             msg.Text["type"] = "Castle";
             msg.Text["class"] = "UnitCastle";
             this.AddCommand(msg);

@@ -49,8 +49,6 @@ namespace OppoCraft
             {
                 this.unit.direction = (Unit.Direction)this.message["direction"];
             }
-            
-
         }
     }
 }

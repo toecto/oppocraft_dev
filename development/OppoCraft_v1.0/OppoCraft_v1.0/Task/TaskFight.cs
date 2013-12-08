@@ -46,7 +46,7 @@ namespace OppoCraft
 
                 if (this.cooldown <= 0)
                 {
-                    this.cooldown = this.unit.attackSpeed;
+                    this.cooldown = this.unit.attackSpeedReal;
                     OppoMessage msg;
                     
                     msg = new OppoMessage(OppoMessageType.ChangeState);

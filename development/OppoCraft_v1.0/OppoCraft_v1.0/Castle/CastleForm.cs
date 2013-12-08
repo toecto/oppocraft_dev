@@ -44,10 +44,10 @@ namespace OppoCraft
             this.controls.Add(targets);
             targets.location.X = 20;
             targets.location.Y = 75;
-            targets.Add(new GameFormCheckButton("Knights", "Knights"));
-            targets.Add(new GameFormCheckButton("Archers", "Archers"));
-            targets.Add(new GameFormCheckButton("Lumberjacks", "Lumberjacks"));
-            targets.Add(new GameFormCheckButton("Towers", "Towers"));
+            targets.Add(new GameFormCheckButton("Knights", "Knight"));
+            targets.Add(new GameFormCheckButton("Archers", "Archer"));
+            targets.Add(new GameFormCheckButton("Lumberjacks", "Lumberjack"));
+            targets.Add(new GameFormCheckButton("Towers", "Tower"));
             targets.Add(new GameFormCheckButton("Castle", "Castle"));
             targets.tag = "targets";
             label = new GameFormLabel("Stats:");
@@ -64,7 +64,7 @@ namespace OppoCraft
             label.location.X = 20;
             label.location.Y = topShift; 
             this.controls.Add(label);
-            upDown = new GameFormUpDown(0, 0, 10);
+            upDown = new GameFormUpDown(0, 5, 100);
             upDown.tag = "attack";
             upDown.location.X = 130;
             upDown.location.Y = topShift-7;
@@ -74,7 +74,7 @@ namespace OppoCraft
             label.location.X = 200;
             label.location.Y = topShift;
             this.controls.Add(label);
-            upDown = new GameFormUpDown(0, 0, 10);
+            upDown = new GameFormUpDown(0, 1, 20);
             upDown.tag = "attackrange";
             upDown.location.X = 330;
             upDown.location.Y = topShift - 7;
@@ -86,7 +86,7 @@ namespace OppoCraft
             label.location.X = 20;
             label.location.Y = topShift;
             this.controls.Add(label);
-            upDown = new GameFormUpDown(0, 0, 10);
+            upDown = new GameFormUpDown(0, 1, 100);
             upDown.tag="attackspeed";
             upDown.location.X = 130;
             upDown.location.Y = topShift-7;
@@ -96,7 +96,7 @@ namespace OppoCraft
             label.location.X = 200;
             label.location.Y = topShift;
             this.controls.Add(label);
-            upDown = new GameFormUpDown(0, 0, 10);
+            upDown = new GameFormUpDown(0, 10, 50);
             upDown.tag = "trainingspeed";
             upDown.location.X = 330;
             upDown.location.Y = topShift - 7;
@@ -108,7 +108,7 @@ namespace OppoCraft
             label.location.X = 20;
             label.location.Y = topShift;
             this.controls.Add(label);
-            upDown = new GameFormUpDown(0, 0, 10);
+            upDown = new GameFormUpDown(0, 10, 25);
             upDown.tag="speed";
             upDown.location.X = 130;
             upDown.location.Y = topShift-7;
@@ -121,12 +121,12 @@ namespace OppoCraft
 
 
             topShift += 50;
-            label = new GameFormLabel("Armor:");
+            label = new GameFormLabel("Armour:");
             label.location.X = 20;
             label.location.Y = topShift;
             this.controls.Add(label);
-            upDown = new GameFormUpDown(0, 0, 10);
-            upDown.tag = "armor";
+            upDown = new GameFormUpDown(0, 0, 80);
+            upDown.tag = "armour";
             upDown.location.X = 130;
             upDown.location.Y = topShift - 10;
             this.controls.Add(upDown);
@@ -135,6 +135,7 @@ namespace OppoCraft
             tbutton.size.X = 130;
             tbutton.location.X = 200;
             tbutton.location.Y = topShift;
+            tbutton.tag = "training";
             this.controls.Add(tbutton);
 
 
@@ -143,7 +144,7 @@ namespace OppoCraft
             label.location.X = 20;
             label.location.Y = topShift;
             this.controls.Add(label);
-            upDown = new GameFormUpDown(0, 0, 10);
+            upDown = new GameFormUpDown(0, 15, 30);
             upDown.tag="viewrange";
             upDown.location.X = 130;
             upDown.location.Y = topShift - 10;
