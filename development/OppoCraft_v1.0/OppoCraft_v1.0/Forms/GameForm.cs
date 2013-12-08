@@ -8,6 +8,7 @@ namespace OppoCraft
 {
     public class GameForm : GameFormControl
     {
+        GameFormButton close;
 
         public GameForm()
         {
@@ -19,7 +20,16 @@ namespace OppoCraft
             this.location = new WorldCoords(400, 100);
             this.size = new WorldCoords(400, 400);
             this.theGame.unitSelector.enabled = false;
+            this.controls.Add(this.close=new GameFormButton("X"));
+            this.close.location.X = this.size.X - this.close.size.X;
+            this.close.onClick += closeForm;
         }
+
+        public void closeForm(GameFormControl obj, Coordinates mouse)
+        {
+            this.theGame.forms.Remove(this.uid);
+        }
+
 
         public override void Tick()
         {

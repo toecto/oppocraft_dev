@@ -129,16 +129,15 @@ namespace OppoCraft
 
 
             GameForm form = new GameForm();
-            GameFormButton button = new GameFormButton("test");
+            GameFormButton button = new GameFormButton("Enabled");
             form.controls.Add(button);
-            button.onClick+= closeForm;
             this.forms.Add(form);
 
-            button = new GameFormButton("test2");
+            button = new GameFormButton("Disabled");
             button.location.X += 100;
             button.disabled = true;
             form.controls.Add(button);
-            button.onClick += closeForm;
+            
 
             GameFormUpDown updown = new GameFormUpDown(3,4,6);
             updown.location.X += 100;
@@ -151,9 +150,8 @@ namespace OppoCraft
             form.controls.Add(radio);
             radio.Add(new GameFormRadioButton("radio1", 1));
             radio.Add(new GameFormRadioButton("radio2", 2));
-            radio.Add(new GameFormRadioButton("radio2", 3));
+            radio.Add(new GameFormRadioButton("radio3", 3));
             
-
 
 
             if(this.loadMap!=null)
@@ -166,12 +164,7 @@ namespace OppoCraft
             
         }
 
-        public void closeForm(GameFormControl obj,Coordinates mouse)
-        {
-            Debug.WriteLine("Clicked" + obj.parentForm.uid);
-            this.forms.Remove(obj.parentForm.uid);
-            
-        }
+        
 
 
         public void LoadMap()
