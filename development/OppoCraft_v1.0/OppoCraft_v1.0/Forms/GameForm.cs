@@ -9,19 +9,23 @@ namespace OppoCraft
     public class GameForm : GameFormControl
     {
         GameFormButton close;
-
+        public bool onScreen=false;
         public GameForm()
         {
             this.parentForm = this;
+            this.location = new WorldCoords(300, 50);
+            this.size = new WorldCoords(400, 400);
+            this.controls.Add(this.close = new GameFormButton("X"));
         }
 
         public override void onStart()
         {
-            this.location = new WorldCoords(400, 100);
-            this.size = new WorldCoords(400, 400);
+            this.onScreen = true;
+
             this.theGame.unitSelector.enabled = false;
-            this.controls.Add(this.close=new GameFormButton("X"));
+            
             this.close.location.X = this.size.X - this.close.size.X;
+            this.close.location.Y = 0;
             this.close.onClick += closeForm;
         }
 
@@ -53,6 +57,7 @@ namespace OppoCraft
         public override void onFinish()
         {
             this.theGame.unitSelector.enabled = true;
+            this.onScreen = false;
         }
 
     }

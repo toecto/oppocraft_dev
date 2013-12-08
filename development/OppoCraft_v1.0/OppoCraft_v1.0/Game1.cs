@@ -69,6 +69,7 @@ namespace OppoCraft
             this.loadMap = map;
             this.cid = cid;
             this.enemyCid = enemyCid;
+            if (enemyCid == 0) this.enemyCid = this.cid + 1;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.network = net;
@@ -128,32 +129,6 @@ namespace OppoCraft
             this.forms.Add(new MiniMap());
 
 
-            GameForm form = new GameForm();
-            GameFormButton button = new GameFormButton("Enabled");
-            form.controls.Add(button);
-            this.forms.Add(form);
-
-            button = new GameFormButton("Disabled");
-            button.location.X += 100;
-            button.disabled = true;
-            form.controls.Add(button);
-            
-
-            GameFormUpDown updown = new GameFormUpDown(3,4,6);
-            updown.location.X += 100;
-            updown.location.Y += 100;
-            form.controls.Add(updown);
-
-            GameFormRadioGroup radio = new GameFormRadioGroup();
-            radio.location.X = 200;
-            radio.location.Y = 100;
-            form.controls.Add(radio);
-            radio.Add(new GameFormRadioButton("radio1", 1));
-            radio.Add(new GameFormRadioButton("radio2", 2));
-            radio.Add(new GameFormRadioButton("radio3", 3));
-            
-
-
             if(this.loadMap!=null)
             {
                 this.LoadMap();
@@ -179,6 +154,15 @@ namespace OppoCraft
             OppoMessage msg;
             int tmp;
 
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.cid;
+            msg["x"] = 40*30+20;
+            msg["y"] = 40 * 30 + 20;
+            msg.Text["type"] = "Castle";
+            msg.Text["class"] = "UnitCastle";
+            this.AddCommand(msg);
 
 
             

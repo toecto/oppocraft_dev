@@ -11,6 +11,7 @@ namespace OppoCraft
         public GameForm parentForm;
         public GameFormControlCollection controls;
         public GameFormControl parent;
+        public string tag="";
         public WorldCoords ScreenPosition()
         {
 
@@ -66,7 +67,7 @@ namespace OppoCraft
             {
                 control.Render(render);
             }
-            //render.Draw(render.primRect, this.ScreenPosition().getRectangle(this.size), render.primRect.Bounds, Color.IndianRed);
+            //render.Draw(render.primRect50, this.ScreenPosition().getRectangle(this.size), render.primRect50.Bounds, Color.IndianRed);
         }
 
 
@@ -79,8 +80,6 @@ namespace OppoCraft
         {
             if (this.disabled) return;
 
-            if (this.onClick != null)
-                this.onClick(this, mouse);
             foreach (GameFormControl item in this.controls)
             {
                 if (mouse.isIn(item.ScreenPosition(), item.size))
@@ -89,6 +88,9 @@ namespace OppoCraft
                     break;
                 }
             }
+
+            if (this.onClick != null)
+                this.onClick(this, mouse);
         }
     }
 }

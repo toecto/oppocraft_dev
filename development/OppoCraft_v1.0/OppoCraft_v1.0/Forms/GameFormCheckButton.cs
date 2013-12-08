@@ -6,14 +6,14 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    class GameFormRadioButton : GameFormControl
+    class GameFormCheckButton : GameFormControl
     {
         public string text;
         public Object value;
         Color color;
         public bool selected;
 
-        public GameFormRadioButton(string text, Object value)
+        public GameFormCheckButton(string text, Object value)
         {
             this.text = text;
             this.value = value;
@@ -25,16 +25,15 @@ namespace OppoCraft
         {
             Coordinates position = this.ScreenPosition();
             position.Y += 3;
-            render.Draw(render.primCircle100, position.getRectangle(new WorldCoords(12, 12)), render.primCircle100.Bounds, color);
-            render.DrawText(this.text, new Vector2(position.X + 20, position.Y-3), this.color);
+            render.Draw(render.primRect70, position.getRectangle(new WorldCoords(12, 12)), render.primRect70.Bounds, color);
+            render.DrawText(this.text, new Vector2(position.X + 20, position.Y - 3), this.color);
             if (this.selected)
             {
                 position.X += 3;
                 position.Y += 3;
-                render.Draw(render.primCircle100, position.getRectangle(new WorldCoords(6, 6)), render.primCircle100.Bounds, Color.Black);
+                render.Draw(render.primRect70, position.getRectangle(new WorldCoords(6, 6)), render.primRect70.Bounds, Color.Black);
             }
             base.Render(render);
         }
-        
     }
 }

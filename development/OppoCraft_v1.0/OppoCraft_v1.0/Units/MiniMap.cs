@@ -42,10 +42,17 @@ namespace OppoCraft
                         render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Blue);
                     else
                     {
-                        if(unit.type=="Tree")
-                            render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.GreenYellow);
+                        if (unit.cid == 0)
+                        {
+                            if (unit.type == "Tree")
+                                render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.GreenYellow);
+                            else
+                                render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Gray);
+                        }
                         else
                             render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Red);
+
+
                     }
                     
                 }

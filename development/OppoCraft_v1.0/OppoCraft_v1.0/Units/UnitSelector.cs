@@ -21,7 +21,7 @@ namespace OppoCraft
             if (this.enabled && this.theGame.userInput.mouseClicked)
             {
                 this.selected = null;
-                string[] selectable = { "Worker","Fighter", "Building" };
+                string[] selectable = { "Worker","Fighter", "Building"};
                 WorldCoords click=this.theGame.render.getWorldCoords(this.theGame.userInput.mousePosition);
                 foreach (Unit unit in this.theGame.map.UnitsIn(this.theGame.render.getWorldCoordsAbs(this.theGame.render.scroll.getVector2()), this.theGame.render.getWorldCoordsAbs(this.theGame.render.size.getVector2())))
                 {

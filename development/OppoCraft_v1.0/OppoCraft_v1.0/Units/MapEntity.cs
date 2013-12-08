@@ -41,7 +41,7 @@ namespace OppoCraft
             this.cid = settings["ownercid"];
             this.location = new WorldCoords(settings["x"], settings["y"]);
             this.isMy = (this.cid == this.theGame.cid);
-            this.isServed = (this.cid == 0 && this.theGame.loadMap != null);
+            this.isServed = this.cid == 0 || (this.cid == this.theGame.enemyCid && this.theGame.loadMap != null);
         }
 
         public virtual void onStart()

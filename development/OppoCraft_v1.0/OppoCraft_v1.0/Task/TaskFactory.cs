@@ -32,6 +32,9 @@ namespace OppoCraft
 
                 case "Tower":
                     return new TaskTowerDriver();
+                
+                case "Castle":
+                    return new TaskCastleDriver();
 
             }
 

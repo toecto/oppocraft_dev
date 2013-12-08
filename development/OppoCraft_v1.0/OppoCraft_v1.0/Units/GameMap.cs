@@ -119,7 +119,7 @@ namespace OppoCraft
         {
             u.onFinish();
             this.entities.Remove(u.uid);
-            if (u.GetType() == typeof(Unit))
+            if (u is Unit)
                 this.units.Remove((Unit)u);
         }
 
@@ -129,7 +129,7 @@ namespace OppoCraft
              if (u.uid == 0) u.uid = this.theGame.CreateUID();
              u.theGame = this.theGame;
              this.entities.Add(u.uid, u);
-             if (u.GetType() == typeof(Unit))
+             if (u is Unit)
                  this.units.Add((Unit)u);
              u.onStart();
          }

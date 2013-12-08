@@ -16,7 +16,7 @@ namespace OppoCraft
         public GameFormRadioGroup()
         {
             this.list = new List<GameFormRadioButton>(4);
-            this.size.X = 50;
+            this.size.X = 100;
         }
 
         public void Add(GameFormRadioButton button)
