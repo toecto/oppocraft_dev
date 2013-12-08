@@ -83,6 +83,7 @@ namespace OppoCraft
             this.status=Status.Ready;
             this.unit.attackRange = 15;
             this.unit.viewRange = 15;
+            this.unit.attackSpeed = 50;
         }
 
     }

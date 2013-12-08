@@ -21,14 +21,14 @@ namespace OppoCraft
         {
             Vector2 position;
             Rectangle dot = new Rectangle(0,0, 3, 3);
-            int scale = 15;
+            int scale = 20;
             int sizeX = this.theGame.worldMapSize.X / scale;
             int sizeY = this.theGame.worldMapSize.Y / scale;
             int shiftToBottom= render.size.Y - sizeY;
-            render.Draw(render.primRect, new Rectangle(0, render.size.Y-sizeY, sizeX, sizeY), new Rectangle(0, 0, 40, 24), Microsoft.Xna.Framework.Color.White);
+            render.Draw(render.primRect, new Rectangle(0, shiftToBottom, sizeX, sizeY), new Rectangle(0, 0, 40, 24), Color.Gray);
 
-            Vector2 frameStart = Vector2.Divide(render.getAbsWorldCoords(render.scroll.getVector2()).getVector2(),new Vector2(scale,scale));
-            Vector2 frameSize = Vector2.Divide(render.getAbsWorldCoords(render.size.getVector2()).getVector2(), new Vector2(scale, scale));
+            Vector2 frameStart = Vector2.Divide(render.getWorldCoordsAbs(render.scroll.getVector2()).getVector2(),new Vector2(scale,scale));
+            Vector2 frameSize = Vector2.Divide(render.getWorldCoordsAbs(render.size.getVector2()).getVector2(), new Vector2(scale, scale));
             
             render.Draw(render.primRect, new Rectangle((int)frameStart.X, (int)frameStart.Y+shiftToBottom, (int)frameSize.X, (int)frameSize.Y), new Rectangle(0, 0, 40, 24), Microsoft.Xna.Framework.Color.BlueViolet);
 

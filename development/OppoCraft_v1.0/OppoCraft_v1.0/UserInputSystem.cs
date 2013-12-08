@@ -17,6 +17,7 @@ namespace OppoCraft
         public Vector2 mouseCoordinatesDelta;
         public Vector2 mouseCoordinates;
         Vector2 mouseOldCoordinates;
+        public bool mouseClicked;
 
         public int arrowX,arrowY;
 
@@ -51,7 +52,12 @@ namespace OppoCraft
             if (this.keyboard.IsKeyDown(Keys.Left)) this.arrowX--;
             if (this.keyboard.IsKeyDown(Keys.Up)) this.arrowY--;
             if (this.keyboard.IsKeyDown(Keys.Down)) this.arrowY++;
-            
+
+            if (this.mouseOld.LeftButton == ButtonState.Pressed && this.mouse.LeftButton == ButtonState.Released)
+                this.mouseClicked = true;
+            else
+                this.mouseClicked = false;
         }
+
     }
 }

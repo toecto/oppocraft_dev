@@ -45,24 +45,24 @@ namespace OppoCraft
             u.onStart();
         }
 
-        public List<MapEntity> EntitiesIn(WorldCoords start, WorldCoords stop)
+        public List<MapEntity> EntitiesIn(WorldCoords start, WorldCoords size)
         {
             List<MapEntity> result = new List<MapEntity>(16);
             foreach (KeyValuePair<int, MapEntity> item in this.entities)
             {
-                if (item.Value.location.isIn(start, stop))
+                if (item.Value.location.isIn(start, size))
                     result.Add(item.Value);
             }
             return result;
         }
 
 
-        public List<Unit> UnitsIn(WorldCoords start, WorldCoords stop)
+        public List<Unit> UnitsIn(WorldCoords start, WorldCoords size)
         {
             List<Unit> result = new List<Unit>(16);
             foreach (Unit item in this.units)
             {
-                if (item.location.isIn(start, stop))
+                if (item.location.isIn(start, size))
                     result.Add(item);
             }
             return result;

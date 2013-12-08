@@ -10,7 +10,7 @@ namespace OppoCraft
     {
         WorldPath aPath=null;
         GridCoords lastSpot = new GridCoords(0,0);
-
+        bool enabled = false;
         public override void onStart()
         {
             this.location.Y = this.theGame.worldMapSize.Y;//to render last
@@ -18,9 +18,10 @@ namespace OppoCraft
 
         public override void Tick()
         {
-            MouseState mouseState = Mouse.GetState();
+            if (this.theGame.userInput.isKeyPressed(Keys.F9)) enabled = !enabled;
+            if (!enabled) return;
 
-            WorldCoords x=this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y));
+            WorldCoords x=this.theGame.render.getWorldCoords(this.theGame.userInput.mouseCoordinates);
             GridCoords test = this.theGame.theGrid.getGridCoords(x);
             if (!test.Equals(this.lastSpot))
             {
@@ -39,11 +40,12 @@ namespace OppoCraft
                     //u.task.Add(new TaskGoTo(destination));
                 }
             }
-            //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
+            
         }
 
         public override void Render(RenderSystem render)
         {
+            if (!enabled) return;
             int maxValue = 1;
             for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
             {

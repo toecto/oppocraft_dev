@@ -44,10 +44,15 @@ namespace OppoCraft
             return test!=null && (this.X == test.X) && (this.Y == test.Y);
         }
 
-        public bool isIn(Coordinates start, Coordinates stop)
+        public bool isIn(Coordinates start, Coordinates size)
         {
-            return this.X > start.X && this.X < stop.X
-                && this.Y > start.Y && this.Y < stop.Y;
+            return this.X > start.X && this.X < start.X + size.X
+                && this.Y > start.Y && this.Y < start.Y + size.Y;
+        }
+        public bool isInCentered(Coordinates start, Coordinates size)
+        {
+
+            return isIn(new Coordinates(start.X - size.X / 2,start.Y - size.Y/2), size);
         }
 
     }
