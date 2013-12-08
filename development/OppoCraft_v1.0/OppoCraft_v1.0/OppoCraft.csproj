@@ -156,6 +156,7 @@
     <Compile Include="Forms\GameFormButton.cs" />
     <Compile Include="Forms\GameFormRadioButton.cs" />
     <Compile Include="Forms\GameFormRadioGroup.cs" />
+    <Compile Include="Forms\GameFormToggleButton.cs" />
     <Compile Include="Forms\GameFormUpDown.cs" />
     <Compile Include="SmoothScroller.cs" />
     <Compile Include="Task\TaskArcherDriver.cs" />

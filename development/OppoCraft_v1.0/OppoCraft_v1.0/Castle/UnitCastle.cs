@@ -14,7 +14,6 @@ namespace OppoCraft
             : base(theGame,settings)
         {
             this.factorySettings = new OppoMessage(OppoMessageType.ChangeState);
-            this.factorySettings.Text["zone"] = "";
             this.factorySettings["attack"] = 1;
             this.factorySettings["attackspeed"] = 1;
             this.factorySettings["attackrange"] = 1;
@@ -23,6 +22,7 @@ namespace OppoCraft
             this.factorySettings["armor"] = 1;
             this.factorySettings["viewrange"] = 1;
             this.factorySettings["buildspeed"] = 1;
+            this.factorySettings.Text["zone"] = "";
             this.factorySettings.Text["targets"] = "";
         }
     }
