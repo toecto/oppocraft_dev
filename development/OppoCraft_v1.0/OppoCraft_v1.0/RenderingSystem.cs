@@ -19,8 +19,10 @@ namespace OppoCraft
        private SpriteBatch spriteBatch;
        public SpriteFont font;
        public SpriteFont fontSmall;
-       public Texture2D primRect;
+       public Texture2D primRect50;
+       public Texture2D primRect70;
        public Texture2D primCircle;
+       public Texture2D primCircle100;
        public Texture2D primDot;
        
        public Coordinates scroll = new Coordinates(0, 0);
@@ -75,8 +77,10 @@ namespace OppoCraft
            this.spriteBatch = new SpriteBatch(this.theGame.GraphicsDevice);
 
            this.primDot = this.theGame.Content.Load<Texture2D>("dot");
-           this.primRect = this.theGame.Content.Load<Texture2D>("Prim_Rect");
+           this.primRect50 = this.theGame.Content.Load<Texture2D>("Prim_Rect50");
+           this.primRect70 = this.theGame.Content.Load<Texture2D>("Prim_Rect70");
            this.primCircle = this.theGame.Content.Load<Texture2D>("Prim_Circle");
+           this.primCircle100 = this.theGame.Content.Load<Texture2D>("Prim_Circle100");
 
            this.font = this.theGame.Content.Load<SpriteFont>("myFont");
            this.fontSmall = this.theGame.Content.Load<SpriteFont>("smallFont");
@@ -99,7 +103,7 @@ namespace OppoCraft
            this.spriteBatch.Begin();
 
            this.theGame.map.Render(this);
-
+           this.theGame.forms.Render(this);
            this.theGame.debugger.RenderMessages();
            this.spriteBatch.End();
        }

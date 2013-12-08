@@ -40,6 +40,7 @@ namespace OppoCraft
 
         private NetworkModule network;
         public GameMap map;
+        public GameMap forms;
         public MessageHandler messageHandler;
 
         public int cid;
@@ -90,6 +91,7 @@ namespace OppoCraft
             this.theGrid = new Grid(this);
             this.pathFinder = new PathFinder(this.theGrid);
             this.map = new GameMap(this);
+            this.forms = new GameMap(this);
             this.unitDataLoader = new UnitDataLoader(this);
         }
 
@@ -119,12 +121,41 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.render.LoadContent();
-            this.map.Add(new PathFinderTest());
+            this.forms.Add(new PathFinderTest());
             this.map.Add(this.unitSelector=new UnitSelector());
-            this.map.Add(new UnitDescription());
+            this.forms.Add(new UnitDescription());
             this.map.Add(new Background());
-            this.map.Add(new MiniMap());
+            this.forms.Add(new MiniMap());
+
+
+            GameForm form = new GameForm();
+            GameFormButton button = new GameFormButton("test");
+            form.controls.Add(button);
+            button.onClick+= closeForm;
+            this.forms.Add(form);
+
+            button = new GameFormButton("test2");
+            button.location.X += 100;
+            button.disabled = true;
+            form.controls.Add(button);
+            button.onClick += closeForm;
+
+            GameFormUpDown updown = new GameFormUpDown(3,4,6);
+            updown.location.X += 100;
+            updown.location.Y += 100;
+            form.controls.Add(updown);
+
+            GameFormRadioGroup radio = new GameFormRadioGroup();
+            radio.location.X = 200;
+            radio.location.Y = 100;
+            form.controls.Add(radio);
+            radio.Add(new GameFormRadioButton("radio1", 1));
+            radio.Add(new GameFormRadioButton("radio2", 2));
+            radio.Add(new GameFormRadioButton("radio2", 3));
             
+
+
+
             if(this.loadMap!=null)
             {
                 this.LoadMap();
@@ -132,6 +163,13 @@ namespace OppoCraft
                 Thread.Sleep(1000);
                 this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
             }
+            
+        }
+
+        public void closeForm(GameFormControl obj,Coordinates mouse)
+        {
+            Debug.WriteLine("Clicked" + obj.parentForm.uid);
+            this.forms.Remove(obj.parentForm.uid);
             
         }
 
@@ -316,8 +354,15 @@ namespace OppoCraft
 
             this.userInput.Tick();
             messageHandler.Tick();
-            if(this.running)
+            if (this.running)
+            {
                 this.map.Tick();
+                this.map.applyChanges();
+                this.forms.Tick();
+                this.forms.applyChanges();
+
+            
+            }
 
             if (!this.network.Flush())
                 this.debugger.AddMessage("Lost connection to server");

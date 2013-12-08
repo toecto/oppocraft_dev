@@ -21,7 +21,6 @@ namespace OppoCraft
         public StartForm()
         {
             InitializeComponent();
-
         }
 
         private void ConnectBtn_Click(object sender, EventArgs e)

@@ -144,6 +144,14 @@
     <Compile Include="Commands\CommandFlyToEntity.cs" />
     <Compile Include="Commands\CommandTreeGrow.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Forms\GameFormLabel.cs" />
+    <Compile Include="Forms\GameForm.cs" />
+    <Compile Include="Forms\GameFormControl.cs" />
+    <Compile Include="Forms\GameFormControlCollection.cs" />
+    <Compile Include="Forms\GameFormButton.cs" />
+    <Compile Include="Forms\GameFormRadioButton.cs" />
+    <Compile Include="Forms\GameFormRadioGroup.cs" />
+    <Compile Include="Forms\GameFormUpDown.cs" />
     <Compile Include="SmoothScroller.cs" />
     <Compile Include="Task\TaskArcherDriver.cs" />
     <Compile Include="Task\TaskFactory.cs" />

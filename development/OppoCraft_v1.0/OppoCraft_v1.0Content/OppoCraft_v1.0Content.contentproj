@@ -64,8 +64,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Prim_Rect.png">
-      <Name>Prim_Rect</Name>
+    <Compile Include="Prim_Rect50.png">
+      <Name>Prim_Rect50</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -193,6 +193,20 @@
   <ItemGroup>
     <Compile Include="Prim_Circle.png">
       <Name>Prim_Circle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Prim_Rect70.png">
+      <Name>Prim_Rect70</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Prim_Circle100.png">
+      <Name>Prim_Circle100</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

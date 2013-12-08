@@ -17,7 +17,7 @@ namespace OppoCraft
                 int sizeY = this.theGame.worldMapSize.Y / scale;
                 int shiftLeft = render.size.X - sizeX;
                 int shiftTop = render.size.Y - sizeY;
-                render.Draw(render.primRect, new Rectangle(shiftLeft, shiftTop, sizeX, sizeY), new Rectangle(0, 0, 40, 24), Color.Gray);
+                render.Draw(render.primRect50, new Rectangle(shiftLeft, shiftTop, sizeX, sizeY), new Rectangle(0, 0, 40, 24), Color.Gray);
 
                 Unit unit = this.theGame.unitSelector.selected;
                 

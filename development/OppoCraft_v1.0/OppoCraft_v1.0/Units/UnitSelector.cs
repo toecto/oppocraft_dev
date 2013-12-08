@@ -9,6 +9,7 @@ namespace OppoCraft
     public class UnitSelector : MapEntity
     {
         public Unit selected=null;
+        public bool enabled = true;
 
         public UnitSelector()
         { 
@@ -17,11 +18,11 @@ namespace OppoCraft
 
         public override void Tick()
         {
-            if (this.theGame.userInput.mouseClicked)
+            if (this.enabled && this.theGame.userInput.mouseClicked)
             {
                 this.selected = null;
                 string[] selectable = { "Worker","Fighter", "Building" };
-                WorldCoords click=this.theGame.render.getWorldCoords(this.theGame.userInput.mouseCoordinates);
+                WorldCoords click=this.theGame.render.getWorldCoords(this.theGame.userInput.mousePosition);
                 foreach (Unit unit in this.theGame.map.UnitsIn(this.theGame.render.getWorldCoordsAbs(this.theGame.render.scroll.getVector2()), this.theGame.render.getWorldCoordsAbs(this.theGame.render.size.getVector2())))
                 {
                     if (!selectable.Contains(unit.group)) continue;

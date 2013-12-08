@@ -10,7 +10,7 @@ namespace OppoCraft
     {
         public Game1 theGame;
         public WorldCoords size = new WorldCoords(40, 40);
-        public WorldCoords location = new WorldCoords(1, 1);
+        public WorldCoords location = new WorldCoords(0, 0);
         public OppoMessage settings;
 
         public int uid = 0;

@@ -39,6 +39,11 @@ namespace OppoCraft
             this.Y = (int)(v.Y);
         }
 
+        public Rectangle getRectangle(Coordinates second)
+        {
+            return new Rectangle(this.X, this.Y, second.X, second.Y);
+        }
+
         public bool Equals(Coordinates test)
         {
             return test!=null && (this.X == test.X) && (this.Y == test.Y);
@@ -55,5 +60,6 @@ namespace OppoCraft
             return isIn(new Coordinates(start.X - size.X / 2,start.Y - size.Y/2), size);
         }
 
+        
     }
 }
