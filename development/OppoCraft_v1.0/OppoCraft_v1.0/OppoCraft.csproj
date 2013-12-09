@@ -144,6 +144,7 @@
     <Compile Include="Castle\TaskCastleDriver.cs" />
     <Compile Include="Castle\TaskCastleSettingsForm.cs" />
     <Compile Include="Castle\UnitCastle.cs" />
+    <Compile Include="Castle\WinnerForm.cs" />
     <Compile Include="Commands\CommandChangeUnitState.cs" />
     <Compile Include="Commands\CommandFlyToEntity.cs" />
     <Compile Include="Commands\CommandTreeGrow.cs" />

@@ -103,6 +103,14 @@ namespace OppoCraft
                         break;
                     }
 
+                case OppoMessageType.Winner:
+                    {
+
+                        this.theGame.forms.Add(new WinnerForm(msg["winner"] == this.theGame.cid));
+                        this.theGame.forms.applyChanges();
+                        this.theGame.running = false;
+                        break;
+                    }
             }
         }
 

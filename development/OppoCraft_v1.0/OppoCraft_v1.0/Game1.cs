@@ -182,12 +182,6 @@ namespace OppoCraft
             this.zones.Add("bottomforest", zone);
 
 
-
-
-
-
-
-
             if(this.loadMap!=null)
             {
                 this.LoadMap();

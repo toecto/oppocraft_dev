@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using testClient;
 
 namespace OppoCraft
 {
@@ -31,25 +32,57 @@ namespace OppoCraft
 
             this.data["UnitsOnMap"]=this.theGame.map.units.Count.ToString();
             this.data["EntitiesOnMap"] = this.theGame.map.entities.Count.ToString();
-
+            
             int cntMy=0,cntEn=0,cntNt=0;
 
+            int castleEn = 0;
+            int castleMy = 0;
+
+            Type type;
             foreach(Unit unit in this.theGame.map.units)
             {
-                if (unit.GetType() != typeof(Unit)) continue;
+                type=unit.GetType();
+                
+                                    
                 if (unit.isMy)
+                {
                     cntMy++;
-                else 
+                    if (type == typeof(UnitCastle))
+                        castleMy++;
+                }
+                else
                 {
                     if (unit.cid == 0)
                         cntNt++;
                     else
+                    {
                         cntEn++;
+                        if (type == typeof(UnitCastle))
+                            castleEn++;
+                    }
                 }
             }
             this.data["UnitsMy"] = cntMy.ToString();
             this.data["UnitsEn"] = cntEn.ToString();
             this.data["UnitsNt"] = cntNt.ToString();
+            this.data["castleEn"] = castleEn.ToString();
+            this.data["castleMy"] = castleMy.ToString();
+
+            if (this.data["UnitsOnMap"] == "0") return;
+
+            if (castleEn == 0)
+            {
+                OppoMessage msg = new OppoMessage(OppoMessageType.Winner);
+                msg["winner"] = this.theGame.cid;
+                this.theGame.AddCommand(msg);
+
+            }
+            if (castleMy == 0)
+            {
+                OppoMessage msg = new OppoMessage(OppoMessageType.Winner);
+                msg["winner"] = this.theGame.enemyCid;
+                this.theGame.AddCommand(msg);
+            }
         }
 
 
@@ -61,14 +94,17 @@ namespace OppoCraft
                 + (this.theGame.userPoints.warning?" Warning!":"")
                 , this.position);
 
-            render.DrawText("Units on map:"
+            render.DrawText("Castles: My/" + this.data["castleEn"]
+                + " Enemy/" + this.data["castleEn"]
+                , new Vector2(this.position.X + 150, this.position.Y));
+
+
+            render.DrawText("Units:"
                 + " My/" + this.data["UnitsMy"]
                 + " Enemy/" + this.data["UnitsEn"]
                 + " Neutral/" + this.data["UnitsNt"]
                 + " Total/" + this.data["UnitsOnMap"]
-                , new Vector2(this.position.X+200,this.position.Y));
-
-
+                , new Vector2(this.position.X + 350, this.position.Y));
 
         }
     }
