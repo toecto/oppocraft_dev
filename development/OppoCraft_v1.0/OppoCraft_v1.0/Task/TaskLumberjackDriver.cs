@@ -12,11 +12,14 @@ namespace OppoCraft
 
             Main,
             Search,
-            Fighting
+            Fighting,
+            Returning,
 
         }
 
         Status status;
+
+        Unit target;
 
         public override bool Tick()
         {
@@ -37,13 +40,29 @@ namespace OppoCraft
             if (this.status == Status.Search && this.unit.task.checkShared("targetUnit"))
             {
                 this.status = Status.Fighting;
-                this.unit.task.Add(new TaskFight(this.unit.task.removeShared<Unit>("targetUnit")));
+                this.unit.task.Add(new TaskFight(this.target=this.unit.task.removeShared<Unit>("targetUnit")));
                 this.unit.task.Remove(typeof(TaskPatrolArea));
                 return true;
             }
 
             if (this.status == Status.Fighting && !this.unit.task.isRunning(typeof(TaskFight)))
             {
+                if (this.target != null && !this.target.alive)
+                {
+                    if (this.unit.isMy)
+                        this.unit.task.Add(new TaskGoTo(this.unit.theGame.myBase, 2));
+                    else
+                        this.unit.task.Add(new TaskGoTo(this.unit.theGame.enemyBase, 2));
+
+                    this.status = Status.Returning;
+                }
+                else
+                    this.status = Status.Main;
+                return true;
+            }
+            if (this.status == Status.Returning && !this.unit.task.isRunning(typeof(TaskGoTo)))
+            {
+                this.unit.theGame.userPoints.add(100);
                 this.status = Status.Main;
                 return true;
             }

@@ -25,6 +25,8 @@ namespace OppoCraft
         //Cells, Map, and Coordinate Properties
         public WorldCoords cellSize;
         public WorldCoords worldMapSize;
+        public WorldCoords myBase;
+        public WorldCoords enemyBase;
         public Grid theGrid;
         public PathFinder pathFinder;
 
@@ -304,6 +306,8 @@ namespace OppoCraft
 
             /*Castles******************************************************/
 
+            this.myBase = new WorldCoords(40 * 10 + 20, 40 * 15 + 20);
+
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
             msg["ownercid"] = this.cid;
@@ -345,6 +349,8 @@ namespace OppoCraft
             this.AddCommand(msg);
 
             /******************************************************/
+
+            this.enemyBase = new WorldCoords(this.worldMapSize.X - 40 * 15 + 20, this.worldMapSize.Y - 40 * 15 + 20);
 
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();

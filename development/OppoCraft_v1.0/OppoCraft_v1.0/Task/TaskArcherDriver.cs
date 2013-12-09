@@ -15,7 +15,6 @@ namespace OppoCraft
             Fighting
 
         }
-
         Status status;
 
         public override bool Tick()

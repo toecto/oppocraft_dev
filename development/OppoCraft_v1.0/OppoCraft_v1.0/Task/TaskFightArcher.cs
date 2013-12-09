@@ -23,6 +23,7 @@ namespace OppoCraft
 
         public override bool Tick()
         {
+            this.unit.theGame.userPoints.add(30);
             if (!target.alive)
             {
                 if (this.going!=null)

@@ -19,11 +19,11 @@ namespace OppoCraft
             : base(theGame,settings)
         {
             this.factorySettings = new OppoMessage(OppoMessageType.ChangeState);
-            this.factorySettings["attack"] = 5;
-            this.factorySettings["attackspeed"] = 30;
+            this.factorySettings["attack"] = 25;
+            this.factorySettings["attackspeed"] = 40;
             this.factorySettings["attackrange"] = 1;
             this.factorySettings["viewrange"] = 10;
-            this.factorySettings["speed"] = 10;
+            this.factorySettings["speed"] = 20;
             this.factorySettings["armour"] = 0;
             this.factorySettings["trainingspeed"] = 50;
             this.factorySettings["training"] = 1;
@@ -103,7 +103,11 @@ namespace OppoCraft
 
         public virtual void tryToSpawn()
         {
-            if (!this.theGame.userPoints.tryWithdraw(this.countCost())) return; //not enough minerals
+            if (!this.theGame.userPoints.tryWithdraw(this.countCost()))
+            {
+                this.factorySettings["training"] = 0;
+                return; //not enough minerals
+            }
             if (this.factorySettings["training"] == 1)
             {
                 OppoMessage msg;
