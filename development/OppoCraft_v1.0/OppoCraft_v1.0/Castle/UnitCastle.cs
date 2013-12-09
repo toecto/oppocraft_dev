@@ -129,6 +129,10 @@ namespace OppoCraft
             {
                 cnt += i;
             }
+
+            cnt+=(this.factorySettings.Text["targets"].Split(',')).Length * 5;
+
+
             return cnt;
             
         }

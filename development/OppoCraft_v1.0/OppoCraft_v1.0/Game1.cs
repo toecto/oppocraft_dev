@@ -431,6 +431,10 @@ namespace OppoCraft
             {
                 this.render.ToggleFullScreen();
             }
+            if (this.userInput.isKeyPressed(Keys.F8))
+            {
+                this.userPoints.add(10000);
+            }
 
             // TODO: Add your update logic here
 

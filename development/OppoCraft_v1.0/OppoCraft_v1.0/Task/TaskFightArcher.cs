@@ -23,9 +23,9 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            this.unit.theGame.userPoints.add(30);
             if (!target.alive)
             {
+                this.unit.theGame.userPoints.add(30);
                 if (this.going!=null)
                     this.unit.task.Remove(typeof(TaskGoTo));
                 //this.unit.task.setShared("IgnoreUnits", new List<int>(8));
