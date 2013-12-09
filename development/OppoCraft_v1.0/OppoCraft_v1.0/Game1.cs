@@ -153,6 +153,8 @@ namespace OppoCraft
                 zone.location = new WorldCoords(this.worldMapSize.X - zone.size.X - 60, this.worldMapSize.Y - zone.size.Y - 60);
                 this.zones.Add("enemybase", zone);
 
+                this.myBase = new WorldCoords(40 * 10 + 20, 40 * 15 + 20);
+                this.enemyBase = new WorldCoords(this.worldMapSize.X - 40 * 15 + 20, this.worldMapSize.Y - 40 * 15 + 20);
             }
             else
             {
@@ -165,6 +167,9 @@ namespace OppoCraft
                 zone.size = new WorldCoords(1400, 1400);
                 zone.location = new WorldCoords(this.worldMapSize.X - zone.size.X - 60, this.worldMapSize.Y - zone.size.Y - 60);
                 this.zones.Add("mybase", zone);
+
+                this.myBase = new WorldCoords(this.worldMapSize.X - 40 * 15 + 20, this.worldMapSize.Y - 40 * 15 + 20);
+                this.enemyBase = new WorldCoords(40 * 10 + 20, 40 * 15 + 20);
             }
 
 
@@ -293,7 +298,6 @@ namespace OppoCraft
 
             /*Castles******************************************************/
 
-            this.myBase = new WorldCoords(40 * 10 + 20, 40 * 15 + 20);
 
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
@@ -348,7 +352,6 @@ namespace OppoCraft
 
             /******************************************************/
 
-            this.enemyBase = new WorldCoords(this.worldMapSize.X - 40 * 15 + 20, this.worldMapSize.Y - 40 * 15 + 20);
 
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();

@@ -18,11 +18,7 @@ namespace OppoCraft
             {
                 if (this.unit.theGame.unitSelector.selected == this.unit)
                 {
-                    this.unit.theGame.forms.Add(this.form = new CastleForm());
-                    this.form.onClick += handleForm;
-                    this.updateForm(this.form);
-                    if (this.castle.factorySettings["attackrange"] == 1)
-                        this.form.findByTag("attackrange").disabled = true;
+                    this.initForm();
                 }
             }
             else
@@ -30,7 +26,7 @@ namespace OppoCraft
                 if (!this.form.onScreen)
                 {
                     this.form = null;
-                    if (this.unit.theGame.unitSelector.selected==this.castle)
+                    if (this.unit.theGame.unitSelector.selected == this.castle)
                         this.unit.theGame.unitSelector.selected = null;
                 }
             }
@@ -44,6 +40,48 @@ namespace OppoCraft
             
         }
 
+        public void initForm()
+        {
+            this.unit.theGame.forms.Add(this.form = new CastleForm());
+            this.form.onClick += handleForm;
+            this.form.findByTag("allin").onClick += this.handleAllIn;
+            this.updateForm(this.form);
+            if (this.castle.factorySettings["attackrange"] == 1)
+                this.form.findByTag("attackrange").disabled = true;
+        
+        }
+
+        public void handleAllIn(GameFormControl obj, WorldCoords mouse)
+        {
+            string goodType=this.castle.factorySettings.Text["unittype"];
+            foreach(Unit unit in this.unit.theGame.map.units)
+            {
+                if (unit.isMy&& unit.type.Equals(goodType))
+                { 
+                    unit.task.Remove(typeof(TaskFight));
+                    unit.task.Remove(typeof(TaskFightArcher));
+                    unit.task.Remove(typeof(TaskGoTo));
+                    unit.task.setShared("reset", true);
+                    unit.settings.Text["zone"]="enemybase";
+                }
+            }
+        }
+
+        public void handleAllback(GameFormControl obj, WorldCoords mouse)
+        {
+            string goodType = this.castle.factorySettings.Text["unittype"];
+            foreach (Unit unit in this.unit.theGame.map.units)
+            {
+                if (unit.isMy && unit.type.Equals(goodType))
+                {
+                    unit.task.Remove(typeof(TaskFight));
+                    unit.task.Remove(typeof(TaskFightArcher));
+                    unit.task.Remove(typeof(TaskGoTo));
+                    unit.task.setShared("reset", true);
+                    unit.settings.Text["zone"] = "mybase";
+                }
+            }
+        }
         public void handleForm(GameFormControl obj, WorldCoords mouse)
         {
 

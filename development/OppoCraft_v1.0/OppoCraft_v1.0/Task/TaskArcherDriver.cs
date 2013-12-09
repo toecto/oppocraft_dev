@@ -51,6 +51,15 @@ namespace OppoCraft
                 this.status = Status.Main;
                 return true;
             }
+
+            if (this.unit.task.checkShared("reset"))
+            {
+                this.unit.task.removeShared<bool>("reset");
+                this.status = Status.Main;
+                return true;
+            }
+
+
             return true;
         }
 

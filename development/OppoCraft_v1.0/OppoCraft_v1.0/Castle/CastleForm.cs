@@ -158,6 +158,7 @@ namespace OppoCraft
             this.controls.Add(upDown);
 
             button = new GameFormButton("  ALL IN! ");
+            button.tag = "allin";
             button.size.X = 130;
             button.location.X = 200;
             button.location.Y = topShift;

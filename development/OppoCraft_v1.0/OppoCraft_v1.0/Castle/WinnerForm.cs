@@ -25,7 +25,7 @@ namespace OppoCraft
             
             GameFormLabel label;
             if(isYou)
-                label= new GameFormLabel("You are winner!");
+                label= new GameFormLabel("You won!");
             else
                 label= new GameFormLabel("You lost!");
 

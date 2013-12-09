@@ -35,11 +35,11 @@ namespace OppoCraft
         public int currHP = 100;
         public bool alive { get { return this.currHP > 0; } }
         public int maxHP = 100;
-        public float speedReal = 1f;//  real
+        public float speedReal = 2f;//  real
         public int speed { get { return (int)(this.speedReal * 10); } set { this.speedReal = value / 10f; } }
         public int damage = 5; // real
         public int armour = 0; // procent of damage
-        public int attackSpeedReal=50;
+        public int attackSpeedReal=60;
         public int attackSpeed { get { return 3600 / this.attackSpeedReal; } set { this.attackSpeedReal = 3600 / value; } } // per minute 3600/attackSpeed
         public int attackRange = 1; // cells
         public int viewRange = 15;  //cells
@@ -65,6 +65,7 @@ namespace OppoCraft
             {
                 this.attackRange = 10;
                 this.attackSpeedReal = 100;
+                this.damage = 10;
             }
             this.theGame.unitDataLoader.Load(this, this.type);
             this.applyFactorySettings(this.settings);
