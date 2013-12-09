@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -33,6 +34,18 @@ namespace OppoCraft
                 }
                 else
                     this.unit.task.Add(new TaskFindTarget(new string[] { "Tree" }));
+
+                if (this.unit.settings.Text.ContainsKey("zone"))
+                {
+                    if (this.unit.theGame.zones.ContainsKey(this.unit.settings.Text["zone"]))
+                    {
+                        MapEntity zone = this.unit.theGame.zones[this.unit.settings.Text["zone"]];
+                        this.unit.task.Add(new TaskPatrolArea(zone.location, zone.size));
+                    }
+                    else
+                        Debug.WriteLine("Where is zone : >"+this.unit.settings.Text["zone"]+"<");
+                }
+                else
                 this.unit.task.Add(new TaskPatrolArea(new WorldCoords(0, 0), this.unit.theGame.worldMapSize));
                 return true;
             }

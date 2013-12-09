@@ -29,11 +29,11 @@ namespace OppoCraft
             zones.location.X = 200;
             zones.location.Y = 75;
             zones.tag="zone";
-            zones.Add(new GameFormRadioButton("Top Forest", "Top Forest"));
-            zones.Add(new GameFormRadioButton("Center Forest", "Center Forest"));
-            zones.Add(new GameFormRadioButton("Bottom Forest", "Bottom Forest"));
-            zones.Add(new GameFormRadioButton("Enemy Base", "Enemy Base"));
-            zones.Add(new GameFormRadioButton("My Base", "My Base"));
+            zones.Add(new GameFormRadioButton("Top Forest", "topforest"));
+            zones.Add(new GameFormRadioButton("Central Forest", "centerforest"));
+            zones.Add(new GameFormRadioButton("Bottom Forest", "bottomforest"));
+            zones.Add(new GameFormRadioButton("Enemy Base", "enemybase"));
+            zones.Add(new GameFormRadioButton("My Base", "mybase"));
 
 
             label = new GameFormLabel("Targets:");

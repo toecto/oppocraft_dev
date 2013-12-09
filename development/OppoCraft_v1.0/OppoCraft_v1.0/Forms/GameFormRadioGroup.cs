@@ -34,7 +34,7 @@ namespace OppoCraft
             if (button.selected == false) return;
             this.selected = button;
 
-            Debug.WriteLine("handleSelect"+ this.selected.text);
+            //Debug.WriteLine("handleSelect"+ this.selected.text);
             foreach (GameFormRadioButton item in this.list)
             {
                 if (item != this.selected)

@@ -68,6 +68,8 @@ namespace OppoCraft
             }
             this.theGame.unitDataLoader.Load(this, this.type);
             this.applyFactorySettings(this.settings);
+            if (!this.settings.Text.ContainsKey("targets"))
+                this.settings.Text["targets"] = "Knight,Archer,Lumberjack,Tower,Castle";
         }
 
         
@@ -140,7 +142,7 @@ namespace OppoCraft
 
         public void applyFactorySettings(OppoMessage settings)
         {
-            if (settings.Text.ContainsKey("zone"))
+            if (settings.ContainsKey("factory"))
             {
                 this.damage = settings["attack"];
                 this.attackSpeed = settings["attackspeed"];

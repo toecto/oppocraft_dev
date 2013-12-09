@@ -21,6 +21,8 @@ namespace OppoCraft
                     this.unit.theGame.forms.Add(this.form = new CastleForm());
                     this.form.onClick += handleForm;
                     this.updateForm(this.form);
+                    if (this.castle.factorySettings["attackrange"] == 1)
+                        this.form.findByTag("attackrange").disabled = true;
                 }
             }
             else
@@ -72,7 +74,7 @@ namespace OppoCraft
                 ((GameFormLabel)obj.parentForm.findByTag("cost")).Text = this.castle.countCost().ToString();
             }
             
-            Debug.WriteLine(this.castle.factorySettings.ToString());
+            //Debug.WriteLine(this.castle.factorySettings.ToString());
         }
 
         public void updateForm(GameForm form)

@@ -88,6 +88,7 @@ namespace OppoCraft
 
         public virtual void applySettings(OppoMessage msg, OppoMessage settings)
         {
+            msg["factory"] = 1;
             msg["attack"] = settings["attack"];
             msg["attackspeed"] = settings["attackspeed"];
             msg["attackrange"] = settings["attackrange"];

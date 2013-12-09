@@ -54,7 +54,7 @@ namespace OppoCraft
 
         public override void Tick()
         {
-            if (this.disabled) return;
+            //if (this.disabled) return;
             foreach (GameFormControl item in this.controls)
             {
                 item.Tick();
