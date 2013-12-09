@@ -115,8 +115,14 @@ namespace OppoCraft
             upDown.location.Y = topShift-7;
             this.controls.Add(upDown);
 
-            label = new GameFormLabel("Total: 100");
+            label = new GameFormLabel("Total: ");
             label.location.X = 200;
+            label.location.Y = topShift;
+            this.controls.Add(label);
+
+            label = new GameFormLabel("");
+            label.tag = "cost";
+            label.location.X = 250;
             label.location.Y = topShift;
             this.controls.Add(label);
 

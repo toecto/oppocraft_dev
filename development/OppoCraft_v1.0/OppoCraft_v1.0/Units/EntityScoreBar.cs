@@ -57,12 +57,19 @@ namespace OppoCraft
         {
             int sizeX = this.theGame.render.size.X;
             //render.Draw(render.primRect50, new Rectangle(0, 0, sizeX, sizeY), new Rectangle(0, 0, 40, 24), Color.Gray);
-            render.DrawText("Units on map:" 
+            render.DrawText("Points: " + this.theGame.userPoints.points
+                + (this.theGame.userPoints.warning?" Warning!":"")
+                , this.position);
+
+            render.DrawText("Units on map:"
                 + " My/" + this.data["UnitsMy"]
                 + " Enemy/" + this.data["UnitsEn"]
                 + " Neutral/" + this.data["UnitsNt"]
                 + " Total/" + this.data["UnitsOnMap"]
-                , position);
+                , new Vector2(this.position.X+200,this.position.Y));
+
+
+
         }
     }
 }

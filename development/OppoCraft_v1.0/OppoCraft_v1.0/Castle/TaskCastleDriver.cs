@@ -26,7 +26,7 @@ namespace OppoCraft
         public override void onStart()
         {
             this.castle = (UnitCastle)this.unit;
-            //this.unit.task.Add(new TaskTowerDriver());
+            this.unit.task.Add(new TaskTowerDriver());
             this.unit.task.Add(new TaskCastleSettingsForm());
         }
 

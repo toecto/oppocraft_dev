@@ -28,6 +28,8 @@ namespace OppoCraft
                 if (!this.form.onScreen)
                 {
                     this.form = null;
+                    if (this.unit.theGame.unitSelector.selected==this.castle)
+                        this.unit.theGame.unitSelector.selected = null;
                 }
             }
 
@@ -62,13 +64,14 @@ namespace OppoCraft
                                 this.castle.factorySettings.Text[item.tag] = (string)((GameFormRadioGroup)item).selected.value;
                             break;
                         case "GameFormToggleButton":
-                                this.castle.factorySettings[item.tag] = ((GameFormToggleButton)item).isOn?1:0;
+                            this.castle.factorySettings[item.tag] = ((GameFormToggleButton)item).isOn ? 1 : 0;
                             break;
-
                     }
                 }
-            }
 
+                ((GameFormLabel)obj.parentForm.findByTag("cost")).Text = this.castle.countCost().ToString();
+            }
+            
             Debug.WriteLine(this.castle.factorySettings.ToString());
         }
 
@@ -110,6 +113,7 @@ namespace OppoCraft
                 }
             }
 
+            ((GameFormLabel)form.findByTag("cost")).Text = this.castle.countCost().ToString();
         }
 
     }

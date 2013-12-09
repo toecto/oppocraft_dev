@@ -216,6 +216,7 @@
     <Compile Include="Units\EntityForest.cs" />
     <Compile Include="Units\UnitDataLoader.cs" />
     <Compile Include="UserInputSystem.cs" />
+    <Compile Include="UserPoints.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

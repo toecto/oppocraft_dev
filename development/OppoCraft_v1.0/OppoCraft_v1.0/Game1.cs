@@ -50,6 +50,8 @@ namespace OppoCraft
 
         public string loadMap;
 
+        public UserPoints userPoints;
+
 
         //Testing properties
         public int myFirstUnit;
@@ -85,7 +87,8 @@ namespace OppoCraft
 
             //this.worldMapSize = new WorldCoords(40*20, 40*20); // set back to 10240/10240
 
-
+            this.userPoints = new UserPoints();
+            this.userPoints.points = 2000;
             this.userInput = new UserInputSystem(this);
             this.render = new RenderSystem(this);
             this.graphContent = new GraphContentManager(this);
@@ -155,12 +158,49 @@ namespace OppoCraft
             OppoMessage msg;
             int tmp;
 
-            
+            /*Towers*************************/
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.cid;
+            msg["x"] = 40 * 30 + 20;
+            msg["y"] = 40 * 15 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.cid;
+            msg["x"] = 40 * 10 + 20;
+            msg["y"] = 40 * 35 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = this.worldMapSize.X - 40 * 35 + 20;
+            msg["y"] = this.worldMapSize.Y - 40 * 13 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = this.worldMapSize.X - 40 * 15 + 20;
+            msg["y"] = this.worldMapSize.Y - 40 * 33 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+
+            //*Environment"****************************************************/
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
             msg["ownercid"] = 0;
             msg["x"] = 100;
-            msg["y"] = 100; 
+            msg["y"] = 100;
+            msg["width"] = 100;
+            msg["height"] = 100;
             msg.Text["class"] = "EntityEnvironment";
             EntityEnvironment env = new EntityEnvironment(this, msg);
             this.map.Add(env); // create localy
@@ -196,6 +236,8 @@ namespace OppoCraft
             this.map.Add(forest); // create localy
             this.map.applyChanges();
             
+
+            /*
             for (int i = 0; i < 50; i++)
             {
                 msg = new OppoMessage(OppoMessageType.CreateEntity);
@@ -258,25 +300,9 @@ namespace OppoCraft
                 msg.Text["type"] = "Archer";
                 this.AddCommand(msg);
             }
-            /*Towers*************************/
+           /**/
 
-            msg = new OppoMessage(OppoMessageType.CreateEntity);
-            msg["uid"] = this.CreateUID();
-            msg["ownercid"] = this.cid;
-            msg["x"] = 40 * 30 + 20;
-            msg["y"] = 40 * 15 + 20;
-            msg.Text["type"] = "Tower";
-            this.AddCommand(msg);
-
-            msg = new OppoMessage(OppoMessageType.CreateEntity);
-            msg["uid"] = this.CreateUID();
-            msg["ownercid"] = this.cid;
-            msg["x"] = 40 * 10 + 20;
-            msg["y"] = 40 * 35 + 20;
-            msg.Text["type"] = "Tower";
-            this.AddCommand(msg);
-            /**/
-
+            /*Castles******************************************************/
 
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
@@ -288,6 +314,7 @@ namespace OppoCraft
             msg.Text["unittype"] = "Archer";
             msg.Text["targets"] = "Archer";
             msg.Text["name"] = "Archer Castle";
+            msg["attackrange"] = 10;
             msg["forcecreate"] = 1;
             this.AddCommand(msg);
 

@@ -61,10 +61,8 @@ namespace OppoCraft
                     OppoMessage msg = new OppoMessage(OppoMessageType.RemoveUnit);
                     msg["uid"] = item.uid;
                     this.theGame.AddCommand(msg);
-                
                 }
             }
-            
         }
 
 
@@ -105,6 +103,7 @@ namespace OppoCraft
 
         public virtual void tryToSpawn()
         {
+            if (!this.theGame.userPoints.tryWithdraw(this.countCost())) return; //not enough minerals
             if (this.factorySettings["training"] == 1)
             {
                 OppoMessage msg;
@@ -119,7 +118,16 @@ namespace OppoCraft
             }
         }
 
-        
+        public int countCost()
+        {
+            int cnt = 0;
+            foreach (int i in this.factorySettings.Values)
+            {
+                cnt += i;
+            }
+            return cnt;
+            
+        }
 
     }
 }
