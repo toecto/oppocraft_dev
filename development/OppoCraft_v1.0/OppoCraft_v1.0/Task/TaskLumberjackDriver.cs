@@ -60,7 +60,7 @@ namespace OppoCraft
 
             if (this.status == Status.Fighting && !this.unit.task.isRunning(typeof(TaskFight)))
             {
-                if (this.target != null && !this.target.alive)
+                if (this.target != null && !this.target.alive && this.target.type=="Tree")
                 {
                     if (this.unit.isMy)
                         this.unit.task.Add(new TaskGoTo(this.unit.theGame.myBase, 2));
