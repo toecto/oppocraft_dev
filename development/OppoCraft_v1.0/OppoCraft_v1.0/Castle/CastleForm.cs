@@ -14,6 +14,7 @@ namespace OppoCraft
             this.size.Y = 500;
             int topShift = 0;
             GameFormLabel label = new GameFormLabel("Castle");
+            label.tag = "name";
             label.location.X = 20;
             label.location.Y = 20;
             this.controls.Add(label);

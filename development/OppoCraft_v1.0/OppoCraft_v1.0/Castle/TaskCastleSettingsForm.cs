@@ -28,7 +28,6 @@ namespace OppoCraft
                 if (!this.form.onScreen)
                 {
                     this.form = null;
-                    this.unit.theGame.unitSelector.selected = null;
                 }
             }
 
@@ -104,6 +103,9 @@ namespace OppoCraft
 
                     case "GameFormRadioGroup":
                         ((GameFormRadioGroup)control).setSelectedValue(this.castle.factorySettings.Text[tag]);
+                        break;
+                    case "GameFormLabel":
+                        ((GameFormLabel)control).Text=this.castle.factorySettings.Text[tag];
                         break;
                 }
             }

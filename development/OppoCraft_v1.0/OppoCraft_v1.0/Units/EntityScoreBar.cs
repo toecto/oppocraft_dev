@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    class ScoreEntity : MapEntity
+    class EntityScoreBar : MapEntity
     {
 
         Vector2 position;
@@ -36,6 +36,7 @@ namespace OppoCraft
 
             foreach(Unit unit in this.theGame.map.units)
             {
+                if (unit.GetType() != typeof(Unit)) continue;
                 if (unit.isMy)
                     cntMy++;
                 else 

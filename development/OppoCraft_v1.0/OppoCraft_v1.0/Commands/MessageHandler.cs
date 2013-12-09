@@ -46,6 +46,7 @@ namespace OppoCraft
                     }
                 case OppoMessageType.CreateEntity:
                     {
+                        if(this.theGame.map.units.Count<1000)
                         if (this.theGame.theGrid.getGridValue(new WorldCoords(msg["x"], msg["y"])) >= 0 || msg.ContainsKey("forcecreate")) 
                             this.theGame.map.Add(EntityFactory.Create(this.theGame,msg));
                         break;

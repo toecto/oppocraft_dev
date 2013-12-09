@@ -30,6 +30,41 @@ namespace OppoCraft
             this.factorySettings.Text["zone"] = "";
             this.factorySettings.Text["unittype"] = "Knight";
             this.factorySettings.Text["targets"] = "Knight";
+            this.factorySettings.Text["name"] = "Knight Castle";
+
+            foreach (KeyValuePair<string, int> item in settings)
+            {
+                if (this.factorySettings.ContainsKey(item.Key))
+                    this.factorySettings[item.Key] = item.Value;
+            }
+            foreach (KeyValuePair<string, string> item in settings.Text)
+            {
+                if (this.factorySettings.Text.ContainsKey(item.Key))
+                    this.factorySettings.Text[item.Key] = item.Value;
+            }
+        }
+
+        public override void onStart()
+        {
+            base.onStart();
+            GridCoords start = this.locationGrid;
+            start.X -= 5;
+            start.Y -= 5;
+            GridCoords size = this.sizeGrid;
+            size.X = 10;
+            size.Y = 10;
+            List<MapEntity> toRemove=this.theGame.map.EntitiesIn(this.theGame.theGrid.getWorldCoordsCenter(start), this.theGame.theGrid.getWorldCoordsCenter(size));
+            foreach(MapEntity item in toRemove)
+            {
+                if (item.uid != this.uid)
+                {
+                    OppoMessage msg = new OppoMessage(OppoMessageType.RemoveUnit);
+                    msg["uid"] = item.uid;
+                    this.theGame.AddCommand(msg);
+                
+                }
+            }
+            
         }
 
 
@@ -76,8 +111,8 @@ namespace OppoCraft
                 msg = new OppoMessage(OppoMessageType.CreateEntity);
                 msg["uid"] = this.theGame.CreateUID();
                 msg["ownercid"] = this.cid;
-                msg["x"] = this.location.X;
-                msg["y"] = this.location.Y + 40 * 2;
+                msg["x"] = this.location.X - 2*40;
+                msg["y"] = this.location.Y + 40 * 1;
 
                 this.applySettings(msg, this.factorySettings);
                 this.theGame.AddCommand(msg);
